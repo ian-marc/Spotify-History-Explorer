@@ -1,0 +1,458 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#101310">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Spotify Explorer">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<title>Spotify History Explorer</title>
+<style>
+:root{--bg:#101310;--panel:#191e1a;--panel2:#202720;--text:#f3f6f1;--muted:#aeb8ad;--green:#1ed760;--line:#303a31;--red:#ff8c8c}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+header{padding:28px clamp(18px,4vw,48px) 24px;background:linear-gradient(120deg,#17291d,#101310 70%);border-bottom:1px solid var(--line)}
+h1{margin:0;font-size:clamp(27px,4vw,42px);letter-spacing:-.04em}h1 span{color:var(--green)}header p{margin:8px 0 0;color:var(--muted);max-width:800px}
+main{max-width:1500px;margin:auto;padding:22px clamp(14px,3vw,36px) 48px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:18px}
+h2{font-size:18px;margin:0 0 14px}h3{font-size:15px;margin:0 0 10px}
+.upload-row{display:flex;gap:14px;align-items:center;flex-wrap:wrap}.filelabel{display:inline-flex;align-items:center;gap:9px;background:var(--green);color:#061208;font-weight:750;border-radius:999px;padding:12px 18px;cursor:pointer;border:0}
+input[type=file]{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+.note{color:var(--muted);font-size:13px}.status{margin-top:12px;color:var(--muted)}.status strong{color:var(--text)}
+.filters{display:grid;grid-template-columns:repeat(6,minmax(130px,1fr));gap:12px}
+.field label{display:block;font-size:12px;color:var(--muted);margin-bottom:5px}.field input,.field select{width:100%;min-height:40px;border:1px solid var(--line);border-radius:9px;background:#0f130f;color:var(--text);padding:8px 10px;font:inherit}
+button{border:1px solid var(--line);background:var(--panel2);color:var(--text);padding:9px 13px;border-radius:9px;cursor:pointer;font:inherit}button:hover{border-color:var(--green)}button.primary{background:var(--green);color:#061208;font-weight:700;border-color:var(--green)}
+.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:18px}.metric{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px}.metric .label{font-size:12px;color:var(--muted)}.metric .value{font-size:clamp(22px,3vw,31px);font-weight:760;letter-spacing:-.035em;margin-top:5px}.metric .sub{font-size:12px;color:var(--muted);margin-top:2px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}.tablewrap{overflow:auto;max-height:470px;border:1px solid var(--line);border-radius:10px}table{width:100%;border-collapse:collapse;font-size:13px;white-space:nowrap}th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line)}th{position:sticky;top:0;background:#222a23;color:#d9e2d8;z-index:1}tbody tr:hover{background:#222a23}td.num{text-align:right;font-variant-numeric:tabular-nums}.rank{color:var(--green);font-weight:800}.chart{width:100%;height:220px;display:block}.chartwrap{position:relative}.charttooltip{position:absolute;display:none;pointer-events:none;background:#f3f6f1;color:#101310;border:1px solid #1ed760;border-radius:8px;padding:7px 10px;font-size:12px;font-weight:700;box-shadow:0 4px 14px #0007;white-space:nowrap;z-index:2}.chartlabels{display:flex;justify-content:space-between;color:var(--muted);font-size:11px}.chart-controls{display:flex;gap:10px;flex-wrap:wrap;margin:-3px 0 12px}.chart-controls .field{min-width:155px;flex:1}.chart-controls select,.chart-controls input{width:100%;min-height:38px;border:1px solid var(--line);border-radius:9px;background:#0f130f;color:var(--text);padding:7px 10px;font:inherit}.artist-choices{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.artist-choice{display:inline-flex;gap:6px;align-items:center;background:#101510;border:1px solid var(--line);border-radius:999px;padding:5px 9px;font-size:12px}.artist-choice input{accent-color:var(--green)}.chart-note{color:var(--muted);font-size:12px;margin-top:8px}.empty{color:var(--muted);padding:25px 8px;text-align:center}.hidden{display:none!important}.table-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:10px}.small-input{max-width:300px}
+footer{color:var(--muted);font-size:12px;text-align:center;padding:18px}
+@media(max-width:950px){.filters{grid-template-columns:repeat(3,minmax(0,1fr))}.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.grid2{grid-template-columns:1fr}}
+@media(max-width:540px){.filters{grid-template-columns:repeat(2,minmax(0,1fr))}.metrics{grid-template-columns:1fr 1fr}.panel{padding:13px}.metric{padding:12px}}
+
+/* iPhone/PWA refinements */
+html{min-height:100%;-webkit-text-size-adjust:100%;}
+body{padding-bottom:env(safe-area-inset-bottom);}
+button,.filelabel,select,input{touch-action:manipulation;}
+canvas{touch-action:pan-y;}
+@media(max-width:600px){
+ header{padding:calc(18px + env(safe-area-inset-top)) 16px 18px;}
+ h1{font-size:29px;line-height:1.1;}
+ main{padding:14px 10px 28px;}
+ .panel{border-radius:13px;margin-bottom:12px;}
+ .upload-row{gap:9px;}
+ .filelabel{min-height:44px;padding:11px 14px;}
+ .filters{grid-template-columns:1fr 1fr;gap:9px;}
+ .filters .field:first-child{grid-column:1/-1;}
+ .field input,.field select,.chart-controls select,.chart-controls input{min-height:44px;font-size:16px;}
+ button{min-height:42px;}
+ .metrics{gap:8px;}
+ .metric .value{font-size:23px;overflow-wrap:anywhere;}
+ .chart{height:210px;}
+ #artistChart{height:280px!important;}
+ .tablewrap{max-height:55vh;-webkit-overflow-scrolling:touch;}
+ table{font-size:12px;}
+ th,td{padding:9px 10px;}
+ .small-input{max-width:none;width:100%;min-height:44px;}
+ .table-head{align-items:stretch;}
+ .chart-controls .field{min-width:calc(50% - 8px);}
+}
+@media(display-mode:standalone){header{padding-top:calc(18px + env(safe-area-inset-top));}}
+</style>
+</head>
+<body>
+<header><h1>Spotify <span>History Explorer</span></h1><p>Explore your listening history, discover your most-played artists and tracks, and export filtered results. Everything runs locally in this browser.</p></header>
+<main>
+<section class="panel">
+<h2>1. Load your Spotify history</h2>
+<div class="upload-row"><label class="filelabel" for="zipFile">＋ Choose Spotify ZIP</label><input id="zipFile" type="file" accept=".zip,application/zip"><label class="filelabel" for="files" style="background:#29352b;color:var(--text);border:1px solid var(--line)">Choose JSON files instead</label><input id="files" type="file" accept=".json,application/json" multiple><span class="note">Choose your original Spotify data-export ZIP, or select extracted <b>Streaming_History_Audio*.json</b> files manually.</span></div>
+<div id="status" class="status">No files loaded yet.</div>
+<p class="note">Privacy: your files are read by this page in your browser. They are not uploaded to a server. This tool does not display IP addresses or account identifiers.</p>
+</section>
+<section id="filterPanel" class="panel hidden">
+<h2>2. Filter your listening history</h2>
+<div class="filters">
+<div class="field"><label for="search">Search song, artist, album</label><input id="search" placeholder="Type to search…"></div>
+<div class="field"><label for="from">From date</label><input id="from" type="date"></div>
+<div class="field"><label for="to">To date</label><input id="to" type="date"></div>
+<div class="field"><label for="kind">Content type</label><select id="kind"><option value="all">All audio</option><option value="track">Tracks only</option><option value="episode">Podcasts / episodes</option><option value="audiobook">Audiobooks</option></select></div>
+<div class="field"><label for="skipped">Playback result</label><select id="skipped"><option value="all">All plays</option><option value="no">Not skipped</option><option value="yes">Skipped</option></select></div>
+<div class="field"><label for="timezone">Display timezone</label><select id="timezone"><option value="America/Denver">Mountain (Denver)</option><option value="America/Los_Angeles">Pacific (Los Angeles)</option><option value="America/Chicago">Central (Chicago)</option><option value="America/New_York">Eastern (New York)</option><option value="UTC">UTC</option><option value="local">Computer's local time</option></select></div>
+</div>
+<div style="display:flex;gap:9px;flex-wrap:wrap;margin-top:14px"><button id="reset">Reset filters</button><button id="export" class="primary">Export filtered history as CSV</button></div>
+</section>
+<section id="results" class="hidden">
+<div class="metrics">
+<div class="metric"><div class="label">Plays in view</div><div class="value" id="mPlays">—</div><div class="sub">History entries</div></div>
+<div class="metric"><div class="label">Listening time</div><div class="value" id="mTime">—</div><div class="sub">Recorded playback time where available; cautious estimates otherwise</div></div>
+<div class="metric"><div class="label">Unique tracks</div><div class="value" id="mTracks">—</div><div class="sub">Distinct track titles</div></div>
+<div class="metric"><div class="label">Unique artists</div><div class="value" id="mArtists">—</div><div class="sub">Distinct artist names</div></div>
+</div>
+<div class="panel">
+<h2>Listening over time</h2>
+<div class="chart-controls">
+<div class="field"><label for="dailyMetric">Metric</label><select id="dailyMetric"><option value="time">Listening time</option><option value="plays">Number of plays</option><option value="both">Compare time + plays</option></select></div>
+<div class="field"><label for="dailyPeriod">Time grouping</label><select id="dailyPeriod"><option value="day">Daily</option><option value="week">Weekly</option><option value="month">Monthly</option></select></div>
+<div class="field"><label for="movingAverage">Trend line</label><select id="movingAverage"><option value="off">Raw values</option><option value="7">7-period moving average</option></select></div>
+</div>
+<div class="chartwrap" id="chartWrap"><canvas id="dailyChart" class="chart"></canvas><div id="chartTooltip" class="charttooltip"></div></div><div id="chartLabels" class="chartlabels"></div>
+<div class="chart-note">Listening time prioritizes recorded Spotify playback milliseconds. If that field is missing, a fallback estimate is attempted only when a track duration and a plausible next-timestamp interval are available. Combined mode normalizes each series separately so plays and hours can be compared without adding unlike units.</div>
+</div>
+<div class="panel">
+<h2>Artist timeline</h2>
+<p class="note" style="margin-top:-6px">Follow how your favorite artists rise and fall. Hover over a line to emphasize it and dim the others.</p>
+<div class="chart-controls">
+<div class="field"><label for="artistMetric">Artist metric</label><select id="artistMetric"><option value="plays">Number of plays</option><option value="time">Listening time</option></select></div>
+<div class="field"><label for="artistPeriod">Time grouping</label><select id="artistPeriod"><option value="month">Monthly</option><option value="week">Weekly</option></select></div>
+<div class="field"><label for="artistCount">Artists shown by default</label><select id="artistCount"><option value="5">Top 5</option><option value="8">Top 8</option><option value="10">Top 10</option></select></div>
+</div>
+<div class="field" style="max-width:420px;margin:8px 0"><label for="artistSearch">Find an artist to compare</label><input id="artistSearch" placeholder="Search all artists…"></div><div id="artistChoices" class="artist-choices"></div>
+<div class="chartwrap" id="artistChartWrap"><canvas id="artistChart" class="chart" style="height:300px"></canvas><div id="artistTooltip" class="charttooltip"></div></div><div id="artistChartLabels" class="chartlabels"></div>
+<div class="chart-note">Artists are ranked within the current filters. Select artists to compare them; hover over a line to focus it.</div>
+</div>
+<div class="grid2">
+<section class="panel"><h2>Top artists</h2><div id="artistsTable"></div></section>
+<section class="panel"><h2>Top tracks</h2><div id="tracksTable"></div></section>
+</div>
+<section class="panel">
+<div class="table-head"><h2 style="margin:0">Listening history</h2><input id="tableSearch" class="field small-input" placeholder="Filter visible rows…" aria-label="Filter visible rows"></div>
+<div id="historyTable" class="tablewrap"></div>
+<div class="note" id="tableFoot" style="margin-top:10px"></div><div style="margin-top:12px"><button id="loadMore" class="primary hidden">Load next 500</button></div>
+</section>
+</section>
+</main>
+<footer>Spotify History Explorer · Standalone browser app · No Python required</footer>
+<script>
+(() => {
+const $ = id => document.getElementById(id);
+let allRows = [], filteredRows = [];
+let visibleCount = 500, chartPoints = [], artistChartPoints = [], artistSeries = [], selectedArtists = new Set(), artistHoverIndex = null;
+let dateFormatterCache = new Map(), displayFormatterCache = new Map(), datePartsCache = new WeakMap(), periodKeyCache = new WeakMap(), artistChartMeta = null, artistHoverFrame = 0, pendingArtistPointer = null;
+const fmtInt = n => new Intl.NumberFormat().format(n);
+const mins = ms => {
+  const value = Math.max(0, Number(ms) || 0);
+  if (value < 60000) return Math.round(value / 1000) + ' sec';
+  const total = Math.round(value / 60000);
+  if (total < 60) return total + ' min';
+  const h = Math.floor(total / 60), m = total % 60;
+  if (h < 24) return h + ' hr ' + (m ? m + ' min' : '');
+  const d = Math.floor(h / 24), rh = h % 24;
+  return d + ' d ' + (rh ? rh + ' hr' : '');
+};
+const getKind = o => {
+  if (o.master_metadata_track_name || o.spotify_track_uri) return 'track';
+  if (o.episode_name || o.spotify_episode_uri) return 'episode';
+  if (o.audiobook_title || o.audiobook_uri || o.chapter_title) return 'audiobook';
+  return 'other';
+};
+const safe = x => (x == null ? '' : String(x));
+function normalize(o, index) {
+  const stamp = o.ts || o.endTime || o.end_time || '';
+  const rawMs = o.ms_played ?? o.msPlayed ?? o.played_ms;
+  const ms = Number(rawMs ?? 0) || 0;
+  const hasMs = rawMs !== undefined && rawMs !== null && rawMs !== '' && Number.isFinite(Number(rawMs));
+  const durationMs = Number(o.track_duration_ms ?? o.duration_ms ?? o.trackDurationMs ?? 0) || 0;
+  const kind = getKind(o);
+  const title = o.master_metadata_track_name || o.episode_name || o.chapter_title || o.audiobook_title || o.track_name || o.trackName || '(Unknown title)';
+  const artist = o.master_metadata_album_artist_name || o.artist_name || o.artistName || o.show_name || o.audiobook_author_name || '';
+  const album = o.master_metadata_album_album_name || o.album_name || o.albumName || o.show_name || '';
+  const date = new Date(stamp);
+  if (!stamp || Number.isNaN(date.getTime())) return null;
+  return {date, ms, hasMs, durationMs, kind, title:safe(title), artist:safe(artist), album:safe(album), platform:safe(o.platform), skipped:(typeof o.skipped === 'boolean' ? o.skipped : null), reason_start:safe(o.reason_start || o.reasonStart), reason_end:safe(o.reason_end || o.reasonEnd), shuffle:(typeof o.shuffle === 'boolean' ? o.shuffle : null), index, raw:o};
+}
+function zone() { const z=$('timezone').value; return z==='local' ? undefined : z; }
+function dateParts(date) {
+  const z=zone() || 'local';
+  let byZone=datePartsCache.get(date);if(byZone&&byZone.has(z))return byZone.get(z);
+  let formatter=dateFormatterCache.get(z);
+  if(!formatter){formatter=new Intl.DateTimeFormat('en-CA',{...(z==='local'?{}:{timeZone:z}),year:'numeric',month:'2-digit',day:'2-digit'});dateFormatterCache.set(z,formatter);}
+  const parts=formatter.formatToParts(date);let y='',m='',d='';
+  for(let i=0;i<parts.length;i++){const p=parts[i];if(p.type==='year')y=p.value;else if(p.type==='month')m=p.value;else if(p.type==='day')d=p.value;}
+  const result=`${y}-${m}-${d}`;if(!byZone){byZone=new Map();datePartsCache.set(date,byZone);}byZone.set(z,result);return result;
+}
+function displayDate(date, withTime=true) {
+  const z=zone()||'local',key=z+'|'+(withTime?'time':'date');let formatter=displayFormatterCache.get(key);
+  if(!formatter){formatter=new Intl.DateTimeFormat(undefined,{...(z==='local'?{}:{timeZone:z}),year:'numeric',month:'short',day:'2-digit',...(withTime?{hour:'2-digit',minute:'2-digit',second:'2-digit'}:{})});displayFormatterCache.set(key,formatter);}
+  return formatter.format(date);
+}
+function escapeHtml(s){return safe(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+const REASON_LABELS = {
+  trackdone: 'Track done',
+  fwdbtn: 'Forward button',
+  backbtn: 'Back button',
+  clickrow: 'Selected',
+  playbtn: 'Playbutton',
+  remote: 'Remote',
+  endplay: 'Playback ended',
+  logout: 'Logged out',
+  unknown: 'Unknown',
+  trackerror: 'Track playback error',
+  uriopen: 'Opened through a Spotify link'
+};
+function reasonText(code, mode) {
+  if (!code) return '—';
+  return REASON_LABELS[code] || code;
+}
+function readFiles(files) {
+  const list=[...files].filter(f=>f.name.toLowerCase().endsWith('.json'));
+  if(!list.length){$('status').innerHTML='<strong>No JSON files selected.</strong> Extract your Spotify download ZIP first, then choose its JSON files.';return;}
+  $('status').textContent='Reading '+list.length+' file(s)…';
+  Promise.all(list.map(f=>f.text().then(t=>({name:f.name,text:t})))).then(items=>{
+    const rows=[]; let parsed=0, bad=[];
+    items.forEach(item=>{
+      try {
+        const json=JSON.parse(item.text); parsed++;
+        const arr=Array.isArray(json)?json:(Array.isArray(json.items)?json.items:[]);
+        arr.forEach((o,i)=>{const r=normalize(o,rows.length); if(r)rows.push(r);});
+      } catch(e){bad.push(item.name);}
+    });
+    allRows=rows.sort((a,b)=>a.date-b.date);
+    // If an export entry lacks ms_played, estimate from the interval to the next entry only when a track duration is available; cap at that duration.
+    allRows.forEach((r,i)=>{ if(!r.hasMs && r.durationMs>0 && allRows[i+1]) { const gap=allRows[i+1].date-r.date; if(gap>0 && gap<=24*60*60*1000) r.ms=Math.min(gap,r.durationMs); } });
+    if(!allRows.length){$('status').innerHTML='<strong>No recognizable listening entries found.</strong> Please choose Spotify extended streaming-history JSON files (usually named Streaming_History_Audio…).';return;}
+    $('filterPanel').classList.remove('hidden');$('results').classList.remove('hidden');
+    let minDate='',maxDate='';for(const r of allRows){const d=dateParts(r.date);if(!minDate||d<minDate)minDate=d;if(!maxDate||d>maxDate)maxDate=d;}
+    $('from').value=minDate;$('to').value=maxDate;
+    $('status').innerHTML='<strong>Loaded '+fmtInt(allRows.length)+' entries</strong> from '+parsed+' file(s).'+(bad.length?' Could not read: '+escapeHtml(bad.join(', ')): '');
+    applyFilters();
+  }).catch(e=>{$('status').textContent='Could not read those files: '+e.message;});
+}
+async function unzipSpotifyHistory(file) {
+  $('status').textContent='Opening ZIP and locating streaming-history JSON files…';
+  const buffer=await file.arrayBuffer(), view=new DataView(buffer), bytes=new Uint8Array(buffer);
+  // Locate the ZIP end-of-central-directory record (including archives with a comment).
+  let eocd=-1;const floor=Math.max(0,bytes.length-65557);
+  for(let i=bytes.length-22;i>=floor;i--){if(view.getUint32(i,true)===0x06054b50){eocd=i;break;}}
+  if(eocd<0)throw new Error('This does not look like a valid ZIP archive.');
+  const entryCount=view.getUint16(eocd+10,true),directoryOffset=view.getUint32(eocd+16,true);
+  if(entryCount===0xffff||directoryOffset===0xffffffff)throw new Error('This ZIP uses an unsupported ZIP64 format. Please extract it and choose the JSON files instead.');
+  const decoder=new TextDecoder();let offset=directoryOffset, entries=[];
+  for(let n=0;n<entryCount;n++){
+    if(offset+46>bytes.length||view.getUint32(offset,true)!==0x02014b50)throw new Error('The ZIP directory could not be read.');
+    const method=view.getUint16(offset+10,true),compressedSize=view.getUint32(offset+20,true),nameLen=view.getUint16(offset+28,true),extraLen=view.getUint16(offset+30,true),commentLen=view.getUint16(offset+32,true),localOffset=view.getUint32(offset+42,true);
+    const name=decoder.decode(bytes.subarray(offset+46,offset+46+nameLen));
+    if(name.toLowerCase().endsWith('.json')&&!name.endsWith('/'))entries.push({name,method,compressedSize,localOffset});
+    offset+=46+nameLen+extraLen+commentLen;
+  }
+  const historyEntries=entries.filter(e=>/streaming_history_audio/i.test(e.name));
+  const chosen=historyEntries.length?historyEntries:entries;
+  if(!chosen.length)throw new Error('No JSON files were found inside this ZIP.');
+  const extracted=[];
+  for(let i=0;i<chosen.length;i++){
+    const entry=chosen[i];$('status').textContent=`Extracting JSON ${i+1} of ${chosen.length}…`;
+    const local=entry.localOffset;
+    if(view.getUint32(local,true)!==0x04034b50)continue;
+    const nameLen=view.getUint16(local+26,true),extraLen=view.getUint16(local+28,true),dataStart=local+30+nameLen+extraLen;
+    const compressed=bytes.slice(dataStart,dataStart+entry.compressedSize);
+    let content;
+    if(entry.method===0)content=new TextDecoder('utf-8').decode(compressed);
+    else if(entry.method===8){
+      if(typeof DecompressionStream==='undefined')throw new Error('Your browser cannot decompress ZIP files directly. Extract the ZIP and choose the JSON files instead.');
+      try{const stream=new Blob([compressed]).stream().pipeThrough(new DecompressionStream('deflate-raw'));content=await new Response(stream).text();}
+      catch(err){throw new Error('Could not decompress '+entry.name+'. Try extracting the ZIP and choosing the JSON files instead.');}
+    } else continue;
+    extracted.push(new File([content],entry.name.split('/').pop(),{type:'application/json'}));
+  }
+  if(!extracted.length)throw new Error('No supported JSON files could be extracted from this ZIP.');
+  readFiles(extracted);
+}
+function applyFilters() {
+  visibleCount = 500;
+  const q=$('search').value.trim().toLowerCase(), from=$('from').value, to=$('to').value, kind=$('kind').value, skip=$('skipped').value;
+  filteredRows=allRows.filter(r=>{
+    const d=dateParts(r.date);
+    if(from&&d<from||to&&d>to)return false;
+    if(kind!=='all'&&r.kind!==kind)return false;
+    if(skip==='yes'&&r.skipped!==true)return false;
+    if(skip==='no'&&r.skipped!==false)return false;
+    if(q&&!`${r.title} ${r.artist} ${r.album}`.toLowerCase().includes(q))return false;
+    return true;
+  });
+  render();
+}
+function aggregate(rows,keyFn) {
+  const m=new Map();
+  rows.forEach(r=>{const k=keyFn(r);if(!k)return;let x=m.get(k);if(!x){x={name:k,plays:0,ms:0};m.set(k,x)}x.plays++;x.ms+=r.ms;});
+  return [...m.values()].sort((a,b)=>b.plays-a.plays||b.ms-a.ms);
+}
+function miniTable(items, type) {
+  if(!items.length)return '<div class="empty">No data for this selection.</div>';
+  return `<div class="tablewrap" style="max-height:350px"><table><thead><tr><th>#</th><th>${type}</th><th style="text-align:right">Plays</th><th style="text-align:right">Time</th></tr></thead><tbody>${items.slice(0,10).map((x,i)=>`<tr><td class="rank">${i+1}</td><td>${escapeHtml(x.name)}</td><td class="num">${fmtInt(x.plays)}</td><td class="num">${mins(x.ms)}</td></tr>`).join('')}</tbody></table></div>`;
+}
+function periodKey(date, period) {
+  const z=zone()||'local';let byPeriod=periodKeyCache.get(date);if(byPeriod&&byPeriod.has(z+'|'+period))return byPeriod.get(z+'|'+period);
+  const d=dateParts(date);
+  let result=d;
+  if(period==='month') result=d.slice(0,7);
+  else if(period==='week') {const local=new Date(d+'T12:00:00Z');const day=(local.getUTCDay()+6)%7;local.setUTCDate(local.getUTCDate()-day);result=local.toISOString().slice(0,10);}
+  if(!byPeriod){byPeriod=new Map();periodKeyCache.set(date,byPeriod);}byPeriod.set(z+'|'+period,result);return result;
+}
+function periodLabel(key, period) {
+  if(period==='month') { const [y,m]=key.split('-').map(Number); return new Date(Date.UTC(y,m-1,1)).toLocaleDateString(undefined,{month:'short',year:'numeric',timeZone:'UTC'}); }
+  const [y,m,d]=key.split('-').map(Number);
+  return new Date(Date.UTC(y,m-1,d)).toLocaleDateString(undefined,{month:'short',day:'numeric',year:'2-digit',timeZone:'UTC'});
+}
+function movingAverage(values, n) {
+  const out=new Array(values.length);let sum=0;
+  for(let i=0;i<values.length;i++){sum+=values[i];if(i>=n)sum-=values[i-n];out[i]=sum/Math.min(i+1,n);}
+  return out;
+}
+function renderChart(rows) {
+  const canvas=$('dailyChart'), rect=canvas.getBoundingClientRect(), dpr=window.devicePixelRatio||1;
+  const h=220; canvas.width=Math.max(320,rect.width)*dpr; canvas.height=h*dpr;
+  const ctx=canvas.getContext('2d');ctx.setTransform(dpr,0,0,dpr,0,0);
+  const w=canvas.width/dpr,pad={l:48,r:14,t:14,b:28},pw=w-pad.l-pad.r,ph=h-pad.t-pad.b;
+  const metric=$('dailyMetric').value, period=$('dailyPeriod').value, avg=$('movingAverage').value;
+  const buckets=new Map(); rows.forEach(r=>{const k=periodKey(r.date,period);if(!buckets.has(k))buckets.set(k,{plays:0,ms:0});const b=buckets.get(k);b.plays++;b.ms+=r.ms;});
+  const keys=[...buckets.keys()].sort(); chartPoints=[];ctx.clearRect(0,0,w,h);
+  if(!keys.length){ctx.fillStyle='#aeb8ad';ctx.font='14px system-ui';ctx.fillText('No listening data for this selection',20,35);$('chartLabels').innerHTML='';$('chartTooltip').style.display='none';return;}
+  const series=[];
+  if(metric==='plays'||metric==='both')series.push({name:'Plays',values:keys.map(k=>buckets.get(k).plays),color:'#1ed760'});
+  if(metric==='time'||metric==='both')series.push({name:'Listening time (hours)',values:keys.map(k=>buckets.get(k).ms/3600000),color:'#69a7ff'});
+  const normalized=metric==='both';
+  series.forEach(s=>{s.plotValues=avg==='off'?s.values:movingAverage(s.values,Number(avg));s.max=Math.max(1,...s.plotValues);if(normalized)s.plotValues=s.plotValues.map(v=>v/s.max);});
+  const max=normalized?1:Math.max(1,...series.flatMap(s=>s.plotValues)),ticks=4;
+  ctx.strokeStyle='#303a31';ctx.fillStyle='#aeb8ad';ctx.font='11px system-ui';ctx.lineWidth=1;
+  for(let i=0;i<=ticks;i++){const y=pad.t+ph-(i/ticks)*ph;ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(w-pad.r,y);ctx.stroke();const label=normalized?`${Math.round(i/ticks*100)}%`:fmtAxis(max*i/ticks,metric);ctx.fillText(label,2,y+4);}
+  series.forEach((s,si)=>{
+    s.points=keys.map((k,i)=>({key:k,period,plays:buckets.get(k).plays,ms:buckets.get(k).ms,value:s.values[i],plotValue:s.plotValues[i],x:pad.l+(keys.length===1?pw/2:i/(keys.length-1)*pw),y:pad.t+ph-s.plotValues[i]/max*ph,series:s.name}));
+    ctx.strokeStyle=s.color;ctx.lineWidth=2;ctx.beginPath();s.points.forEach((pt,i)=>i?ctx.lineTo(pt.x,pt.y):ctx.moveTo(pt.x,pt.y));ctx.stroke();
+    s.points.forEach(pt=>{ctx.fillStyle=s.color;ctx.beginPath();ctx.arc(pt.x,pt.y,2.4,0,Math.PI*2);ctx.fill();});
+  });
+  chartPoints=keys.map((k,i)=>({key:k,period,plays:buckets.get(k).plays,ms:buckets.get(k).ms,x:pad.l+(keys.length===1?pw/2:i/(keys.length-1)*pw),y:pad.t+ph/2,seriesPoints:series.map(s=>s.points[i])}));
+  $('chartLabels').innerHTML=`<span>${escapeHtml(periodLabel(keys[0],period))}</span><span>${escapeHtml(periodLabel(keys[Math.floor((keys.length-1)/2)],period))}</span><span>${escapeHtml(periodLabel(keys[keys.length-1],period))}</span>`;
+}
+function fmtAxis(v,metric){ if(metric==='time')return v>=10?v.toFixed(0)+'h':v.toFixed(1)+'h'; return fmtInt(Math.round(v)); }
+function chartHover(e) {
+  const canvas=$('dailyChart'), tooltip=$('chartTooltip'), wrap=$('chartWrap'), rect=canvas.getBoundingClientRect();
+  if(!chartPoints.length){tooltip.style.display='none';return;}
+  const x=e.clientX-rect.left,y=e.clientY-rect.top;
+  let closest=null,dist=Infinity;
+  chartPoints.forEach(pt=>{const d=Math.abs(pt.x-x);if(d<dist){dist=d;closest=pt;}});
+  if(!closest||dist>18){tooltip.style.display='none';return;}
+  const label=periodLabel(closest.key,closest.period), time=mins(closest.ms);
+  tooltip.innerHTML=`${escapeHtml(label)}<br>${fmtInt(closest.plays)} plays · ${escapeHtml(time)} listened`;
+  tooltip.style.display='block';const wr=wrap.getBoundingClientRect();
+  tooltip.style.left=Math.min(Math.max(8,e.clientX-wr.left+12),wrap.clientWidth-tooltip.offsetWidth-8)+'px';
+  tooltip.style.top=Math.max(4,e.clientY-wr.top-tooltip.offsetHeight-12)+'px';
+}
+const palette=['#1ed760','#69a7ff','#f2a65a','#d78bff','#ff7f7f','#4dd0c8','#e7d56b','#a8b5c4','#ff9fce','#9bd36a'];
+function renderArtistChoices(rows) {
+  const metric=$('artistMetric').value, count=Number($('artistCount').value);
+  const totals=aggregate(rows,r=>r.artist).sort((a,b)=>metric==='time'?b.ms-a.ms||b.plays-a.plays:b.plays-a.plays||b.ms-a.ms);
+  const names=totals.map(x=>x.name).filter(Boolean);
+  const defaults=names.slice(0,count), query=$('artistSearch').value.trim().toLowerCase();
+  selectedArtists=new Set([...selectedArtists].filter(n=>names.includes(n)));
+  if(!selectedArtists.size) defaults.forEach(n=>selectedArtists.add(n));
+  const matches=query?names.filter(n=>n.toLowerCase().includes(query)).slice(0,30):[];
+  const shown=[...new Set([...defaults,...selectedArtists,...matches])].filter(n=>names.includes(n));
+  $('artistChoices').innerHTML=shown.map(n=>{const checked=selectedArtists.has(n);return `<label class="artist-choice"><input type="checkbox" data-artist="${escapeHtml(n)}" ${checked?'checked':''}>${escapeHtml(n)}</label>`;}).join('') || '<span class="note">No artists available for this selection.</span>';
+  $('artistChoices').querySelectorAll('input[data-artist]').forEach(el=>el.addEventListener('change',()=>{if(el.checked)selectedArtists.add(el.dataset.artist);else selectedArtists.delete(el.dataset.artist);renderArtistChart(rows);}));
+}
+function drawArtistCanvas() {
+  if(!artistChartMeta) return;
+  const {canvas,ctx,w,h,pad,pw,ph,max,metric,ticks}=artistChartMeta;
+  ctx.clearRect(0,0,w,h);
+  ctx.strokeStyle='#303a31';ctx.fillStyle='#aeb8ad';ctx.font='11px system-ui';ctx.lineWidth=1;
+  for(let i=0;i<=ticks;i++){const y=pad.t+ph-(i/ticks)*ph;ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(w-pad.r,y);ctx.stroke();ctx.fillText(metric==='time'?(max*i/ticks).toFixed(1)+'h':fmtInt(Math.round(max*i/ticks)),2,y+4);}
+  // Draw unhovered series first and the focused line last. Hover redraws only these cached paths.
+  const order=artistHoverIndex===null?artistSeries:artistSeries.filter((_,i)=>i!==artistHoverIndex).concat(artistSeries[artistHoverIndex]);
+  order.forEach(series=>{const focused=artistHoverIndex!==null&&series===artistSeries[artistHoverIndex];ctx.globalAlpha=artistHoverIndex!==null&&!focused?0.18:1;ctx.strokeStyle=series.color;ctx.lineWidth=focused?4:2;ctx.beginPath();series.points.forEach((pt,i)=>i?ctx.lineTo(pt.x,pt.y):ctx.moveTo(pt.x,pt.y));ctx.stroke();if(focused){series.points.forEach(pt=>{ctx.fillStyle=series.color;ctx.beginPath();ctx.arc(pt.x,pt.y,3.8,0,Math.PI*2);ctx.fill();});}});
+  ctx.globalAlpha=1;
+}
+function renderArtistChart(rows) {
+  artistHoverIndex=null;
+  const canvas=$('artistChart'), rect=canvas.getBoundingClientRect(), dpr=window.devicePixelRatio||1,h=300;
+  const cssW=Math.max(320,rect.width);canvas.width=cssW*dpr;canvas.height=h*dpr;
+  const ctx=canvas.getContext('2d');ctx.setTransform(dpr,0,0,dpr,0,0);
+  const w=cssW,period=$('artistPeriod').value,metric=$('artistMetric').value;
+  const pad={l:48,r:14,t:16,b:32},pw=w-pad.l-pad.r,ph=h-pad.t-pad.b;
+  const buckets=new Map();
+  rows.forEach(r=>{const k=periodKey(r.date,period);let bucket=buckets.get(k);if(!bucket){bucket=new Map();buckets.set(k,bucket);}if(r.artist){let v=bucket.get(r.artist);if(!v){v={plays:0,ms:0};bucket.set(r.artist,v);}v.plays++;v.ms+=r.ms;}});
+  const keys=[...buckets.keys()].sort(),availableNames=new Set(rows.map(r=>r.artist).filter(Boolean));
+  const names=[...selectedArtists].filter(n=>availableNames.has(n));artistSeries=[];artistChartPoints=[];artistChartMeta=null;
+  if(!keys.length||!names.length){ctx.clearRect(0,0,w,h);ctx.fillStyle='#aeb8ad';ctx.font='14px system-ui';ctx.fillText(names.length?'No listening data for this selection':'Select one or more artists to draw their lines.',18,35);$('artistChartLabels').innerHTML='';$('artistTooltip').style.display='none';return;}
+  names.forEach(name=>{const values=keys.map(k=>{const x=buckets.get(k).get(name);return x?(metric==='time'?x.ms/3600000:x.plays):0;});artistSeries.push({name,values,color:palette[artistSeries.length%palette.length]});});
+  const max=Math.max(1,...artistSeries.flatMap(series=>series.values)),ticks=4;
+  artistSeries.forEach((series,si)=>{series.points=keys.map((k,i)=>({name:series.name,key:k,period,value:series.values[i],x:pad.l+(keys.length===1?pw/2:i/(keys.length-1)*pw),y:pad.t+ph-series.values[i]/max*ph,color:series.color,seriesIndex:si}));});
+  artistChartPoints=artistSeries.flatMap(series=>series.points);
+  artistChartMeta={canvas,ctx,w,h,pad,pw,ph,max,metric,ticks};drawArtistCanvas();
+  $('artistChartLabels').innerHTML=`<span>${escapeHtml(periodLabel(keys[0],period))}</span><span>${escapeHtml(periodLabel(keys[Math.floor((keys.length-1)/2)],period))}</span><span>${escapeHtml(periodLabel(keys[keys.length-1],period))}</span>`;
+}
+function artistHover(e) {
+  pendingArtistPointer={clientX:e.clientX,clientY:e.clientY};
+  if(artistHoverFrame)return;
+  artistHoverFrame=requestAnimationFrame(()=>{artistHoverFrame=0;const point=pendingArtistPointer;if(!point)return;processArtistHover(point);});
+}
+function processArtistHover(e) {
+  const canvas=$('artistChart'),tooltip=$('artistTooltip'),wrap=$('artistChartWrap'),rect=canvas.getBoundingClientRect();
+  if(!artistChartPoints.length){tooltip.style.display='none';return;}
+  const x=e.clientX-rect.left,y=e.clientY-rect.top;let closest=null,dist=Infinity;
+  // Limit hit-testing to the neighboring x positions, rather than scanning every segment on every pointer event.
+  artistSeries.forEach((series,seriesIndex)=>{
+    const pts=series.points;if(!pts.length)return;
+    if(pts.length===1){const pt=pts[0],d=Math.hypot(pt.x-x,pt.y-y);if(d<dist){dist=d;closest={...pt,seriesIndex};}return;}
+    const step=(pts[pts.length-1].x-pts[0].x)/(pts.length-1);
+    const guess=step>0?Math.round((x-pts[0].x)/step):0;
+    for(let i=Math.max(0,guess-2);i<=Math.min(pts.length-2,guess+1);i++){
+      const a=pts[i],b=pts[i+1],dx=b.x-a.x,dy=b.y-a.y,len=dx*dx+dy*dy;
+      const t=len?Math.max(0,Math.min(1,((x-a.x)*dx+(y-a.y)*dy)/len)):0;
+      const px=a.x+t*dx,py=a.y+t*dy,d=Math.hypot(px-x,py-y);
+      if(d<dist){dist=d;const useA=t<0.5?a:b;closest={...useA,x:px,y:py,value:a.value+t*(b.value-a.value),seriesIndex};}
+    }
+  });
+  if(!closest||dist>10){if(artistHoverIndex!==null){artistHoverIndex=null;drawArtistCanvas();}tooltip.style.display='none';return;}
+  if(artistHoverIndex!==closest.seriesIndex){artistHoverIndex=closest.seriesIndex;drawArtistCanvas();}
+  const label=periodLabel(closest.key,closest.period),value=$('artistMetric').value==='time'?mins(closest.value*3600000):fmtInt(closest.value)+' plays';
+  tooltip.innerHTML=`<strong>${escapeHtml(closest.name)}</strong><br>${escapeHtml(label)} · ${escapeHtml(value)}`;tooltip.style.display='block';
+  const wr=wrap.getBoundingClientRect();tooltip.style.left=Math.min(Math.max(8,e.clientX-wr.left+12),wrap.clientWidth-tooltip.offsetWidth-8)+'px';tooltip.style.top=Math.max(4,e.clientY-wr.top-tooltip.offsetHeight-12)+'px';
+}
+function renderHistory() {
+  const q=$('tableSearch').value.trim().toLowerCase();
+  const rows=filteredRows.filter(r=>!q||`${r.title} ${r.artist} ${r.album} ${r.platform}`.toLowerCase().includes(q));
+  const shown=rows.slice(0,visibleCount);
+  if(!shown.length){$('historyTable').innerHTML='<div class="empty">No matching entries.</div>';}
+  else $('historyTable').innerHTML=`<table><thead><tr><th>Date & time</th><th>Track / episode</th><th>Artist / show</th><th>Type</th><th style="text-align:right">Played</th><th>Skipped</th><th>Start reason</th><th>End reason</th><th>Platform</th></tr></thead><tbody>${shown.map(r=>`<tr><td>${escapeHtml(displayDate(r.date))}</td><td>${escapeHtml(r.title)}</td><td>${escapeHtml(r.artist)}</td><td>${escapeHtml(r.kind)}</td><td class="num">${mins(r.ms)}</td><td>${r.skipped===null?'—':r.skipped?'Yes':'No'}</td><td>${escapeHtml(reasonText(r.reason_start,'start'))}</td><td>${escapeHtml(reasonText(r.reason_end,'end'))}</td><td>${escapeHtml(r.platform)}</td></tr>`).join('')}</tbody></table>`;
+  $('tableFoot').textContent=`Showing ${fmtInt(shown.length)} of ${fmtInt(rows.length)} matching entries${rows.length>visibleCount?' (earliest first)':''}.`;
+  $('loadMore').classList.toggle('hidden', rows.length<=visibleCount);
+  $('loadMore').textContent=`Load next ${fmtInt(Math.min(500,rows.length-visibleCount))}`;
+}
+function render() {
+  const ms=filteredRows.reduce((s,r)=>s+r.ms,0);
+  $('mPlays').textContent=fmtInt(filteredRows.length);$('mTime').textContent=mins(ms);
+  $('mTracks').textContent=fmtInt(new Set(filteredRows.filter(r=>r.kind==='track').map(r=>r.title+'|'+r.artist)).size);
+  $('mArtists').textContent=fmtInt(new Set(filteredRows.map(r=>r.artist).filter(Boolean)).size);
+  $('artistsTable').innerHTML=miniTable(aggregate(filteredRows,r=>r.artist),'Artist');
+  $('tracksTable').innerHTML=miniTable(aggregate(filteredRows,r=>r.kind==='track'?r.title+(r.artist?' — '+r.artist:''):''),'Track');
+  renderChart(filteredRows);renderArtistChoices(filteredRows);renderArtistChart(filteredRows);renderHistory();
+}
+function csvCell(v){return '"'+safe(v).replace(/"/g,'""')+'"';}
+function exportCsv(){
+  const headers=['timestamp_iso','display_date','title','artist','album','content_type','ms_played','minutes_played','skipped','platform','reason_start','reason_end','shuffle'];
+  const lines=[headers.join(',')];
+  filteredRows.forEach(r=>lines.push([r.date.toISOString(),displayDate(r.date),r.title,r.artist,r.album,r.kind,r.ms,(r.ms/60000).toFixed(2),r.skipped===null?'':r.skipped,r.platform,r.reason_start,r.reason_end,r.shuffle===null?'':r.shuffle].map(csvCell).join(',')));
+  const blob=new Blob(['\ufeff'+lines.join('\r\n')],{type:'text/csv;charset=utf-8;'});
+  const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='spotify_filtered_history.csv';document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);
+}
+$('files').addEventListener('change',e=>readFiles(e.target.files));
+$('zipFile').addEventListener('change',async e=>{const file=e.target.files&&e.target.files[0];if(!file)return;try{await unzipSpotifyHistory(file);}catch(err){$('status').textContent='Could not open ZIP: '+err.message;}});
+['search','from','to','kind','skipped','timezone'].forEach(id=>$(id).addEventListener('input',applyFilters));
+$('reset').addEventListener('click',()=>{$('search').value='';$('kind').value='all';$('skipped').value='all';if(allRows.length){const ds=allRows.map(r=>dateParts(r.date)).sort();$('from').value=ds[0];$('to').value=ds[ds.length-1];}applyFilters();});
+$('export').addEventListener('click',exportCsv);
+$('tableSearch').addEventListener('input',()=>{visibleCount=500;renderHistory();});
+$('loadMore').addEventListener('click',()=>{visibleCount+=500;renderHistory();});
+$('dailyChart').addEventListener('pointermove',chartHover);
+$('dailyChart').addEventListener('pointerdown',chartHover);
+$('dailyChart').addEventListener('pointerleave',()=>$('chartTooltip').style.display='none');
+$('artistChart').addEventListener('pointermove',artistHover);
+$('artistChart').addEventListener('pointerdown',artistHover);
+$('artistChart').addEventListener('pointerleave',()=>{ $('artistTooltip').style.display='none'; if(artistHoverFrame){cancelAnimationFrame(artistHoverFrame);artistHoverFrame=0;}pendingArtistPointer=null;if(artistHoverIndex!==null){artistHoverIndex=null;drawArtistCanvas();} });
+['dailyMetric','dailyPeriod','movingAverage'].forEach(id=>$(id).addEventListener('change',()=>renderChart(filteredRows)));
+['artistMetric','artistPeriod','artistCount'].forEach(id=>$(id).addEventListener('change',()=>{selectedArtists.clear();artistHoverIndex=null;renderArtistChoices(filteredRows);renderArtistChart(filteredRows);}));
+$('artistSearch').addEventListener('input',()=>renderArtistChoices(filteredRows));
+window.addEventListener('resize',()=>{if(filteredRows.length){renderChart(filteredRows);renderArtistChart(filteredRows);}});
+if('serviceWorker' in navigator && (location.protocol==='https:' || location.hostname==='localhost')){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));}
+})();
+</script>
+</body>
+</html>
