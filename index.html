@@ -10,6 +10,8 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <title>Spotify History Explorer</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>if(!window.supabase){document.write('<script src="https://unpkg.com/@supabase/supabase-js@2"><\/script>');}</script>
 <style>
 :root{--bg:#101310;--panel:#191e1a;--panel2:#202720;--text:#f3f6f1;--muted:#aeb8ad;--green:#1ed760;--line:#303a31;--red:#ff8c8c}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
@@ -67,7 +69,19 @@ canvas{touch-action:pan-y;}
 <h2>1. Load your Spotify history</h2>
 <div class="upload-row"><label class="filelabel" for="zipFile">＋ Choose Spotify ZIP</label><input id="zipFile" type="file" accept=".zip,application/zip"><label class="filelabel" for="files" style="background:#29352b;color:var(--text);border:1px solid var(--line)">Choose JSON files instead</label><input id="files" type="file" accept=".json,application/json" multiple><span class="note">Choose your original Spotify data-export ZIP, or select extracted <b>Streaming_History_Audio*.json</b> files manually.</span></div>
 <div id="status" class="status">No files loaded yet.</div>
-<p class="note">Privacy: your files are read by this page in your browser. They are not uploaded to a server. This tool does not display IP addresses or account identifiers.</p>
+<p class="note">Privacy: Spotify files are processed in your browser. They are only uploaded to your private Supabase account when you explicitly choose Sync to cloud.</p>
+</section>
+<section class="panel" id="accountPanel">
+<h2>Cloud account &amp; sync</h2>
+<p class="note">Sign in with your email and password to keep a private copy of your Spotify ZIP in your account and access it on other devices. Your ZIP is only uploaded when you choose Sync to cloud.</p>
+<div id="cloudSetupNotice" class="note hidden" style="padding:10px;border:1px solid var(--line);border-radius:9px;margin:10px 0"></div>
+<div id="authControls" class="filters" style="grid-template-columns:repeat(3,minmax(160px,1fr))">
+<div class="field"><label for="accountEmail">Email</label><input id="accountEmail" type="email" autocomplete="email" placeholder="you@example.com"></div>
+<div class="field"><label for="accountPassword">Password</label><input id="accountPassword" type="password" autocomplete="current-password" placeholder="At least 8 characters"></div>
+<div class="field" style="display:flex;align-items:end;gap:8px;flex-wrap:wrap"><button id="signInBtn" class="primary">Sign in</button><button id="signUpBtn">Create account</button><button id="signOutBtn" class="hidden">Sign out</button></div>
+</div>
+<div id="cloudActions" class="hidden" style="display:flex;gap:9px;flex-wrap:wrap;margin-top:12px"><button id="uploadCloudBtn" class="primary">Sync current ZIP to cloud</button><button id="downloadCloudBtn">Load cloud ZIP on this device</button></div>
+<div id="cloudStatus" class="status" aria-live="polite">Not signed in.</div>
 </section>
 <section id="filterPanel" class="panel hidden">
 <h2>2. Filter your listening history</h2>
@@ -125,6 +139,11 @@ canvas{touch-action:pan-y;}
 <script>
 (() => {
 const $ = id => document.getElementById(id);
+// Configure these two values with your Supabase project's URL and publishable anon key. Never put a service-role key here.
+const SUPABASE_URL = 'https://vqaqfgnrnmrzdliegyav.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_rNrRzvDRLJiId6Bo63OXxg_FtddV2WB';
+const CLOUD_BUCKET = 'spotify-history';
+let supabase = null, currentUser = null, latestZipFile = null;
 let allRows = [], filteredRows = [];
 let visibleCount = 500, chartPoints = [], artistChartPoints = [], artistSeries = [], selectedArtists = new Set(), artistHoverIndex = null;
 let dateFormatterCache = new Map(), displayFormatterCache = new Map(), datePartsCache = new WeakMap(), periodKeyCache = new WeakMap(), artistChartMeta = null, artistHoverFrame = 0, pendingArtistPointer = null;
@@ -218,6 +237,7 @@ function readFiles(files) {
   }).catch(e=>{$('status').textContent='Could not read those files: '+e.message;});
 }
 async function unzipSpotifyHistory(file) {
+  if(file && file.name && file.name.toLowerCase().endsWith('.zip')) latestZipFile=file;
   $('status').textContent='Opening ZIP and locating streaming-history JSON files…';
   const buffer=await file.arrayBuffer(), view=new DataView(buffer), bytes=new Uint8Array(buffer);
   // Locate the ZIP end-of-central-directory record (including archives with a comment).
@@ -434,6 +454,23 @@ function exportCsv(){
   const blob=new Blob(['\ufeff'+lines.join('\r\n')],{type:'text/csv;charset=utf-8;'});
   const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='spotify_filtered_history.csv';document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);
 }
+function cloudConfigured(){return SUPABASE_URL.startsWith('https://') && SUPABASE_ANON_KEY && window.supabase && typeof window.supabase.createClient==='function';}
+function cloudMessage(message,isError=false){$('cloudStatus').textContent=message;$('cloudStatus').style.color=isError?'var(--red)':'var(--muted)';}
+function cloudError(e){const m=String(e?.message||e||'Unknown error');if(/failed to fetch|networkerror|load failed/i.test(m))return 'The browser could not complete the signup request. The Supabase site is reachable, but this page may be blocking the request (often when opened as file://). Try opening the HTML in Chrome or Edge, and make sure you are online. Technical detail: '+m;return m;}
+function setCloudUser(user){currentUser=user;$('signInBtn').classList.toggle('hidden',!!user);$('signUpBtn').classList.toggle('hidden',!!user);$('signOutBtn').classList.toggle('hidden',!user);$('cloudActions').classList.toggle('hidden',!user);$('accountPassword').value='';if(user)cloudMessage('Signed in as '+user.email+'. Your cloud history is private to this account.');else cloudMessage('Not signed in.');}
+async function initCloud(){
+ if(!cloudConfigured()){ $('cloudSetupNotice').textContent='The account library did not load. Check your internet connection, then refresh this page.'; $('cloudSetupNotice').classList.remove('hidden');$('signInBtn').disabled=true;$('signUpBtn').disabled=true;cloudMessage('Cloud account system unavailable.',true);return; }
+ $('cloudSetupNotice').classList.add('hidden');
+ try{supabase=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}});const {data,error}=await supabase.auth.getSession();if(error)throw error;setCloudUser(data.session?.user||null);supabase.auth.onAuthStateChange((_event,session)=>setCloudUser(session?.user||null));}
+ catch(e){cloudMessage('Could not initialize account: '+cloudError(e),true);}
+}
+async function withAuthBusy(button,work){if(!supabase){cloudMessage('Account service has not loaded. Refresh the page and try again.',true);return;}button.disabled=true;try{await work();}catch(e){cloudMessage(cloudError(e),true);}finally{button.disabled=false;}}
+async function signIn(){await withAuthBusy($('signInBtn'),async()=>{const email=$('accountEmail').value.trim(),password=$('accountPassword').value;if(!email||!password){cloudMessage('Enter your email and password.',true);return;}cloudMessage('Signing in…');const {data,error}=await supabase.auth.signInWithPassword({email,password});if(error)throw error;setCloudUser(data.user);});}
+async function signUp(){await withAuthBusy($('signUpBtn'),async()=>{const email=$('accountEmail').value.trim(),password=$('accountPassword').value;if(!email||!password){cloudMessage('Enter your email and password.',true);return;}if(password.length<8){cloudMessage('Use a password with at least 8 characters.',true);return;}cloudMessage('Creating your account…');const {data,error}=await supabase.auth.signUp({email,password});if(error)throw error;if(data.session){setCloudUser(data.user);}else{cloudMessage('Account created. If email confirmation is enabled for this Supabase project, check your inbox and confirm your address, then sign in here.');$('accountPassword').value='';}});}
+async function uploadCloud(){if(!currentUser){cloudMessage('Sign in first.',true);return;}if(!latestZipFile){cloudMessage('Choose your Spotify ZIP on this device first. Only ZIP imports can currently be backed up to cloud.',true);return;}if(!confirm('Upload your Spotify ZIP to your private cloud account? It will replace the previously saved ZIP for this account.'))return;cloudMessage('Uploading ZIP securely…');const path=currentUser.id+'/spotify-export.zip';const {error}=await supabase.storage.from(CLOUD_BUCKET).upload(path,latestZipFile,{upsert:true,contentType:'application/zip'});if(error)cloudMessage('Upload failed: '+error.message,true);else cloudMessage('Cloud backup updated successfully. You can load it on another device after signing in.');}
+async function downloadCloud(){if(!currentUser){cloudMessage('Sign in first.',true);return;}cloudMessage('Downloading your cloud ZIP…');const path=currentUser.id+'/spotify-export.zip';const {data,error}=await supabase.storage.from(CLOUD_BUCKET).download(path);if(error){cloudMessage('Could not load cloud ZIP: '+error.message,true);return;}latestZipFile=new File([data],'spotify-export.zip',{type:'application/zip'});try{await unzipSpotifyHistory(latestZipFile);cloudMessage('Cloud history loaded on this device.');}catch(e){cloudMessage('Downloaded ZIP could not be read: '+e.message,true);}}
+$('signInBtn').addEventListener('click',signIn);$('signUpBtn').addEventListener('click',signUp);$('signOutBtn').addEventListener('click',async()=>{try{const {error}=await supabase.auth.signOut();if(error)throw error;setCloudUser(null);}catch(e){cloudMessage(cloudError(e),true);}});$('uploadCloudBtn').addEventListener('click',async()=>{try{await uploadCloud();}catch(e){cloudMessage(cloudError(e),true);}});$('downloadCloudBtn').addEventListener('click',async()=>{try{await downloadCloud();}catch(e){cloudMessage(cloudError(e),true);}});
+initCloud();
 $('files').addEventListener('change',e=>readFiles(e.target.files));
 $('zipFile').addEventListener('change',async e=>{const file=e.target.files&&e.target.files[0];if(!file)return;try{await unzipSpotifyHistory(file);}catch(err){$('status').textContent='Could not open ZIP: '+err.message;}});
 ['search','from','to','kind','skipped','timezone'].forEach(id=>$(id).addEventListener('input',applyFilters));
