@@ -2,13 +2,14 @@
 <html lang="en">
  <head>
   <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" name="viewport"/>
   <meta content="#101310" name="theme-color"/>
   <meta content="yes" name="apple-mobile-web-app-capable"/>
   <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
   <meta content="Spotify Explorer" name="apple-mobile-web-app-title"/>
-  <link href="manifest.webmanifest" rel="manifest"/>
-  <link href="icons/apple-touch-icon.png" rel="apple-touch-icon"/>
+  <link id="appManifest" rel="manifest"/>
+  <link rel="icon" type="image/png" sizes="192x192" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAIAAADdvvtQAAACu0lEQVR42u3d0VHrMBBAUVvjb8YzaYciKJUiqIgKaCAfWJYsafecf94kzmVXeUnIfr7ODWoVlwABISAEhIBAQAgIASEgEBACQkAICAREY8cMN+Lj58sjUef383vsDdhHvR9INDFiejog3QQr6aGAdBO1pKKewB648n0nkHTCj6KiHqNougkknTyjqKjHKJooIPVka6ioR0NTBKSenA0V9WhocEDqydyQt3MwNCDjJ/kQKurhzuNohTFohRk/htBW/VpYvHquvkgU8ven4pUyK6zywg1/M3KQZ2EIyP6i/pE1gbDCWCgg+8sWM4GwwhAQ6QJyAHIMMoGwwhAQAgIBISAEhIAQEAgIASEgBAQCorNj9Tsw2wcCs31AsaSqZ+v8gcCEH1C0whAQAkJACAgEhIAQEAICASEgBISAQEAICAEhIBAQAkJACAgBgYAQEAIikWEfbfYdpTGuT1ni6mzJvqN0oetjhSEgBISAEBAICAEhIAQEAkJACAgBgYAQEAJCQCAgBISAEBACAgEhIASEgEBACAgBISAQEAJCQAgIBISAyBtQxZ8Uffsj/p07P9LEfr7O+W8lD/v/33y1wnAGQkAICAGBgBAQAiKHY9HbHe/bnxb9T9qiHncqV0CBv3luxbvmDISAEBAC8mwl410rLrQ7dcfhcuMMhIAQEAICASEgYgYU+IVM6h5lEwgrDAGRJSDHIAcgEwgrjHUDssXsLxMIK4x1A7LF7K+7E0hD6rHCGHoGMoSSj58GE0hDmeuxwpjgabwhlHb8NJtAGspZT8sVpqGE9TQ+A2koWz3tD9EaSlVPl2dhGspTz3b123ou8fcPYqfTawIZRXnq6TuBjKLY6XSfQEZR+HoemkCmUbxuhgWkpGCTflhAYopxPJgiINbl7RwICAEhIAQEAkJACAgBgYAQEAJCQPDGH4NMwCWvm6ggAAAAAElFTkSuQmCC"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAACo0lEQVR42u3d0U3rMBSA4dTKM4rUdRiCURmCiZiAAQApTm3H5/j73y8k6adj94amj+N5bNJfFZdAcAgOwSE4BIfgEByCQ3AIDgkOwaHX22/83W9fH16AM32/f97yex+Db9kDEQjKIBxMRFTSHQcWcYl0xIFFdCKFjAR1utrtJwcWaUZIIcMIGYGDjGQ+Chl89MVBRkofhQw+euEgI7GPQgYfg97KKlPlFpIKMTwKGXxYVlTdlXsrCcZG7T2IHJOy9qxXnBwX7k7d9Yd6wTakdhvr7DzsOQSHeuOwpiy1spgcgkNw6B4cNhyrbTtMDsEhOASH4BAcgkNwCA7BITgkOASHGrRHPOiqvwXvdzN5ksMwOS6+JFu3TxVMchhwCA7BITgEh+AQHBIcgkNwCA7BITgEh+AQHIJDgkNwCA7BITgEh+BQuEZ/4m3Nb8EJejXKzNdiS/0tOPNfDcuK4BAcgkNwCA7BITgEh+AQHBIcgkNwCA7BITgEh+AQHIJDgkNwCA7BITgEh+AQHIJDcEhwCA7BobA4LjzS6vc/qf0hr/+EmQ+ja4/jecx5ZOrXyWeLWVYEh+AQHIJDcGjO9kDHmuNR14H+R6CQ4URi40j2ePwop2PPITgEh5bDkeyeX5TTKS6oE/mv3WWVPYfgEByCQ3AIDqXFkfjLoZfq/OtocggOwaHbcNh2rLPhMDkEh8bgsLIssqaYHGqNw/BYYWyYHOqAw/BIPzZemhx85JZhWVE3HIZH4rHRYHLwkVVGm2WFj5Qymu05+Mgno+WGlI9kMhq/W+Ejk4z2b2X5SCNjq3q8dVU+1xqaRZfJYYSkkdFxchghoVkMwoFI3Nk8CAclEdfr0ThACbSBuxOHJs8te8EhOASH4BAcgkNwCA7BITgkOHS+H7hOug1HXJxyAAAAAElFTkSuQmCC"/>
   <title>
    Spotify History Explorer
   </title>
@@ -27,6 +28,10 @@
   --green:#1ed760;
   --line:#303a31;
   --red:#ff8c8c;
+  --blue:#8ca9d8;
+  --purple:#ad91d2;
+  --blue-line:#344257;
+  --purple-line:#433750;
 
 }
   *  {
@@ -64,6 +69,11 @@
   .header-date-controls input,.header-date-controls select { width:100%; min-height:42px; min-width:0; border:1px solid var(--line); border-radius:8px; background:#0f130f; color:var(--text); padding:7px 9px; font:inherit; }
   .header-date-controls .date-pair { display:flex; gap:7px; flex:1; min-width:0; }
   .header-date-controls .date-pair .field { min-width:0; }
+  .header-date-controls .date-range-field > label { display:none; }
+  .header-date-controls #rangeDateControls .date-pair { gap:0; overflow:hidden; background:#0f130f; border:1px solid var(--line); border-radius:8px; }
+  .header-date-controls #rangeDateControls .date-pair .field { padding:0 8px; }
+  .header-date-controls #rangeDateControls .date-pair .field + .field { border-left:1px solid var(--line); }
+  .header-date-controls #rangeDateControls .date-pair input { border:0; border-radius:0; background:transparent; padding:5px 0; }
   .choice-results { display:none; position:absolute; z-index:5; left:0; right:0; top:100%; max-height:min(42vh,320px); overflow-y:auto; padding:6px; margin-top:4px; background:#151b16; border:1px solid var(--line); border-radius:10px; box-shadow:0 12px 28px #0009; }
   .choice-results.open { display:block; }
   .choice-search { position:relative; max-width:520px; margin:8px 0; }
@@ -80,9 +90,12 @@
   .daily-heading .note { margin:0; }
   .daily-metrics { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:10px; margin:0 0 20px; }
   .daily-metric { min-width:0; padding:14px; background:#101510; border:1px solid var(--line); border-radius:11px; }
+  .daily-metric:nth-child(2) { border-color:var(--blue-line); }
+  .daily-metric:nth-child(2) .value { color:var(--blue); }
+  .daily-metric:nth-child(4) { border-color:var(--purple-line); }
+  .daily-metric:nth-child(4) .value { color:var(--purple); }
   .daily-metric .label { color:var(--muted); font-size:12px; line-height:1.35; }
   .daily-metric .value { font-size:clamp(19px,2vw,25px); font-weight:750; line-height:1.2; margin-top:5px; overflow-wrap:anywhere; }
-  .daily-grid { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:14px; margin-bottom:14px; }
   .daily-card { min-width:0; margin:0 0 14px; padding:16px; background:#141a15; border:1px solid var(--line); border-radius:12px; }
   .daily-card h3 { margin:0 0 4px; font-size:16px; }
   .daily-card > .note { margin:0 0 14px; line-height:1.45; }
@@ -100,6 +113,8 @@
   .breakdown-name { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
   .breakdown-track { height:10px; overflow:hidden; background:#0d110e; border-radius:99px; }
   .breakdown-fill { height:100%; background:var(--green); border-radius:99px; }
+  .breakdown-row:nth-child(3n+2) .breakdown-fill { background:var(--blue); }
+  .breakdown-row:nth-child(3n) .breakdown-fill { background:var(--purple); }
   .breakdown-time { color:var(--text); white-space:nowrap; font-variant-numeric:tabular-nums; }
   .daily-table { overflow-x:auto; border:1px solid var(--line); border-radius:10px; background:#101410; }
   .daily-table table { min-width:620px; white-space:normal; }
@@ -127,7 +142,8 @@
   .color-dot { width:10px; height:10px; border-radius:50%; display:inline-block; flex:0 0 10px; box-shadow:0 0 0 1px #ffffff30; }
   .artist-choice { gap:8px; }
   .active-series-label { min-height:20px; margin-top:7px; font-size:13px; font-weight:700; color:var(--text); }
-  @media(max-width:850px) { .daily-metrics { grid-template-columns:repeat(3,minmax(0,1fr)); } .daily-grid { grid-template-columns:1fr; } }
+  .daily-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; margin-bottom:14px; }
+  @media(max-width:850px) { .daily-metrics { grid-template-columns:repeat(3,minmax(0,1fr)); } .grid2,.daily-grid { grid-template-columns:1fr; } }
   @media(max-width:700px) { header { align-items:stretch; flex-direction:column; gap:10px; padding:calc(12px + env(safe-area-inset-top)) 14px 12px; } .header-actions { width:100%; } .header-actions button { flex:1 1 calc(50% - 8px); } .header-date-controls { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); align-items:stretch; width:100%; flex:1 1 auto; gap:7px; } .header-date-controls .field.mode-field { grid-column:1/-1; max-width:none; flex:none; } .header-date-controls .date-pair { display:contents; } .header-date-controls .date-pair .field { min-width:0; } .header-date-controls #singleDayControl { grid-column:1/-1; } .daily-list { max-height:min(48vh,420px); } .choice-results { max-height:min(42vh,300px); } .daily-metrics { grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; } .daily-metric { padding:11px; } .daily-card { padding:13px; } .daily-event { grid-template-columns:74px minmax(0,1fr); gap:8px; padding:10px; } .daily-event .event-duration { grid-column:2; margin-top:-4px; font-size:11px; } .breakdown-row { grid-template-columns:minmax(70px,1fr) minmax(55px,1.1fr) auto; gap:7px; font-size:12px; } .daily-table table { min-width:560px; } .setup-actions { grid-template-columns:1fr; } }
   @media(max-width:380px) { .header-date-controls .field.mode-field { max-width:none; flex:1; } .daily-metrics { grid-template-columns:1fr 1fr; } .breakdown-row { grid-template-columns:minmax(0,1fr) auto; } .breakdown-track { grid-column:1 / -1; grid-row:2; } }
   h1  {
@@ -264,6 +280,8 @@
   margin-bottom:18px;
 
 }
+  .grid2 { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px; margin-bottom:18px; }
+  .grid2 > * { min-width:0; }
   .metric  {
   background:var(--panel);
   border:1px solid var(--line);
@@ -271,6 +289,10 @@
   padding:16px;
 
 }
+  .metric:nth-child(2) { border-color:var(--blue-line); background:linear-gradient(145deg,#19212d,var(--panel) 70%); }
+  .metric:nth-child(2) .label { color:var(--blue); }
+  .metric:nth-child(4) { border-color:var(--purple-line); background:linear-gradient(145deg,#211b2a,var(--panel) 70%); }
+  .metric:nth-child(4) .label { color:var(--purple); }
   .metric .label  {
   font-size:12px;
   color:var(--muted);
@@ -289,13 +311,6 @@
   margin-top:2px;
 
 }
-  .grid2  {
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:18px;
-
-}
-  .grid2 > * { min-width:0; }
   .tablewrap  {
   overflow:auto;
   max-height:470px;
@@ -433,6 +448,17 @@
   display:none!important;
 
 }
+  .archive-loading-screen { position:fixed; inset:0; z-index:10000; display:grid; place-items:center; padding:24px; background:#101310; }
+  .archive-loading-content { display:flex; flex-direction:column; align-items:center; gap:16px; }
+  .archive-loading-logo { display:block; width:clamp(112px,28vw,152px); height:auto; object-fit:contain; }
+  .archive-loading-label { display:flex; align-items:center; color:var(--text); font-size:16px; font-weight:650; letter-spacing:.025em; }
+  .archive-loading-dots { display:inline-flex; align-items:center; gap:3px; margin-left:3px; padding-top:5px; }
+  .archive-loading-dots span { width:4px; height:4px; border-radius:50%; background:currentColor; opacity:.25; animation:archiveLoadingDot 1s ease-in-out infinite; }
+  .archive-loading-dots span:nth-child(2) { animation-delay:.16s; }
+  .archive-loading-dots span:nth-child(3) { animation-delay:.32s; }
+  body.archive-loading-active { overflow:hidden; }
+  @keyframes archiveLoadingDot { 0%,60%,100% { opacity:.25; transform:translateY(0); } 30% { opacity:1; transform:translateY(-3px); } }
+  @media(prefers-reduced-motion:reduce) { .archive-loading-dots span { animation:none; opacity:1; } }
   .table-head  {
   display:flex;
   align-items:center;
@@ -462,11 +488,6 @@
   grid-template-columns:repeat(2,minmax(0,1fr));
 
 }
-  .grid2  {
-  grid-template-columns:1fr;
-
-}
-
 }
   @media(max-width:540px)  {
   .filters  {
@@ -639,7 +660,7 @@
   .series-name:hover,.series-name:focus { color:var(--green); text-decoration:underline; }
   .choice-results .artist-choice { font-size:15px; }
   @media(min-width:701px) {
-   header { flex-wrap:nowrap; gap:12px; padding:7px clamp(12px,2vw,26px); }
+   header { flex-wrap:nowrap; gap:12px; padding:6px clamp(12px,2vw,26px); }
    .header-title { flex:0 1 270px; min-width:0; }
    .header-title h1 { font-size:clamp(22px,2vw,30px); line-height:1.05; white-space:nowrap; }
    .header-date-controls { flex:1 1 auto; min-width:0; gap:6px; }
@@ -666,25 +687,176 @@
    #filterPanel > div:last-of-type { display:grid; grid-template-columns:auto minmax(0,1fr); gap:7px; margin-top:8px!important; }
    #filterPanel > div:last-of-type button { min-height:38px; padding:6px 9px; font-size:13px; }
   }
+  .nav-icon { display:none; width:20px; height:20px; flex:0 0 20px; }
+  .nav-mode-toggle { display:none; }
+  .mobile-skip { display:none; }
+  .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+  #headerSettings { display:none; }
+  .settings-dialog-head { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:16px; }
+  .settings-dialog-head h2 { margin:0; }
+  .settings-dialog .upload-close { width:36px; height:36px; }
+  .settings-account { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:14px 0; border-top:1px solid var(--line); }
+  .settings-account .note { margin:0; }
+  .snap-blue > h2,.snap-blue > h3,.snap-blue .daily-heading h2 { color:var(--blue); }
+  .snap-purple > h2,.snap-purple > h3,.snap-purple .daily-heading h2 { color:var(--purple); }
+  @media(max-width:700px) {
+   body.app-active { padding-bottom:0; }
+   html { touch-action:pan-x pan-y; }
+   header.compact-header { display:grid; grid-template-columns:repeat(4,40px); grid-template-rows:40px; align-items:center; justify-content:center; gap:4px; width:max-content; max-width:calc(100vw - 20px); margin:7px auto 0; padding:4px 8px; min-height:0; overflow:visible; background:linear-gradient(125deg,#172235,#201b2b); border:1px solid var(--blue-line); border-radius:999px; box-shadow:0 6px 20px #0008; }
+   .compact-header .header-date-controls { position:absolute; z-index:30; top:calc(100% + 6px); right:auto; bottom:auto; left:50%; display:none; grid-template-columns:repeat(2,minmax(0,1fr)); align-items:start; gap:10px; width:min(360px,calc(100vw - 20px)); max-height:calc(100vh - 82px); overflow-y:auto; margin:0; padding:12px; transform:translateX(-50%); background:linear-gradient(140deg,#151d29,#1c1724); border:1px solid var(--blue-line); border-radius:12px; box-shadow:0 12px 28px #0009; }
+   .compact-header .header-date-controls.is-open { display:grid; }
+   .compact-header .header-actions { display:contents; }
+   .compact-header #headerUploadZip { grid-column:1; grid-row:1; }
+   .compact-header #headerRequestData { grid-column:2; grid-row:1; }
+   .compact-header #headerModeToggle { display:flex; grid-column:3; grid-row:1; }
+   .compact-header #headerSettings { display:flex; grid-column:4; grid-row:1; }
+   .compact-header #headerSignOut { display:none; }
+   .compact-header .header-actions button { display:flex; align-items:center; justify-content:center; width:40px; min-width:40px; min-height:40px; flex:none; padding:0; color:var(--text); background:transparent!important; border:0!important; border-radius:50%; box-shadow:none!important; }
+   .compact-header .header-actions button:hover { color:var(--blue); }
+   .compact-header .header-actions button:focus-visible { outline:2px solid var(--purple); outline-offset:1px; }
+   .compact-header #headerUploadZip .nav-icon { color:var(--green); }
+   .compact-header #headerRequestData .nav-icon { color:var(--blue); }
+   .compact-header #headerModeToggle .nav-icon { color:var(--purple); }
+   .compact-header #headerSettings .nav-icon { color:var(--blue); }
+   .compact-header .nav-icon { display:block; }
+   .compact-header .nav-label { display:none; }
+   .compact-header .header-date-controls .field.mode-field { grid-column:1/-1; display:grid; grid-template-columns:minmax(0,1fr); gap:4px; width:100%; max-width:none; min-width:0; flex:none; }
+   .compact-header .header-date-controls .field.mode-field label { grid-column:1; grid-row:auto; display:block; margin:0; color:var(--muted); font-size:11px; }
+   .compact-header .header-date-controls .field.mode-field select { grid-column:1; grid-row:auto; width:100%; min-height:38px; min-width:0; padding:5px 8px; font-size:14px; }
+   .compact-header .header-date-controls #rangeDateControls { grid-column:1/-1; display:grid; grid-template-columns:minmax(0,1fr); gap:4px; width:100%; max-width:none; min-width:0; flex:1 1 100%; }
+   .compact-header .header-date-controls #rangeDateControls > label { display:block; margin:0; color:var(--muted); font-size:11px; }
+   .compact-header .header-date-controls #rangeDateControls .date-pair { display:grid; grid-column:1; grid-template-columns:repeat(2,minmax(0,1fr)); gap:0; width:100%; }
+   .compact-header .header-date-controls #rangeDateControls .date-pair { border-color:var(--blue-line); }
+   .compact-header .header-date-controls #rangeDateControls .date-pair .field { padding:4px 7px; }
+   .compact-header .header-date-controls #rangeDateControls .date-pair label { font-size:9px; }
+   .compact-header .header-date-controls #rangeDateControls .date-pair input { padding:4px 0; }
+   .compact-header .header-date-controls .date-pair { display:grid; grid-column:1/-1; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:8px; width:100%; }
+   .compact-header .header-date-controls .date-pair .field { min-width:0; }
+   .compact-header .header-date-controls #singleDayControl { grid-column:1/-1; width:100%; }
+   .compact-header .header-date-controls label { font-size:10px; margin-bottom:2px; }
+   .compact-header .header-date-controls input { min-height:38px; padding:5px 8px; font-size:14px; }
+   #artistTooltip,#songTooltip { display:none!important; }
+   .toplist-section .tablewrap { max-height:none!important; overflow:visible; }
+   .toplist-section .tablewrap table { table-layout:fixed; white-space:normal; }
+   .toplist-section .tablewrap th { background:#20283a; color:#dce4f2; }
+   .toplist-section .tablewrap th,.toplist-section .tablewrap td { padding:8px 5px; font-size:11px; white-space:normal; overflow-wrap:anywhere; }
+   .toplist-section .tablewrap th:first-child,.toplist-section .tablewrap td:first-child { width:9%; text-align:center; }
+   .toplist-section .tablewrap th:nth-child(3),.toplist-section .tablewrap td:nth-child(3) { width:21%; text-align:right; }
+   .toplist-section .tablewrap th:nth-child(4),.toplist-section .tablewrap td:nth-child(4) { width:22%; text-align:right; }
+   #historyTable { overflow-x:hidden; }
+   #historyTable table,#historyTable tbody { display:block; width:100%; white-space:normal; }
+   #historyTable thead { display:none; }
+   #historyTable tbody { display:grid; gap:7px; }
+   #historyTable tr { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:0 10px; padding:7px 9px; background:linear-gradient(110deg,#141b24,#1b1721); border:1px solid #303346; border-radius:10px; }
+   #historyTable td { display:block; min-width:0; padding:3px 2px; border:0; font-size:11px; line-height:1.3; white-space:normal; overflow-wrap:anywhere; }
+   #historyTable td::before { display:none; }
+   #historyTable td:nth-child(1) { grid-column:1; grid-row:1; color:var(--blue); font-size:10px; }
+   #historyTable td:nth-child(5) { grid-column:2; grid-row:1; color:var(--green); font-size:11px; font-weight:700; text-align:right; }
+   #historyTable td:nth-child(2) { grid-column:1/-1; grid-row:2; color:var(--text); font-size:14px; font-weight:700; line-height:1.3; }
+   #historyTable td:nth-child(3) { grid-column:1; grid-row:3; color:var(--muted); font-size:12px; }
+   #historyTable td:nth-child(4) { grid-column:1; grid-row:4; }
+   #historyTable td:nth-child(4)[data-kind="track"] { display:none; }
+   #historyTable td:nth-child(4):not([data-kind="track"]) { width:max-content; padding:2px 7px; color:#b5edc2; background:#1b3322; border-radius:999px; font-size:10px; }
+   #historyTable td:nth-child(6) { grid-column:2; grid-row:3; justify-self:end; }
+   #historyTable td.skipped-cell:not(.was-skipped):not(.unknown-skip) { display:none; }
+   #historyTable td:nth-child(7) { grid-column:1; grid-row:5; }
+   #historyTable td:nth-child(8) { grid-column:2; grid-row:5; }
+   #historyTable td:nth-child(9) { grid-column:1/-1; grid-row:6; color:var(--muted); font-size:10px; }
+   #historyTable td:nth-child(7)::before,#historyTable td:nth-child(8)::before,#historyTable td:nth-child(9)::before { content:attr(data-label); display:block; margin-bottom:1px; color:var(--purple); font-size:8px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; }
+   #historyTable .desktop-skip { display:none; }
+   #historyTable .mobile-skip { display:inline-flex; align-items:center; padding:1px 6px; color:var(--red); background:#3a2020; border-radius:999px; font-size:12px; font-weight:800; letter-spacing:.06em; }
+   #historyTable td:nth-child(1) { grid-column:1; grid-row:1; }
+   #historyTable td:nth-child(5) { grid-column:2; grid-row:1; }
+   #historyTable td:nth-child(2) { grid-column:1/-1; grid-row:2; }
+   #historyTable td:nth-child(3) { grid-column:1/-1; grid-row:3; }
+   #historyTable td:nth-child(4) { grid-column:1; grid-row:4; }
+   #historyTable td:nth-child(6) { grid-column:2; grid-row:4; }
+   #historyTable td:nth-child(7) { grid-column:1; grid-row:5; }
+   #historyTable td:nth-child(8) { grid-column:2; grid-row:5; }
+   #historyTable td:nth-child(9) { grid-column:1/-1; grid-row:6; }
+   .settings-dialog { padding:18px; }
+   .settings-account { align-items:flex-start; flex-direction:column; }
+  }
+  @media(max-width:700px) {
+   html.section-snap-active { scroll-behavior:smooth; scroll-snap-type:y mandatory; scroll-padding:0; overscroll-behavior-y:contain; }
+   body.app-active #appMain { max-width:none; margin:0; padding:0; }
+   .snap-section { height:100vh; height:100svh; min-height:100vh; min-height:100svh; max-height:100vh; max-height:100svh; overflow:hidden; scroll-snap-align:start; scroll-snap-stop:always; padding:calc(18px + env(safe-area-inset-top)) 14px calc(76px + env(safe-area-inset-bottom)); }
+   .snap-section.panel,.daily-card.snap-section { display:flex; flex-direction:column; margin:0; background:transparent!important; border:0!important; border-radius:0!important; box-shadow:none!important; }
+   .chart-section { justify-content:space-evenly; }
+   .grid2,.daily-grid { display:contents; }
+   .overview-section { display:flex; flex-direction:column; justify-content:space-between; }
+   #filterPanel { margin:0 0 10px; padding:0; background:transparent; border:0; border-radius:0; box-shadow:none; }
+   #rangeDashboard .metrics { flex:1; align-content:stretch; grid-auto-rows:1fr; margin:0; }
+   #rangeDashboard .chart-section .chartwrap { flex:none; height:clamp(210px,72vw,300px); min-height:0; }
+   #rangeDashboard .snap-section .chart { height:100%!important; min-height:0; max-height:100%; }
+   .toplist-section .tablewrap { flex:1; min-height:0; max-height:none!important; }
+   .toplist-section .tablewrap table { height:100%; }
+   .history-section .tablewrap { flex:1; min-height:0; max-height:none; }
+   #singleDayPanel { display:contents; padding:0; background:transparent; border:0; }
+   .daily-overview { display:flex; flex-direction:column; justify-content:space-between; }
+   .daily-overview .daily-metrics { flex:1; align-content:stretch; grid-auto-rows:1fr; margin:0; }
+   .daily-timeline-section { height:100vh; height:100svh; overflow:hidden; }
+   .daily-card.snap-section .daily-list { flex:1; min-height:0; max-height:none; }
+   .daily-card.snap-section > .breakdown { flex:1; min-height:0; align-content:space-evenly; overflow-y:auto; }
+   .daily-card.snap-section .daily-subsection { display:flex; flex:1; flex-direction:column; min-height:0; }
+   .daily-card.snap-section .daily-subsection .breakdown { flex:1; min-height:0; align-content:space-evenly; overflow-y:auto; }
+   .daily-songs-section .daily-table { flex:1; min-height:0; overflow:auto; }
+   header.compact-header { position:fixed; top:auto; right:auto; bottom:calc(10px + env(safe-area-inset-bottom)); left:50%; z-index:40; width:max-content; max-width:calc(100vw - 20px); margin:0; transform:translateX(-50%); }
+   .compact-header .header-date-controls { top:auto; right:auto; bottom:calc(100% + 8px); left:50%; max-height:calc(100vh - 100px); max-height:min(65vh,calc(100dvh - 100px)); transform:translateX(-50%); }
+   #filterPanel { padding:0; }
+  }
+  @media(prefers-reduced-motion:reduce) { html.section-snap-active { scroll-behavior:auto; } }
   </style>
  </head>
  <body>
+  <div aria-busy="true" aria-label="Loading your saved history archive" aria-live="polite" class="archive-loading-screen hidden" id="archiveLoadingScreen" role="status">
+   <div class="archive-loading-content">
+    <img alt="" class="archive-loading-logo" id="archiveLoadingLogo" src="data:image/png;base64,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"/>
+    <div class="archive-loading-label">Loading<span aria-hidden="true" class="archive-loading-dots"><span></span><span></span><span></span></span></div>
+   </div>
+  </div>
+  <script>
+   (() => {
+    const manifestLink=document.getElementById('appManifest');
+    const appUrl=new URL(location.href);
+    appUrl.hash='';
+    const manifest={
+     id:appUrl.href,
+     name:'Spotify History Explorer',
+     short_name:'Spotify Explorer',
+     start_url:appUrl.href,
+     scope:new URL('.',appUrl).href,
+     display:'standalone',
+     background_color:'#101310',
+     theme_color:'#101310',
+     icons:[
+      {src:document.querySelector('link[rel="apple-touch-icon"]').href,sizes:'180x180',type:'image/png'},
+      {src:document.querySelector('link[rel="icon"]').href,sizes:'192x192',type:'image/png'},
+      {src:document.getElementById('archiveLoadingLogo').src,sizes:'512x512',type:'image/png'}
+     ]
+    };
+    manifestLink.href=URL.createObjectURL(new Blob([JSON.stringify(manifest)],{type:'application/manifest+json'}));
+   })();
+  </script>
   <header>
    <div class="header-title">
     <h1>Spotify <span>History Explorer</span></h1>
     <p>Explore your listening history, artists, and tracks.</p>
    </div>
-   <div class="header-date-controls hidden" id="headerDateControls">
+   <div aria-label="Viewing mode and date filters" class="header-date-controls hidden" id="headerDateControls" role="group">
     <div class="field mode-field">
-     <label for="viewMode">Viewing mode</label>
+      <label for="viewMode">Viewing mode</label>
      <select id="viewMode">
       <option value="range">Date range</option>
       <option value="day">Single day</option>
      </select>
     </div>
-    <div class="date-pair" id="rangeDateControls">
-     <div class="field"><label for="from">From</label><input id="from" type="date"/></div>
-     <div class="field"><label for="to">To</label><input id="to" type="date"/></div>
+    <div aria-labelledby="dateRangeLabel" class="field date-range-field" id="rangeDateControls" role="group">
+     <label id="dateRangeLabel">Date range</label>
+     <div class="date-pair">
+      <div class="field"><label for="from">From</label><input id="from" type="date"/></div>
+      <div class="field"><label for="to">To</label><input id="to" type="date"/></div>
+     </div>
     </div>
     <div class="field hidden" id="singleDayControl">
      <label for="singleDay">Analysis date</label>
@@ -692,9 +864,11 @@
     </div>
    </div>
    <div class="header-actions hidden" id="headerActions">
-    <button id="headerUploadZip" class="primary">Upload ZIP</button>
-    <button id="headerRequestData">Request Spotify data</button>
-    <button id="headerSignOut">Log out</button>
+    <button aria-label="Upload ZIP or JSON" id="headerUploadZip" class="primary"><svg aria-hidden="true" class="nav-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M12 10v1m-1 2h2m-1 1v1m-1 2h2m-1 1v1"/></svg><span class="nav-label">Upload ZIP</span></button>
+    <button aria-label="Request Spotify data" id="headerRequestData"><svg aria-hidden="true" class="nav-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg><span class="nav-label">Request Spotify data</span></button>
+    <button aria-label="Open viewing mode and date options" aria-controls="headerDateControls" aria-expanded="false" class="nav-mode-toggle hidden" id="headerModeToggle"><svg aria-hidden="true" class="nav-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"><path d="m12 2 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/></svg><span class="nav-label">Viewing mode</span></button>
+    <button aria-label="Settings" id="headerSettings"><svg aria-hidden="true" class="nav-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33h-.08a1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51h-.08a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.7 15v-.08a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1v-.08a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 8.92 4.7H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h.08a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v.08a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg><span class="nav-label">Settings</span></button>
+    <button id="headerSignOut"><span class="nav-label">Log out</span></button>
    </div>
   </header>
   <section class="panel" id="loginScreen">
@@ -734,13 +908,28 @@
     <div class="status" id="uploadDialogStatus" aria-live="polite"></div>
    </section>
   </div>
+  <div class="setup-backdrop hidden" id="settingsDialog" role="dialog" aria-modal="true" aria-labelledby="settingsDialogTitle">
+   <section class="setup-dialog settings-dialog">
+    <div class="settings-dialog-head">
+     <h2 id="settingsDialogTitle">Settings</h2>
+     <button class="upload-close" id="settingsDialogClose" aria-label="Close settings">×</button>
+    </div>
+    <div class="settings-account">
+     <div><h3>Account</h3><p class="note">Manage your current session.</p></div>
+     <button id="settingsSignOut">Log out</button>
+    </div>
+   </section>
+  </div>
   <main id="appMain" class="hidden">
    <section class="panel" id="importStatusPanel">
     <h2>Spotify history archive</h2>
     <div class="status" id="status">No files loaded yet. Use Upload ZIP in the header to choose a ZIP or JSON history file.</div>
     <p class="note">New files are added to your private archive. If an incoming file has the same filename as one already saved, you'll be asked whether to replace it or ignore it.</p>
    </section>
-   <section class="panel hidden" id="filterPanel">
+   <section class="hidden" id="results">
+    <div id="rangeDashboard">
+    <section class="snap-section overview-section">
+   <section class="panel hidden snap-purple" id="filterPanel">
     <h2>
      Filters
     </h2>
@@ -821,8 +1010,6 @@
      </button>
     </div>
    </section>
-   <section class="hidden" id="results">
-    <div id="rangeDashboard">
     <div class="metrics">
      <div class="metric">
       <div class="label">
@@ -869,7 +1056,8 @@
       </div>
      </div>
     </div>
-    <div class="panel">
+    </section>
+    <div class="panel snap-section snap-blue chart-section">
      <h2>
       Listening over time
      </h2>
@@ -916,7 +1104,7 @@
       Listening time uses Spotify’s recorded playback milliseconds where available. If that field is missing, a cautious estimate is used only when a track duration and plausible next-timestamp interval are available.
      </div>
     </div>
-    <div class="panel">
+    <div class="panel snap-section snap-purple chart-section">
      <h2>
       Artist timeline
      </h2>
@@ -978,7 +1166,7 @@
       Artists are ranked by total listening time within the current filters. Select artists to compare them; click a line to pin its highlight or empty chart space to clear it.
      </div>
     </div>
-    <div class="panel">
+    <div class="panel snap-section snap-blue chart-section">
      <h2>
       Song timeline
      </h2>
@@ -1041,14 +1229,14 @@
      </div>
     </div>
     <div class="grid2">
-     <section class="panel">
+     <section class="panel snap-section snap-purple toplist-section">
       <h2>
        Top artists
       </h2>
       <div id="artistsTable">
       </div>
      </section>
-     <section class="panel">
+     <section class="panel snap-section snap-blue toplist-section">
       <h2>
        Top tracks
       </h2>
@@ -1056,7 +1244,7 @@
       </div>
      </section>
     </div>
-    <section class="panel">
+    <section class="panel snap-section snap-purple history-section">
      <div class="table-head">
       <h2 style="margin:0">
        Listening history
@@ -1074,7 +1262,8 @@
      </div>
     </section>
     </div>
-    <section class="panel hidden" id="singleDayPanel">
+    <section class="panel hidden daily-analysis" id="singleDayPanel">
+     <div class="daily-overview snap-section snap-blue">
      <div class="daily-heading">
       <div>
        <h2>Single-day listening analysis</h2>
@@ -1082,18 +1271,19 @@
       </div>
      </div>
      <div class="daily-metrics" id="dailyMetrics"></div>
-     <section class="daily-card">
+     </div>
+     <section class="daily-card snap-section snap-purple daily-timeline-section">
       <h3>Listening timeline</h3>
       <p class="note">Every listening entry in chronological order; time and playback duration are shown for each.</p>
       <div class="daily-list" id="dailyTimeline"></div>
      </section>
      <div class="daily-grid">
-      <section class="daily-card">
+      <section class="daily-card snap-section snap-blue">
        <h3>Artist listening time</h3>
        <p class="note">All artists, compared by estimated listening time.</p>
        <div class="breakdown" id="dailyArtists"></div>
       </section>
-      <section class="daily-card">
+      <section class="daily-card snap-section snap-purple">
        <h3>Listening distribution</h3>
        <p class="note">The complete long tail is grouped into “Other” after the top eight.</p>
        <div class="daily-subsection">
@@ -1106,7 +1296,7 @@
        </div>
       </section>
      </div>
-     <section class="daily-card">
+     <section class="daily-card snap-section snap-blue daily-songs-section">
       <h3>All songs listened to</h3>
       <p class="note">Includes every unique song with play count, total listening time, and first/last timestamp.</p>
       <div class="daily-table" id="dailySongs"></div>
@@ -1350,6 +1540,7 @@
   else{$('from').value=minDate<$('from').value?minDate:$('from').value;$('to').value=maxDate>$('to').value?maxDate:$('to').value;}
   if(!$('singleDay').value||$('singleDay').value<minDate||$('singleDay').value>maxDate)$('singleDay').value=maxDate;
   $('headerDateControls').classList.remove('hidden');
+  $('headerModeToggle').classList.remove('hidden');
   }
   function renderBreakdown(items,limit=Infinity){
   if(!items.length)return '<div class="note">No listening data.</div>';
@@ -1683,7 +1874,7 @@
   const rows=filteredRows.filter(r=>!q||`${r.title} ${r.artist} ${r.album} ${r.platform}`.toLowerCase().includes(q));
   const shown=rows.slice(0,visibleCount);
   if(!shown.length){$('historyTable').innerHTML='<div class="empty">No matching entries.</div>';}
-  else $('historyTable').innerHTML=`<table><thead><tr><th>Date & time</th><th>Track / episode</th><th>Artist / show</th><th>Type</th><th style="text-align:right">Played</th><th>Skipped</th><th>Start reason</th><th>End reason</th><th>Platform</th></tr></thead><tbody>${shown.map(r=>`<tr><td>${escapeHtml(displayDate(r.date))}</td><td>${escapeHtml(r.title)}</td><td>${escapeHtml(r.artist)}</td><td>${escapeHtml(r.kind)}</td><td class="num">${mins(r.ms)}</td><td>${r.skipped===null?'—':r.skipped?'Yes':'No'}</td><td>${escapeHtml(reasonText(r.reason_start,'start'))}</td><td>${escapeHtml(reasonText(r.reason_end,'end'))}</td><td>${escapeHtml(r.platform)}</td></tr>`).join('')}</tbody></table>`;
+  else $('historyTable').innerHTML=`<table><thead><tr><th>Date & time</th><th>Track / episode</th><th>Artist / show</th><th>Type</th><th style="text-align:right">Played</th><th>Skipped</th><th>Start reason</th><th>End reason</th><th>Platform</th></tr></thead><tbody>${shown.map(r=>`<tr><td data-label="Date &amp; time">${escapeHtml(displayDate(r.date))}</td><td data-label="Track / episode">${escapeHtml(r.title)}</td><td data-label="Artist / show">${escapeHtml(r.artist)}</td><td data-label="Type" data-kind="${escapeHtml(r.kind)}">${escapeHtml(r.kind)}</td><td class="num" data-label="Played">${mins(r.ms)}</td><td class="skipped-cell ${r.skipped===true?'was-skipped':r.skipped===null?'unknown-skip':''}" data-label="Skipped"><span class="desktop-skip">${r.skipped===null?'—':r.skipped?'Yes':'No'}</span><span class="mobile-skip" aria-label="${r.skipped===null?'Skipped status unavailable':'Skipped'}">${r.skipped===true?'&gt;&gt;':r.skipped===null?'—':''}</span></td><td data-label="Start">${escapeHtml(reasonText(r.reason_start,'start'))}</td><td data-label="End">${escapeHtml(reasonText(r.reason_end,'end'))}</td><td data-label="Device">${escapeHtml(r.platform)}</td></tr>`).join('')}</tbody></table>`;
   $('tableFoot').textContent=`Showing ${fmtInt(shown.length)} of ${fmtInt(rows.length)} matching entries${rows.length>visibleCount?' (earliest first)':''}.`;
   $('loadMore').classList.toggle('hidden', rows.length<=visibleCount);
   $('loadMore').textContent=`Load next ${fmtInt(Math.min(500,rows.length-visibleCount))}`;
@@ -1697,6 +1888,10 @@
   $('tracksTable').innerHTML=miniTable(aggregate(filteredRows,r=>r.kind==='track'?r.title+(r.artist?' — '+r.artist:''):'').sort((a,b)=>b.ms-a.ms||b.plays-a.plays||a.name.localeCompare(b.name)),'Track');
   renderChart(filteredRows);renderArtistChoices(filteredRows);renderArtistChart(filteredRows);renderSongChoices(filteredRows);renderSongChart(filteredRows);renderHistory();
   if($('viewMode').value==='day')renderSingleDay();
+  }
+  function closeDateControlsAndScrollTop(){
+  $('headerDateControls').classList.remove('is-open');$('headerModeToggle').setAttribute('aria-expanded','false');
+  window.scrollTo(0,0);requestAnimationFrame(()=>requestAnimationFrame(()=>window.scrollTo(0,0)));
   }
   function updateViewMode(){
   const isDay=$('viewMode').value==='day';
@@ -1727,14 +1922,23 @@
   function cloudConfigured(){return SUPABASE_URL.startsWith('https://')&&SUPABASE_ANON_KEY&&window.supabase&&typeof window.supabase.createClient==='function';}
   function cloudMessage(message,isError=false){$('cloudStatus').textContent=message;$('cloudStatus').style.color=isError?'var(--red)':'var(--muted)';if(currentUser&&$('status'))$('status').textContent=message;}
   function cloudError(e){const m=String(e?.message||e||'Unknown error');if(/failed to fetch|networkerror|load failed/i.test(m))return 'The browser could not complete the account request. Check your connection and try opening this page in Chrome or Edge. Technical detail: '+m;return m;}
+  function setArchiveLoading(isLoading){
+   const screen=$('archiveLoadingScreen');
+   screen.classList.toggle('hidden',!isLoading);
+   screen.setAttribute('aria-busy',String(isLoading));
+   document.body.classList.toggle('archive-loading-active',isLoading);
+  }
   function updateAuthView(user){
    currentUser=user;
+   setArchiveLoading(!!user);
    document.querySelector('header').classList.toggle('compact-header',!!user);
    document.body.classList.toggle('app-active',!!user);
+   document.documentElement.classList.toggle('section-snap-active',!!user);
    $('loginScreen').classList.toggle('hidden',!!user);
    $('appMain').classList.toggle('hidden',!user);
    $('headerActions').classList.toggle('hidden',!user);
-   $('headerDateControls').classList.add('hidden');
+   $('headerDateControls').classList.add('hidden');$('headerDateControls').classList.remove('is-open');
+   $('headerModeToggle').classList.add('hidden');$('headerModeToggle').setAttribute('aria-expanded','false');
    $('importStatusPanel').classList.toggle('hidden',!!allRows.length);
    $('accountPassword').value='';
    if(user){cloudMessage('Logged in as '+user.email+'. Loading your private history archive…');}
@@ -1754,33 +1958,37 @@
   }
   async function downloadCloud(automatic=false){
    if(!currentUser)return;
-   const bucket=supabase.storage.from(CLOUD_BUCKET),prefix=currentUser.id+'/history';
-   if(automatic)cloudMessage('Loading your saved history archive…');
-   const {data:list,error:listError}=await bucket.list(prefix,{limit:1000,sortBy:{column:'name',order:'asc'}});
-   if(listError)throw listError;
-   const files=[];
-   for(const item of (list||[]).filter(x=>x.name&&x.name.toLowerCase().endsWith('.json'))){
-    const {data,error}=await bucket.download(prefix+'/'+item.name);
-    if(error)throw error;
-    files.push(new File([data],item.name,{type:'application/json'}));
+   try{
+    const bucket=supabase.storage.from(CLOUD_BUCKET),prefix=currentUser.id+'/history';
+    if(automatic)cloudMessage('Loading your saved history archive…');
+    const {data:list,error:listError}=await bucket.list(prefix,{limit:1000,sortBy:{column:'name',order:'asc'}});
+    if(listError)throw listError;
+    const files=[];
+    for(const item of (list||[]).filter(x=>x.name&&x.name.toLowerCase().endsWith('.json'))){
+     const {data,error}=await bucket.download(prefix+'/'+item.name);
+     if(error)throw error;
+     files.push(new File([data],item.name,{type:'application/json'}));
+    }
+    if(files.length){
+     archiveFiles.clear();
+     const texts=await Promise.all(files.map(async f=>({name:f.name,text:await f.text()})));
+     texts.forEach(x=>archiveFiles.set(x.name,x.text));
+     rebuildRowsFromArchive();
+     if(allRows.length){$('filterPanel').classList.remove('hidden');$('results').classList.remove('hidden');let minDate='',maxDate='';for(const r of allRows){const d=dateParts(r.date);if(!minDate||d<minDate)minDate=d;if(!maxDate||d>maxDate)maxDate=d;}initializeDateControls(minDate,maxDate);updateViewMode();applyFilters();$('importStatusPanel').classList.add('hidden');}
+     $('status').innerHTML='<strong>Loaded '+fmtInt(allRows.length)+' entries</strong> from '+files.length+' saved JSON file(s).';
+     $('firstSetupPrompt').classList.add('hidden');
+     cloudMessage('Your private archive is ready. '+files.length+' JSON file(s) loaded.');
+     return;
+    }
+    // Backward compatibility: import the previous single-ZIP cloud backup if present.
+    const legacyPath=currentUser.id+'/spotify-export.zip';
+    const legacy=await bucket.download(legacyPath);
+    if(!legacy.error&&legacy.data){await unzipSpotifyHistory(new File([legacy.data],'spotify-export.zip',{type:'application/zip'}));cloudMessage('Imported your previous cloud ZIP into the Explorer. You can now add files individually.');return;}
+    cloudMessage('Your account is ready. Upload your Spotify ZIP or JSON files to begin.');
+    $('firstSetupPrompt').classList.remove('hidden');
+   }finally{
+    if(automatic)setArchiveLoading(false);
    }
-   if(files.length){
-    archiveFiles.clear();
-    const texts=await Promise.all(files.map(async f=>({name:f.name,text:await f.text()})));
-    texts.forEach(x=>archiveFiles.set(x.name,x.text));
-    rebuildRowsFromArchive();
-    if(allRows.length){$('filterPanel').classList.remove('hidden');$('results').classList.remove('hidden');let minDate='',maxDate='';for(const r of allRows){const d=dateParts(r.date);if(!minDate||d<minDate)minDate=d;if(!maxDate||d>maxDate)maxDate=d;}initializeDateControls(minDate,maxDate);updateViewMode();applyFilters();$('importStatusPanel').classList.add('hidden');}
-    $('status').innerHTML='<strong>Loaded '+fmtInt(allRows.length)+' entries</strong> from '+files.length+' saved JSON file(s).';
-    $('firstSetupPrompt').classList.add('hidden');
-    cloudMessage('Your private archive is ready. '+files.length+' JSON file(s) loaded.');
-    return;
-   }
-   // Backward compatibility: import the previous single-ZIP cloud backup if present.
-   const legacyPath=currentUser.id+'/spotify-export.zip';
-   const legacy=await bucket.download(legacyPath);
-   if(!legacy.error&&legacy.data){await unzipSpotifyHistory(new File([legacy.data],'spotify-export.zip',{type:'application/zip'}));cloudMessage('Imported your previous cloud ZIP into the Explorer. You can now add files individually.');return;}
-   cloudMessage('Your account is ready. Upload your Spotify ZIP or JSON files to begin.');
-   $('firstSetupPrompt').classList.remove('hidden');
   }
   async function initCloud(){
    if(!cloudConfigured()){$('cloudSetupNotice').textContent='The account library did not load. Check your internet connection, then refresh this page.';$('cloudSetupNotice').classList.remove('hidden');$('signInBtn').disabled=true;$('signUpBtn').disabled=true;cloudMessage('Account system unavailable.',true);return;}
@@ -1849,12 +2057,20 @@
   $('signInBtn').addEventListener('click',signIn);$('signUpBtn').addEventListener('click',signUp);
   $('forgotPasswordBtn').addEventListener('click',async()=>{try{await requestPasswordReset();}catch(e){cloudMessage(cloudError(e),true);}});
   $('headerSignOut').addEventListener('click',async()=>{try{await signOut();}catch(e){cloudMessage(cloudError(e),true);}});
+  $('headerModeToggle').addEventListener('click',()=>{
+   const panel=$('headerDateControls'),open=!panel.classList.contains('is-open');
+   panel.classList.toggle('is-open',open);$('headerModeToggle').setAttribute('aria-expanded',String(open));
+  });
+  $('headerSettings').addEventListener('click',()=>$('settingsDialog').classList.remove('hidden'));
+  $('settingsDialogClose').addEventListener('click',()=>$('settingsDialog').classList.add('hidden'));
+  $('settingsDialog').addEventListener('click',e=>{if(e.target===$('settingsDialog'))$('settingsDialog').classList.add('hidden');});
+  $('settingsSignOut').addEventListener('click',()=>{$('settingsDialog').classList.add('hidden');$('headerSignOut').click();});
   $('headerUploadZip').addEventListener('click',openUploadDialog);$('headerRequestData').addEventListener('click',openRequestData);
   $('uploadDialogClose').addEventListener('click',closeUploadDialog);
   $('chooseZipUpload').addEventListener('click',()=>{closeUploadDialog();$('zipFile').click();});
   $('chooseJsonUpload').addEventListener('click',()=>{closeUploadDialog();$('files').click();});
   $('uploadDialog').addEventListener('click',e=>{if(e.target===$('uploadDialog'))closeUploadDialog();});
-  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('uploadDialog').classList.contains('hidden'))closeUploadDialog();});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('uploadDialog').classList.contains('hidden'))closeUploadDialog();if(e.key==='Escape'&&!$('settingsDialog').classList.contains('hidden'))$('settingsDialog').classList.add('hidden');if(e.key==='Escape'){$('headerDateControls').classList.remove('is-open');$('headerModeToggle').setAttribute('aria-expanded','false');}});
   const uploadDropZone=$('uploadDropZone');
   ['dragenter','dragover'].forEach(type=>uploadDropZone.addEventListener(type,e=>{e.preventDefault();uploadDropZone.classList.add('dragover');}));
   ['dragleave','drop'].forEach(type=>uploadDropZone.addEventListener(type,e=>{e.preventDefault();uploadDropZone.classList.remove('dragover');}));
@@ -1865,9 +2081,9 @@
   $('files').addEventListener('change',e=>{if(!currentUser){cloudMessage('Log in before importing files.',true);e.target.value='';return;}readFiles(e.target.files);e.target.value='';});
   $('zipFile').addEventListener('change',async e=>{const file=e.target.files&&e.target.files[0];e.target.value='';if(!file)return;if(!currentUser){cloudMessage('Log in before importing files.',true);return;}try{await unzipSpotifyHistory(file);}catch(err){$('status').textContent='Could not open ZIP: '+err.message;}});
   ['search','kind','skipped','timezone'].forEach(id=>$(id).addEventListener('input',applyFilters));
-  ['from','to'].forEach(id=>$(id).addEventListener('change',()=>{resetGraphSelections();applyFilters();}));
-  $('viewMode').addEventListener('change',updateViewMode);
-  $('singleDay').addEventListener('change',renderSingleDay);
+  ['from','to'].forEach(id=>$(id).addEventListener('change',()=>{resetGraphSelections();applyFilters();closeDateControlsAndScrollTop();}));
+  $('viewMode').addEventListener('change',()=>{updateViewMode();closeDateControlsAndScrollTop();});
+  $('singleDay').addEventListener('change',()=>{renderSingleDay();closeDateControlsAndScrollTop();});
   $('reset').addEventListener('click',()=>{resetGraphSelections();$('search').value='';$('kind').value='all';$('skipped').value='all';if(allRows.length){const ds=allRows.map(r=>dateParts(r.date)).sort();$('from').value=ds[0];$('to').value=ds[ds.length-1];}applyFilters();});
   $('export').addEventListener('click',exportCsv);
   $('tableSearch').addEventListener('input',()=>{visibleCount=500;renderHistory();});
@@ -1886,7 +2102,7 @@
   $('songSearch').addEventListener('focus',()=>renderSongChoices(filteredRows));
   $('artistSearch').addEventListener('keydown',e=>{if(e.key==='Escape'){$('artistSearch').value='';renderArtistChoices(filteredRows);}});
   $('songSearch').addEventListener('keydown',e=>{if(e.key==='Escape'){$('songSearch').value='';renderSongChoices(filteredRows);}});
-  document.addEventListener('pointerdown',e=>{if(!e.target.closest('.choice-search')){$('artistSearchResults').classList.remove('open');$('artistSearch').setAttribute('aria-expanded','false');$('songSearchResults').classList.remove('open');$('songSearch').setAttribute('aria-expanded','false');}});
+  document.addEventListener('pointerdown',e=>{if(!e.target.closest('.choice-search')){$('artistSearchResults').classList.remove('open');$('artistSearch').setAttribute('aria-expanded','false');$('songSearchResults').classList.remove('open');$('songSearch').setAttribute('aria-expanded','false');}if(!e.target.closest('#headerModeToggle')&&!e.target.closest('#headerDateControls')){$('headerDateControls').classList.remove('is-open');$('headerModeToggle').setAttribute('aria-expanded','false');}});
   ['songPeriod','songCount'].forEach(id=>$(id).addEventListener('change',()=>{selectedSongs.clear();songSelectionInitialized=false;renderSongChoices(filteredRows);renderSongChart(filteredRows);}));
   $('songChart').addEventListener('pointermove',songHover);
   $('songChart').addEventListener('pointerdown',songClick);
