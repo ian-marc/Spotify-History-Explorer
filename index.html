@@ -41,11 +41,95 @@
 
 }
   header  {
-  padding:28px clamp(18px,4vw,48px) 24px;
+  position:sticky;
+  top:0;
+  z-index:20;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+  padding:14px clamp(18px,4vw,48px);
   background:linear-gradient(120deg,#17291d,#101310 70%);
   border-bottom:1px solid var(--line);
-
+  box-shadow:0 5px 18px #0005;
+  flex-wrap:wrap;
 }
+  .header-title p { display:none; }
+  .header-actions { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+  .header-actions button,.header-actions a { white-space:nowrap; }
+  .header-date-controls { display:flex; align-items:flex-end; gap:8px; flex:1 1 420px; }
+  .header-date-controls .field { min-width:0; flex:1; }
+  .header-date-controls .field.mode-field { max-width:150px; flex:0 1 150px; }
+  .header-date-controls label { display:block; font-size:11px; color:var(--muted); margin:0 0 3px; }
+  .header-date-controls input,.header-date-controls select { width:100%; min-height:42px; min-width:0; border:1px solid var(--line); border-radius:8px; background:#0f130f; color:var(--text); padding:7px 9px; font:inherit; }
+  .header-date-controls .date-pair { display:flex; gap:7px; flex:1; min-width:0; }
+  .header-date-controls .date-pair .field { min-width:0; }
+  .choice-results { display:none; position:absolute; z-index:5; left:0; right:0; top:100%; max-height:min(42vh,320px); overflow-y:auto; padding:6px; margin-top:4px; background:#151b16; border:1px solid var(--line); border-radius:10px; box-shadow:0 12px 28px #0009; }
+  .choice-results.open { display:block; }
+  .choice-search { position:relative; max-width:520px; margin:8px 0; }
+  .choice-search input { width:100%; min-height:40px; border:1px solid var(--line); border-radius:9px; background:#0f130f; color:var(--text); padding:8px 10px; font:inherit; }
+  .artist-choice { font-size:14px; padding:7px 10px; gap:9px; }
+  .artist-choice input[type=checkbox] { width:15px; height:15px; flex:0 0 15px; margin:0; accent-color:var(--green); transform:scale(.82); }
+  .choice-results .artist-choice { display:flex; width:100%; min-height:44px; border:0; border-radius:6px; background:transparent; padding:9px 10px; font-size:15px; white-space:normal; }
+  .choice-results .artist-choice:hover { background:#252e26; }
+  .choice-results .artist-choice span:last-child { overflow-wrap:anywhere; }
+  .artist-choices { max-height:120px; overflow:auto; align-content:flex-start; margin:8px 0 12px; }
+  #singleDayPanel { padding:clamp(16px,2.4vw,30px); }
+  .daily-heading { margin-bottom:20px; padding-bottom:14px; border-bottom:1px solid var(--line); }
+  .daily-heading h2 { margin-bottom:4px; font-size:clamp(21px,2.4vw,28px); }
+  .daily-heading .note { margin:0; }
+  .daily-metrics { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:10px; margin:0 0 20px; }
+  .daily-metric { min-width:0; padding:14px; background:#101510; border:1px solid var(--line); border-radius:11px; }
+  .daily-metric .label { color:var(--muted); font-size:12px; line-height:1.35; }
+  .daily-metric .value { font-size:clamp(19px,2vw,25px); font-weight:750; line-height:1.2; margin-top:5px; overflow-wrap:anywhere; }
+  .daily-grid { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:14px; margin-bottom:14px; }
+  .daily-card { min-width:0; margin:0 0 14px; padding:16px; background:#141a15; border:1px solid var(--line); border-radius:12px; }
+  .daily-card h3 { margin:0 0 4px; font-size:16px; }
+  .daily-card > .note { margin:0 0 14px; line-height:1.45; }
+  .daily-subsection + .daily-subsection { margin-top:18px; padding-top:14px; border-top:1px solid var(--line); }
+  .daily-subsection h4 { margin:0 0 10px; color:var(--text); font-size:13px; }
+  .daily-list { max-height:min(55vh,560px); min-height:150px; overflow-y:auto; border:1px solid var(--line); border-radius:10px; background:#101410; }
+  .daily-event { display:grid; grid-template-columns:92px minmax(0,1fr) auto; gap:12px; align-items:center; padding:11px 13px; border-bottom:1px solid #29312a; }
+  .daily-event:last-child { border-bottom:0; }
+  .daily-event time { color:var(--green); font-variant-numeric:tabular-nums; font-size:13px; white-space:nowrap; }
+  .daily-event .event-title { min-width:0; overflow-wrap:anywhere; font-weight:600; }
+  .daily-event .event-meta { color:var(--muted); font-size:12px; font-weight:400; }
+  .daily-event .event-duration { color:var(--muted); white-space:nowrap; font-size:12px; }
+  .breakdown { display:grid; gap:12px; }
+  .breakdown-row { display:grid; grid-template-columns:minmax(100px,1fr) minmax(70px,1.4fr) auto; gap:10px; align-items:center; font-size:13px; }
+  .breakdown-name { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .breakdown-track { height:10px; overflow:hidden; background:#0d110e; border-radius:99px; }
+  .breakdown-fill { height:100%; background:var(--green); border-radius:99px; }
+  .breakdown-time { color:var(--text); white-space:nowrap; font-variant-numeric:tabular-nums; }
+  .daily-table { overflow-x:auto; border:1px solid var(--line); border-radius:10px; background:#101410; }
+  .daily-table table { min-width:620px; white-space:normal; }
+  .daily-table td:first-child { min-width:220px; white-space:normal; overflow-wrap:anywhere; }
+  .daily-table td:last-child { white-space:nowrap; }
+  #loginScreen { max-width:460px; margin:8vh auto; padding:22px; }
+  #loginScreen .panel { padding:24px; }
+  .setup-backdrop { position:fixed; inset:0; z-index:50; display:flex; align-items:center; justify-content:center; padding:18px; background:#000b; }
+  .setup-dialog { width:min(560px,100%); background:var(--panel); border:1px solid var(--line); border-radius:18px; padding:24px; box-shadow:0 20px 70px #0009; }
+  .upload-backdrop { position:fixed; inset:0; z-index:60; display:flex; align-items:center; justify-content:center; padding:18px; background:#000b; }
+  .upload-dialog { width:min(520px,100%); padding:22px; background:var(--panel); border:1px solid var(--line); border-radius:16px; box-shadow:0 20px 70px #0009; }
+  .upload-dialog-head { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; }
+  .upload-dialog-head h2 { margin:0 0 3px; }
+  .upload-dialog-head p { margin:0; }
+  .upload-close { flex:0 0 auto; width:38px; height:38px; padding:0; font-size:24px; line-height:1; }
+  .upload-dropzone { display:flex; min-height:150px; flex-direction:column; align-items:center; justify-content:center; gap:7px; margin:18px 0 12px; padding:20px; text-align:center; color:var(--muted); background:#101510; border:2px dashed #59655a; border-radius:12px; transition:background .15s,border-color .15s; }
+  .upload-dropzone strong { color:var(--text); font-size:16px; }
+  .upload-dropzone.dragover { background:#1b2a1e; border-color:var(--green); }
+  .upload-dialog-actions { display:flex; gap:9px; flex-wrap:wrap; }
+  .upload-dialog-actions button { flex:1 1 150px; }
+  .upload-dialog .status:empty { display:none; }
+  .setup-actions { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:18px; }
+  .setup-option { border:1px solid var(--line); border-radius:12px; padding:14px; background:var(--panel2); }
+  .setup-option p { color:var(--muted); font-size:13px; }
+  .color-dot { width:10px; height:10px; border-radius:50%; display:inline-block; flex:0 0 10px; box-shadow:0 0 0 1px #ffffff30; }
+  .artist-choice { gap:8px; }
+  .active-series-label { min-height:20px; margin-top:7px; font-size:13px; font-weight:700; color:var(--text); }
+  @media(max-width:850px) { .daily-metrics { grid-template-columns:repeat(3,minmax(0,1fr)); } .daily-grid { grid-template-columns:1fr; } }
+  @media(max-width:700px) { header { align-items:stretch; flex-direction:column; gap:10px; padding:calc(12px + env(safe-area-inset-top)) 14px 12px; } .header-actions { width:100%; } .header-actions button { flex:1 1 calc(50% - 8px); } .header-date-controls { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); align-items:stretch; width:100%; flex:1 1 auto; gap:7px; } .header-date-controls .field.mode-field { grid-column:1/-1; max-width:none; flex:none; } .header-date-controls .date-pair { display:contents; } .header-date-controls .date-pair .field { min-width:0; } .header-date-controls #singleDayControl { grid-column:1/-1; } .daily-list { max-height:min(48vh,420px); } .choice-results { max-height:min(42vh,300px); } .daily-metrics { grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; } .daily-metric { padding:11px; } .daily-card { padding:13px; } .daily-event { grid-template-columns:74px minmax(0,1fr); gap:8px; padding:10px; } .daily-event .event-duration { grid-column:2; margin-top:-4px; font-size:11px; } .breakdown-row { grid-template-columns:minmax(70px,1fr) minmax(55px,1.1fr) auto; gap:7px; font-size:12px; } .daily-table table { min-width:560px; } .setup-actions { grid-template-columns:1fr; } }
+  @media(max-width:380px) { .header-date-controls .field.mode-field { max-width:none; flex:1; } .daily-metrics { grid-template-columns:1fr 1fr; } .breakdown-row { grid-template-columns:minmax(0,1fr) auto; } .breakdown-track { grid-column:1 / -1; grid-row:2; } }
   h1  {
   margin:0;
   font-size:clamp(27px,4vw,42px);
@@ -211,11 +295,13 @@
   gap:18px;
 
 }
+  .grid2 > * { min-width:0; }
   .tablewrap  {
   overflow:auto;
   max-height:470px;
   border:1px solid var(--line);
   border-radius:10px;
+  min-width:0;
 
 }
   table  {
@@ -521,121 +607,153 @@
 }
 
 }
+  @media(max-width:700px) {
+   html,body { scrollbar-width:none; }
+   html::-webkit-scrollbar,body::-webkit-scrollbar { display:none; width:0; }
+   .artist-choices { max-height:none; overflow:visible; }
+   body.app-active { padding-bottom:calc(76px + env(safe-area-inset-bottom)); }
+   header.compact-header { flex-direction:row; justify-content:flex-start; align-items:center; flex-wrap:nowrap; gap:8px; overflow:visible; padding:6px 10px; min-height:54px; }
+   .compact-header .header-title { display:none; }
+   .compact-header .header-date-controls { position:fixed; z-index:25; left:0; right:0; bottom:0; display:grid; grid-template-columns:minmax(0,1.05fr) minmax(0,1fr) minmax(0,1fr); align-items:end; gap:5px; width:auto; margin:0; padding:6px 10px calc(7px + env(safe-area-inset-bottom)); background:#151b16; border-top:1px solid var(--line); box-shadow:0 -5px 18px #0007; }
+   .compact-header .header-date-controls .field { min-width:0; flex:initial; }
+   .compact-header .header-date-controls .field.mode-field { grid-column:auto; width:auto; max-width:none; }
+   .compact-header .header-date-controls .date-pair { display:contents; }
+   .compact-header .header-date-controls .date-pair .field { width:auto; }
+   .compact-header .header-date-controls #singleDayControl { grid-column:2/4; width:auto; }
+   .compact-header .header-date-controls label { font-size:10px; margin-bottom:2px; }
+   .compact-header .header-date-controls input,.compact-header .header-date-controls select { min-height:36px; padding:4px 5px; font-size:12px; }
+   .compact-header .header-actions { flex:1 1 auto; flex-wrap:nowrap; justify-content:space-between; gap:5px; width:auto; min-width:0; }
+   .compact-header .header-actions button { flex:0 1 auto; min-width:0; min-height:38px; padding:6px 7px; font-size:11px; }
+   .choice-results { max-height:min(45vh,340px); }
+  }
+  @media(max-width:700px) and (display-mode:standalone) {
+   header.compact-header { padding-top:calc(6px + env(safe-area-inset-top)); }
+   .compact-header .header-date-controls { padding-bottom:calc(7px + env(safe-area-inset-bottom)); }
+  }
+  @media(max-width:600px) {
+   .choice-results .artist-choice { min-height:44px; padding:10px; font-size:15px; }
+  }
+  .artist-choice { font-size:15px; gap:9px; }
+  .artist-choice input[type=checkbox] { width:15px; height:15px; flex:0 0 15px; margin:0; transform:scale(.82); }
+  .series-name { cursor:pointer; }
+  .series-name:hover,.series-name:focus { color:var(--green); text-decoration:underline; }
+  .choice-results .artist-choice { font-size:15px; }
+  @media(min-width:701px) {
+   header { flex-wrap:nowrap; gap:12px; padding:7px clamp(12px,2vw,26px); }
+   .header-title { flex:0 1 270px; min-width:0; }
+   .header-title h1 { font-size:clamp(22px,2vw,30px); line-height:1.05; white-space:nowrap; }
+   .header-date-controls { flex:1 1 auto; min-width:0; gap:6px; }
+   .header-date-controls .field.mode-field { flex:0 0 126px; max-width:126px; }
+   .header-date-controls .date-pair { flex:1 1 auto; gap:6px; }
+   .header-date-controls .date-pair .field { flex:1 1 0; min-width:92px; }
+   .header-date-controls label { font-size:10px; margin-bottom:2px; }
+   .header-date-controls input,.header-date-controls select { min-height:36px; padding:5px 7px; font-size:13px; }
+   .header-actions { flex:0 0 auto; flex-wrap:nowrap; gap:6px; }
+   .header-actions button { min-height:36px; padding:6px 9px; font-size:12px; }
+  }
+  @media(min-width:701px) and (max-width:950px) {
+   .header-title { display:none; }
+   .header-date-controls .field.mode-field { flex-basis:120px; max-width:120px; }
+   .header-date-controls .date-pair .field { min-width:80px; }
+  }
+  @media(max-width:700px) {
+   #rangeDashboard > .panel > p.note,#rangeDashboard .chart-note { display:none; }
+   #filterPanel { padding:10px 12px; }
+   #filterPanel h2 { margin-bottom:8px; font-size:16px; }
+   #filterPanel .filters { gap:7px; }
+   #filterPanel .field label { margin-bottom:3px; font-size:11px; }
+   #filterPanel .field input,#filterPanel .field select { min-height:40px; padding:6px 8px; }
+   #filterPanel > div:last-of-type { display:grid; grid-template-columns:auto minmax(0,1fr); gap:7px; margin-top:8px!important; }
+   #filterPanel > div:last-of-type button { min-height:38px; padding:6px 9px; font-size:13px; }
+  }
   </style>
  </head>
  <body>
   <header>
-   <h1>
-    Spotify
-    <span>
-     History Explorer
-    </span>
-   </h1>
-   <p>
-    Explore your listening history, discover your most-played artists and tracks, and export filtered results. Everything runs locally in this browser.
-   </p>
+   <div class="header-title">
+    <h1>Spotify <span>History Explorer</span></h1>
+    <p>Explore your listening history, artists, and tracks.</p>
+   </div>
+   <div class="header-date-controls hidden" id="headerDateControls">
+    <div class="field mode-field">
+     <label for="viewMode">Viewing mode</label>
+     <select id="viewMode">
+      <option value="range">Date range</option>
+      <option value="day">Single day</option>
+     </select>
+    </div>
+    <div class="date-pair" id="rangeDateControls">
+     <div class="field"><label for="from">From</label><input id="from" type="date"/></div>
+     <div class="field"><label for="to">To</label><input id="to" type="date"/></div>
+    </div>
+    <div class="field hidden" id="singleDayControl">
+     <label for="singleDay">Analysis date</label>
+     <input id="singleDay" type="date"/>
+    </div>
+   </div>
+   <div class="header-actions hidden" id="headerActions">
+    <button id="headerUploadZip" class="primary">Upload ZIP</button>
+    <button id="headerRequestData">Request Spotify data</button>
+    <button id="headerSignOut">Log out</button>
+   </div>
   </header>
-  <main>
-   <section class="panel">
-    <h2>
-     1. Load your Spotify history
-    </h2>
-    <div class="upload-row">
-     <label class="filelabel" for="zipFile">
-      ＋ Choose Spotify ZIP
-     </label>
-     <input accept=".zip,application/zip" id="zipFile" type="file"/>
-     <label class="filelabel" for="files" style="background:#29352b;color:var(--text);border:1px solid var(--line)">
-      Choose JSON files instead
-     </label>
-     <input accept=".json,application/json" id="files" multiple="" type="file"/>
-     <span class="note">
-      Choose your original Spotify data-export ZIP, or select extracted
-      <b>
-       Streaming_History_Audio*.json
-      </b>
-      files manually.
-     </span>
+  <section class="panel" id="loginScreen">
+   <h2>Log in to your listening history</h2>
+   <p class="note">Sign in to access your saved Spotify History Explorer. You must be logged in before importing listening history.</p>
+   <div class="filters" style="grid-template-columns:1fr">
+    <div class="field"><label for="accountEmail">Email</label><input autocomplete="email" id="accountEmail" placeholder="you@example.com" type="email"/></div>
+    <div class="field"><label for="accountPassword">Password</label><input autocomplete="current-password" id="accountPassword" placeholder="Password" type="password"/></div>
+   </div>
+   <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
+    <button class="primary" id="signInBtn">Log in</button>
+    <button id="signUpBtn">Create account</button>
+    <button id="forgotPasswordBtn">Forgot password?</button>
+   </div>
+   <div class="note hidden" id="cloudSetupNotice" style="padding:10px;border:1px solid var(--line);border-radius:9px;margin:10px 0"></div>
+   <div aria-live="polite" class="status" id="cloudStatus">Checking account service…</div>
+  </section>
+  <input accept=".zip,application/zip" id="zipFile" type="file"/>
+  <input accept=".json,application/json" id="files" multiple="" type="file"/>
+  <div class="upload-backdrop hidden" id="uploadDialog" role="dialog" aria-modal="true" aria-labelledby="uploadDialogTitle">
+   <section class="upload-dialog">
+    <div class="upload-dialog-head">
+     <div>
+      <h2 id="uploadDialogTitle">Upload Spotify history</h2>
+      <p class="note">Choose a ZIP or JSON file, or drop files below.</p>
+     </div>
+     <button class="upload-close" id="uploadDialogClose" aria-label="Close upload dialog">×</button>
     </div>
-    <div class="status" id="status">
-     No files loaded yet.
+    <div class="upload-dropzone" id="uploadDropZone">
+     <strong>Drop ZIP or JSON files here</strong>
+     <span>Multiple JSON files are supported.</span>
     </div>
-    <p class="note">
-     Privacy: Spotify files are processed in your browser. They are only uploaded to your private Supabase account when you explicitly choose Sync to cloud.
-    </p>
+    <div class="upload-dialog-actions">
+     <button class="primary" id="chooseZipUpload">Choose ZIP</button>
+     <button id="chooseJsonUpload">Choose JSON files</button>
+    </div>
+    <div class="status" id="uploadDialogStatus" aria-live="polite"></div>
    </section>
-   <section class="panel" id="accountPanel">
-    <h2>
-     Cloud account &amp; sync
-    </h2>
-    <p class="note">
-     Sign in with your email and password to keep a private copy of your Spotify ZIP in your account and access it on other devices. Your saved cloud ZIP will load automatically whenever you open the Explorer while signed in. New ZIPs are only uploaded when you choose Sync to cloud.
-    </p>
-    <div class="note hidden" id="cloudSetupNotice" style="padding:10px;border:1px solid var(--line);border-radius:9px;margin:10px 0">
-    </div>
-    <div class="filters" id="authControls" style="grid-template-columns:repeat(3,minmax(160px,1fr))">
-     <div class="field">
-      <label for="accountEmail">
-       Email
-      </label>
-      <input autocomplete="email" id="accountEmail" placeholder="you@example.com" type="email"/>
-     </div>
-     <div class="field">
-      <label for="accountPassword">
-       Password
-      </label>
-      <input autocomplete="current-password" id="accountPassword" placeholder="At least 8 characters" type="password"/>
-     </div>
-     <div class="field" style="display:flex;align-items:end;gap:8px;flex-wrap:wrap">
-      <button class="primary" id="signInBtn">
-       Sign in
-      </button>
-      <button id="signUpBtn">
-       Create account
-      </button>
-      <button class="hidden" id="signOutBtn">
-       Sign out
-      </button>
-     </div>
-    </div>
-    <div class="hidden" id="cloudActions" style="display:flex;gap:9px;flex-wrap:wrap;margin-top:12px">
-     <button class="primary" id="uploadCloudBtn">
-      Sync current ZIP to cloud
-     </button>
-     <button id="downloadCloudBtn">
-      Reload cloud ZIP
-     </button>
-    </div>
-    <div aria-live="polite" class="status" id="cloudStatus">
-     Not signed in.
-    </div>
+  </div>
+  <main id="appMain" class="hidden">
+   <section class="panel" id="importStatusPanel">
+    <h2>Spotify history archive</h2>
+    <div class="status" id="status">No files loaded yet. Use Upload ZIP in the header to choose a ZIP or JSON history file.</div>
+    <p class="note">New files are added to your private archive. If an incoming file has the same filename as one already saved, you'll be asked whether to replace it or ignore it.</p>
    </section>
    <section class="panel hidden" id="filterPanel">
     <h2>
-     2. Filter your listening history
+     Filters
     </h2>
     <div class="filters">
      <div class="field">
       <label for="search">
-       Search song, artist, album
+       Search
       </label>
       <input id="search" placeholder="Type to search…"/>
      </div>
      <div class="field">
-      <label for="from">
-       From date
-      </label>
-      <input id="from" type="date"/>
-     </div>
-     <div class="field">
-      <label for="to">
-       To date
-      </label>
-      <input id="to" type="date"/>
-     </div>
-     <div class="field">
       <label for="kind">
-       Content type
+       Type
       </label>
       <select id="kind">
        <option value="all">
@@ -654,7 +772,7 @@
      </div>
      <div class="field">
       <label for="skipped">
-       Playback result
+       Playback
       </label>
       <select id="skipped">
        <option value="all">
@@ -670,7 +788,7 @@
      </div>
      <div class="field">
       <label for="timezone">
-       Display timezone
+       Timezone
       </label>
       <select id="timezone">
        <option value="America/Denver">
@@ -696,14 +814,15 @@
     </div>
     <div style="display:flex;gap:9px;flex-wrap:wrap;margin-top:14px">
      <button id="reset">
-      Reset filters
+      Reset
      </button>
      <button class="primary" id="export">
-      Export filtered history as CSV
+      Export CSV
      </button>
     </div>
    </section>
    <section class="hidden" id="results">
+    <div id="rangeDashboard">
     <div class="metrics">
      <div class="metric">
       <div class="label">
@@ -760,11 +879,11 @@
         Time grouping
        </label>
        <select id="dailyPeriod">
+        <option value="week" selected>
+         Weekly
+        </option>
         <option value="day">
          Daily
-        </option>
-        <option value="week">
-         Weekly
         </option>
         <option value="month">
          Monthly
@@ -810,11 +929,14 @@
         Time grouping
        </label>
        <select id="artistPeriod">
+        <option value="week" selected>
+         Weekly
+        </option>
+        <option value="day">
+         Daily
+        </option>
         <option value="month">
          Monthly
-        </option>
-        <option value="week">
-         Weekly
         </option>
        </select>
       </div>
@@ -835,11 +957,12 @@
        </select>
       </div>
      </div>
-     <div class="field" style="max-width:420px;margin:8px 0">
+     <div class="field choice-search">
       <label for="artistSearch">
        Find an artist to compare
       </label>
-      <input id="artistSearch" placeholder="Search all artists…"/>
+      <input id="artistSearch" autocomplete="off" placeholder="Search all artists…" aria-controls="artistSearchResults" aria-expanded="false"/>
+      <div class="choice-results" id="artistSearchResults" role="group" aria-label="Artist search results"></div>
      </div>
      <div class="artist-choices" id="artistChoices">
      </div>
@@ -849,8 +972,8 @@
       <div class="charttooltip" id="artistTooltip">
       </div>
      </div>
-     <div class="chartlabels" id="artistChartLabels">
-     </div>
+     <div class="chartlabels" id="artistChartLabels"></div>
+     <div class="active-series-label" id="artistActiveLabel" aria-live="polite"></div>
      <div class="chart-note">
       Artists are ranked by total listening time within the current filters. Select artists to compare them; click a line to pin its highlight or empty chart space to clear it.
      </div>
@@ -868,11 +991,14 @@
         Time grouping
        </label>
        <select id="songPeriod">
+        <option value="week" selected>
+         Weekly
+        </option>
+        <option value="day">
+         Daily
+        </option>
         <option value="month">
          Monthly
-        </option>
-        <option value="week">
-         Weekly
         </option>
        </select>
       </div>
@@ -893,11 +1019,12 @@
        </select>
       </div>
      </div>
-     <div class="field" style="max-width:420px;margin:8px 0">
+     <div class="field choice-search">
       <label for="songSearch">
        Find a song
       </label>
-      <input id="songSearch" placeholder="Search song title or artist…"/>
+      <input id="songSearch" autocomplete="off" placeholder="Search song title or artist…" aria-controls="songSearchResults" aria-expanded="false"/>
+      <div class="choice-results" id="songSearchResults" role="group" aria-label="Song search results"></div>
      </div>
      <div class="artist-choices" id="songChoices">
      </div>
@@ -907,8 +1034,8 @@
       <div class="charttooltip" id="songTooltip">
       </div>
      </div>
-     <div class="chartlabels" id="songChartLabels">
-     </div>
+     <div class="chartlabels" id="songChartLabels"></div>
+     <div class="active-series-label" id="songActiveLabel" aria-live="polite"></div>
      <div class="chart-note">
       Songs are ranked by total listening time within the current filters. Hover over a line to focus it, or click a line to keep it highlighted. Click it again to unpin. Songs with the same title by different artists are treated separately.
      </div>
@@ -946,8 +1073,67 @@
       </button>
      </div>
     </section>
+    </div>
+    <section class="panel hidden" id="singleDayPanel">
+     <div class="daily-heading">
+      <div>
+       <h2>Single-day listening analysis</h2>
+       <p class="note" id="singleDaySummary">Choose a date in the header to explore that day's listening activity.</p>
+      </div>
+     </div>
+     <div class="daily-metrics" id="dailyMetrics"></div>
+     <section class="daily-card">
+      <h3>Listening timeline</h3>
+      <p class="note">Every listening entry in chronological order; time and playback duration are shown for each.</p>
+      <div class="daily-list" id="dailyTimeline"></div>
+     </section>
+     <div class="daily-grid">
+      <section class="daily-card">
+       <h3>Artist listening time</h3>
+       <p class="note">All artists, compared by estimated listening time.</p>
+       <div class="breakdown" id="dailyArtists"></div>
+      </section>
+      <section class="daily-card">
+       <h3>Listening distribution</h3>
+       <p class="note">The complete long tail is grouped into “Other” after the top eight.</p>
+       <div class="daily-subsection">
+        <h4>By song</h4>
+        <div class="breakdown" id="dailySongDistribution"></div>
+       </div>
+       <div class="daily-subsection">
+        <h4>By album</h4>
+        <div class="breakdown" id="dailyAlbums"></div>
+       </div>
+      </section>
+     </div>
+     <section class="daily-card">
+      <h3>All songs listened to</h3>
+      <p class="note">Includes every unique song with play count, total listening time, and first/last timestamp.</p>
+      <div class="daily-table" id="dailySongs"></div>
+     </section>
+    </section>
    </section>
   </main>
+  <div class="setup-backdrop hidden" id="firstSetupPrompt" role="dialog" aria-modal="true" aria-labelledby="setupTitle">
+   <div class="setup-dialog">
+    <h2 id="setupTitle">Welcome to Spotify History Explorer</h2>
+    <p class="note">Let's get your listening history set up. You can always add more data later from the header.</p>
+    <div class="setup-actions">
+     <div class="setup-option">
+      <h3>Upload your Spotify history</h3>
+      <p>Choose the ZIP from Spotify or select the extracted streaming-history JSON files.</p>
+      <button class="primary" id="setupUploadZip">Choose ZIP file</button>
+      <button id="setupUploadJson">Choose JSON files</button>
+     </div>
+     <div class="setup-option">
+      <h3>Request your history from Spotify</h3>
+      <p>Open Spotify's official privacy page to request your Extended Streaming History.</p>
+      <button id="setupRequestData">Request Spotify data</button>
+     </div>
+    </div>
+    <p class="note" style="margin-top:16px">This setup prompt appears only until you have imported history into your account.</p>
+   </div>
+  </div>
   <footer>
    Spotify History Explorer · Standalone browser app · No Python required
   </footer>
@@ -961,11 +1147,12 @@
   const SUPABASE_URL = 'https://vqaqfgnrnmrzdliegyav.supabase.co';
   const SUPABASE_ANON_KEY = 'sb_publishable_rNrRzvDRLJiId6Bo63OXxg_FtddV2WB';
   const CLOUD_BUCKET = 'spotify-history';
-  let supabase = null, currentUser = null, latestZipFile = null, cloudAutoLoadUserId = null;
+  let supabase = null, currentUser = null;
+  let archiveFiles = new Map(), archiveImportBusy = false;
   let allRows = [], filteredRows = [];
-  let visibleCount = 500, chartPoints = [], artistChartPoints = [], artistSeries = [], selectedArtists = new Set(), artistHoverIndex = null, artistPinnedIndex = null;
+  let visibleCount = 500, chartPoints = [], artistChartPoints = [], artistSeries = [], artistChoiceNames = [], selectedArtists = new Set(), artistSelectionInitialized = false, artistHoverIndex = null, artistPinnedIndex = null, artistHoverPoint = null, artistPinnedPoint = null;
   let dateFormatterCache = new Map(), displayFormatterCache = new Map(), datePartsCache = new WeakMap(), periodKeyCache = new WeakMap(), artistChartMeta = null, artistHoverFrame = 0, pendingArtistPointer = null;
-  let selectedSongs = new Set(), songChoiceKeys = [], songSeries = [], songChartPoints = [], songChartMeta = null, songHoverIndex = null, songPinnedIndex = null;
+  let selectedSongs = new Set(), songChoiceKeys = [], songSeries = [], songChartPoints = [], songChartMeta = null, songSelectionInitialized = false, songHoverIndex = null, songPinnedIndex = null, songHoverPoint = null, songPinnedPoint = null;
 
   // -----------------------------------------------------------------------------
   // Formatting, normalization, and date helpers
@@ -1038,32 +1225,55 @@
   // -----------------------------------------------------------------------------
   // Import Spotify JSON and ZIP exports
   // -----------------------------------------------------------------------------
-  function readFiles(files) {
+  async function readFiles(files, options={}) {
   const list=[...files].filter(f=>f.name.toLowerCase().endsWith('.json'));
-  if(!list.length){$('status').innerHTML='<strong>No JSON files selected.</strong> Extract your Spotify download ZIP first, then choose its JSON files.';return;}
-  $('status').textContent='Reading '+list.length+' file(s)…';
-  Promise.all(list.map(f=>f.text().then(t=>({name:f.name,text:t})))).then(items=>{
-  const rows=[]; let parsed=0, bad=[];
-  items.forEach(item=>{
+  if(!list.length){$('status').innerHTML='<strong>No JSON files selected.</strong> Choose Spotify streaming-history JSON files.';return;}
+  if(archiveImportBusy)return;
+  archiveImportBusy=true;
   try {
-  const json=JSON.parse(item.text); parsed++;
-  const arr=Array.isArray(json)?json:(Array.isArray(json.items)?json.items:[]);
-  arr.forEach((o,i)=>{const r=normalize(o,rows.length); if(r)rows.push(r);});
-  } catch(e){bad.push(item.name);}
-  });
-  allRows=rows.sort((a,b)=>a.date-b.date);
-  // If an export entry lacks ms_played, estimate from the interval to the next entry only when a track duration is available; cap at that duration.
-  allRows.forEach((r,i)=>{ if(!r.hasMs && r.durationMs>0 && allRows[i+1]) { const gap=allRows[i+1].date-r.date; if(gap>0 && gap<=24*60*60*1000) r.ms=Math.min(gap,r.durationMs); } });
-  if(!allRows.length){$('status').innerHTML='<strong>No recognizable listening entries found.</strong> Please choose Spotify extended streaming-history JSON files (usually named Streaming_History_Audio…).';return;}
-  $('filterPanel').classList.remove('hidden');$('results').classList.remove('hidden');
-  let minDate='',maxDate='';for(const r of allRows){const d=dateParts(r.date);if(!minDate||d<minDate)minDate=d;if(!maxDate||d>maxDate)maxDate=d;}
-  $('from').value=minDate;$('to').value=maxDate;
-  $('status').innerHTML='<strong>Loaded '+fmtInt(allRows.length)+' entries</strong> from '+parsed+' file(s).'+(bad.length?' Could not read: '+escapeHtml(bad.join(', ')): '');
-  applyFilters();
-  }).catch(e=>{$('status').textContent='Could not read those files: '+e.message;});
+   $('status').textContent='Reading '+list.length+' incoming JSON file(s)…';
+   const incoming=await Promise.all(list.map(async f=>({name:f.name.split('/').pop(),text:await f.text()})));
+   let added=0,replaced=0,ignored=0,unchanged=0,bad=[];
+   for(const item of incoming){
+    try {
+     const parsed=JSON.parse(item.text);
+     const arr=Array.isArray(parsed)?parsed:(Array.isArray(parsed.items)?parsed.items:null);
+     if(!arr)throw new Error('Unexpected JSON structure');
+     const existing=archiveFiles.get(item.name);
+     if(existing!==undefined){
+      if(existing===item.text){unchanged++;continue;}
+      if(options.fromCloud){ignored++;continue;}
+      const replace=window.confirm('A file named "'+item.name+'" is already in your archive, and its contents are different.\n\nChoose OK to replace the existing file, or Cancel to ignore the incoming file.');
+      if(!replace){ignored++;continue;}
+      archiveFiles.set(item.name,item.text);replaced++;
+     } else {archiveFiles.set(item.name,item.text);added++;}
+    } catch(e){bad.push(item.name);}
+   }
+   if(!archiveFiles.size){$('importStatusPanel').classList.remove('hidden');$('status').textContent='No valid Spotify history JSON files were imported.';return;}
+   rebuildRowsFromArchive();
+   if(!allRows.length){$('importStatusPanel').classList.remove('hidden');$('status').innerHTML='<strong>No recognizable listening entries found.</strong> Please choose Spotify extended streaming-history JSON files.';return;}
+   $('filterPanel').classList.remove('hidden');$('results').classList.remove('hidden');
+   let minDate='',maxDate='';for(const r of allRows){const d=dateParts(r.date);if(!minDate||d<minDate)minDate=d;if(!maxDate||d>maxDate)maxDate=d;}
+   initializeDateControls(minDate,maxDate);
+   updateViewMode();
+   $('status').innerHTML='<strong>Archive: '+fmtInt(allRows.length)+' listening entries across '+fmtInt(archiveFiles.size)+' JSON file(s).</strong> Added '+added+', replaced '+replaced+', unchanged '+unchanged+', ignored '+ignored+'.'+(bad.length?' Could not read: '+escapeHtml(bad.join(', ')): '');
+   applyFilters();
+   $('importStatusPanel').classList.toggle('hidden',!bad.length);
+   if(currentUser&&!options.fromCloud){try{await syncArchiveFiles(incoming.filter(x=>archiveFiles.get(x.name)===x.text));}catch(syncError){$('importStatusPanel').classList.remove('hidden');$('status').textContent='History imported in this session, but cloud saving failed: '+cloudError(syncError)+'. Try importing again when your connection is working.';}}
+   $('firstSetupPrompt').classList.add('hidden');
+  } catch(e){$('importStatusPanel').classList.remove('hidden');$('status').textContent='Could not import those files: '+e.message;}
+  finally{archiveImportBusy=false;}
+  }
+  function rebuildRowsFromArchive(){
+   const rows=[];
+   for(const [filename,text] of archiveFiles){
+    try{const json=JSON.parse(text),arr=Array.isArray(json)?json:(Array.isArray(json.items)?json.items:[]);arr.forEach((o,i)=>{const r=normalize(o,rows.length);if(r)rows.push(r);});}
+    catch(e){console.warn('Skipping invalid archived file',filename,e);}
+   }
+   allRows=rows.sort((a,b)=>a.date-b.date);
+   allRows.forEach((r,i)=>{if(!r.hasMs&&r.durationMs>0&&allRows[i+1]){const gap=allRows[i+1].date-r.date;if(gap>0&&gap<=24*60*60*1000)r.ms=Math.min(gap,r.durationMs);}});
   }
   async function unzipSpotifyHistory(file) {
-  if(file && file.name && file.name.toLowerCase().endsWith('.zip')) latestZipFile=file;
   $('status').textContent='Opening ZIP and locating streaming-history JSON files…';
   const buffer=await file.arrayBuffer(), view=new DataView(buffer), bytes=new Uint8Array(buffer);
   // Locate the ZIP end-of-central-directory record (including archives with a comment).
@@ -1100,18 +1310,20 @@
   extracted.push(new File([content],entry.name.split('/').pop(),{type:'application/json'}));
   }
   if(!extracted.length)throw new Error('No supported JSON files could be extracted from this ZIP.');
-  readFiles(extracted);
+  await readFiles(extracted);
   }
   // -----------------------------------------------------------------------------
   // Filtering, aggregation, and graph selection state
   // -----------------------------------------------------------------------------
   function resetGraphSelections(){
-  selectedArtists.clear();selectedSongs.clear();$('artistSearch').value='';$('songSearch').value='';
-  artistHoverIndex=null;artistPinnedIndex=null;songHoverIndex=null;songPinnedIndex=null;
+  selectedArtists.clear();selectedSongs.clear();artistSelectionInitialized=false;songSelectionInitialized=false;$('artistSearch').value='';$('songSearch').value='';
+  artistHoverIndex=null;artistPinnedIndex=null;artistHoverPoint=null;artistPinnedPoint=null;songHoverIndex=null;songPinnedIndex=null;songHoverPoint=null;songPinnedPoint=null;
   $('artistTooltip').style.display='none';$('songTooltip').style.display='none';
+  $('artistSearchResults').classList.remove('open');$('songSearchResults').classList.remove('open');
   }
   function applyFilters() {
   visibleCount = 500;
+  artistSelectionInitialized=false;songSelectionInitialized=false;
   const q=$('search').value.trim().toLowerCase(), from=$('from').value, to=$('to').value, kind=$('kind').value, skip=$('skipped').value;
   filteredRows=allRows.filter(r=>{
   const d=dateParts(r.date);
@@ -1132,6 +1344,44 @@
   function miniTable(items, type) {
   if(!items.length)return '<div class="empty">No data for this selection.</div>';
   return `<div class="tablewrap" style="max-height:350px"><table><thead><tr><th>#</th><th>${type}</th><th style="text-align:right">Plays</th><th style="text-align:right">Time</th></tr></thead><tbody>${items.slice(0,10).map((x,i)=>`<tr><td class="rank">${i+1}</td><td>${escapeHtml(x.name)}</td><td class="num">${fmtInt(x.plays)}</td><td class="num">${mins(x.ms)}</td></tr>`).join('')}</tbody></table></div>`;
+  }
+  function initializeDateControls(minDate,maxDate){
+  if(!$('from').value||!$('to').value){$('from').value=minDate;$('to').value=maxDate;}
+  else{$('from').value=minDate<$('from').value?minDate:$('from').value;$('to').value=maxDate>$('to').value?maxDate:$('to').value;}
+  if(!$('singleDay').value||$('singleDay').value<minDate||$('singleDay').value>maxDate)$('singleDay').value=maxDate;
+  $('headerDateControls').classList.remove('hidden');
+  }
+  function renderBreakdown(items,limit=Infinity){
+  if(!items.length)return '<div class="note">No listening data.</div>';
+  const shown=items.slice(0,limit);
+  if(items.length>limit){const otherMs=items.slice(limit).reduce((sum,item)=>sum+item.ms,0);shown.push({name:'Other ('+fmtInt(items.length-limit)+')',ms:otherMs});}
+  const max=Math.max(1,...shown.map(item=>item.ms));
+  return shown.map(item=>`<div class="breakdown-row"><span class="breakdown-name" title="${escapeHtml(item.name)}">${escapeHtml(item.name)}</span><span class="breakdown-track"><span class="breakdown-fill" style="display:block;width:${Math.max(1,item.ms/max*100)}%"></span></span><span class="breakdown-time">${mins(item.ms)}</span></div>`).join('');
+  }
+  function renderSingleDay(){
+  const day=$('singleDay').value;
+  if(!day){$('singleDaySummary').textContent='Choose a date in the header to explore that day’s listening activity.';return;}
+  const rows=allRows.filter(r=>dateParts(r.date)===day);
+  const timeFormatter=new Intl.DateTimeFormat(undefined,{...(zone()?{timeZone:zone()}:{}),hour:'2-digit',minute:'2-digit'});
+  const uniqueSongs=new Set(rows.filter(r=>r.kind==='track').map(songKey));
+  const artists=aggregate(rows,r=>r.artist).sort((a,b)=>b.ms-a.ms||a.name.localeCompare(b.name));
+  const songs=aggregate(rows,r=>r.kind==='track'?songKey(r):'').sort((a,b)=>b.ms-a.ms||songLabel(a.name).localeCompare(songLabel(b.name)));
+  const albums=aggregate(rows,r=>r.album).sort((a,b)=>b.ms-a.ms||a.name.localeCompare(b.name));
+  const songTimes=new Map();rows.forEach(r=>{if(r.kind!=='track')return;const key=songKey(r),entry=songTimes.get(key);if(entry)entry.last=r.date;else songTimes.set(key,{first:r.date,last:r.date});});
+  const sessions=rows.reduce((count,row,index)=>{if(index===0)return 1;const previous=rows[index-1],gap=row.date-previous.date-row.ms;return count+(gap>30*60*1000?1:0);},0);
+  $('singleDaySummary').textContent=rows.length?day+' · chronological listening activity':'No listening entries were found for '+day+'.';
+  $('dailyMetrics').innerHTML=[
+   ['Total listening time',mins(rows.reduce((sum,r)=>sum+r.ms,0))],
+   ['Unique songs',fmtInt(uniqueSongs.size)],
+   ['Unique artists',fmtInt(new Set(rows.map(r=>r.artist).filter(Boolean)).size)],
+   ['Unique albums',fmtInt(new Set(rows.map(r=>r.album).filter(Boolean)).size)],
+   ['Listening sessions',fmtInt(sessions)]
+  ].map(item=>`<div class="daily-metric"><div class="label">${item[0]}</div><div class="value">${item[1]}</div></div>`).join('');
+  $('dailyTimeline').innerHTML=rows.length?rows.map(r=>`<div class="daily-event"><time>${escapeHtml(timeFormatter.format(r.date))}</time><div class="event-title">${escapeHtml(r.title)}<div class="event-meta">${escapeHtml([r.artist,r.album].filter(Boolean).join(' · ')||r.kind)}</div></div><span class="event-duration">${mins(r.ms)}</span></div>`).join(''):'<div class="empty">No activity for this date.</div>';
+  $('dailyArtists').innerHTML=renderBreakdown(artists);
+  $('dailySongDistribution').innerHTML=renderBreakdown(songs,8);
+  $('dailyAlbums').innerHTML=renderBreakdown(albums,8);
+  $('dailySongs').innerHTML=songs.length?`<table><thead><tr><th>Song and artist</th><th>Plays</th><th>Listening time</th><th>First / last</th></tr></thead><tbody>${songs.map(song=>{const times=songTimes.get(song.name);return `<tr><td>${escapeHtml(songLabel(song.name))}</td><td class="num">${fmtInt(song.plays)}</td><td class="num">${mins(song.ms)}</td><td>${escapeHtml(timeFormatter.format(times.first))}${times.first.getTime()!==times.last.getTime()?' – '+escapeHtml(timeFormatter.format(times.last)):''}</td></tr>`;}).join('')}</tbody></table>`:'<div class="empty">No songs listened to on this date.</div>';
   }
   // -----------------------------------------------------------------------------
   // Shared chart helpers and listening-time timeline
@@ -1156,7 +1406,7 @@
   }
   function renderChart(rows) {
   const canvas=$('dailyChart'), rect=canvas.getBoundingClientRect(), dpr=window.devicePixelRatio||1;
-  const h=220; canvas.width=Math.max(320,rect.width)*dpr; canvas.height=h*dpr;
+  const h=220; canvas.width=Math.max(1,rect.width)*dpr; canvas.height=h*dpr;
   const ctx=canvas.getContext('2d');ctx.setTransform(dpr,0,0,dpr,0,0);
   const w=canvas.width/dpr,pad={l:48,r:14,t:14,b:28},pw=w-pad.l-pad.r,ph=h-pad.t-pad.b;
   const period=$('dailyPeriod').value, avg=$('movingAverage').value;
@@ -1192,17 +1442,34 @@
   // Artist timeline
   // -----------------------------------------------------------------------------
   const palette=['#1ed760','#69a7ff','#f2a65a','#d78bff','#ff7f7f','#4dd0c8','#e7d56b','#a8b5c4','#ff9fce','#9bd36a'];
+  function seriesColor(name,orderedNames){const i=orderedNames.indexOf(name);return palette[(i<0?0:i)%palette.length];}
   function renderArtistChoices(rows) {
   const count=Number($('artistCount').value);
   const totals=aggregate(rows,r=>r.artist).sort((a,b)=>b.ms-a.ms||a.name.localeCompare(b.name));
   const names=totals.map(x=>x.name).filter(Boolean);
+  const colorNames=[...names].sort((a,b)=>a.localeCompare(b));
   const defaults=names.slice(0,count), query=$('artistSearch').value.trim().toLowerCase();
   selectedArtists=new Set([...selectedArtists].filter(n=>names.includes(n)));
-  if(!selectedArtists.size) defaults.forEach(n=>selectedArtists.add(n));
-  const matches=query?names.filter(n=>n.toLowerCase().includes(query)).slice(0,30):[];
-  const shown=[...new Set([...defaults,...selectedArtists,...matches])].filter(n=>names.includes(n));
-  $('artistChoices').innerHTML=shown.map(n=>{const checked=selectedArtists.has(n);return `<label class="artist-choice"><input type="checkbox" data-artist="${escapeHtml(n)}" ${checked?'checked':''}>${escapeHtml(n)}</label>`;}).join('') || '<span class="note">No artists available for this selection.</span>';
-  $('artistChoices').querySelectorAll('input[data-artist]').forEach(el=>el.addEventListener('change',()=>{if(el.checked)selectedArtists.add(el.dataset.artist);else selectedArtists.delete(el.dataset.artist);renderArtistChart(rows);}));
+  if(!artistSelectionInitialized&&!selectedArtists.size) defaults.forEach(n=>selectedArtists.add(n));
+  artistSelectionInitialized=true;
+  artistChoiceNames=[...selectedArtists].sort((a,b)=>a.localeCompare(b));
+  $('artistChoices').innerHTML=artistChoiceNames.length?artistChoiceNames.map((n,i)=>`<label class="artist-choice"><input type="checkbox" data-selected-artist="${i}" checked><span class="color-dot" style="background:${seriesColor(n,colorNames)}"></span><span class="series-name" role="button" tabindex="0" data-pin-artist="${i}">${escapeHtml(n)}</span></label>`).join(''):'<span class="note">No artists selected.</span>';
+  const matches=query?names.filter(n=>n.toLowerCase().includes(query)).slice(0,40):[];
+  $('artistSearchResults').innerHTML=query?(matches.map((n,i)=>`<label class="artist-choice"><input type="checkbox" data-search-artist="${i}" ${selectedArtists.has(n)?'checked':''}><span class="color-dot" style="background:${seriesColor(n,colorNames)}"></span><span>${escapeHtml(n)}</span></label>`).join('')||'<span class="note">No matching artists.</span>'):'';
+  $('artistSearchResults').classList.toggle('open',!!query);
+  $('artistSearch').setAttribute('aria-expanded',query?'true':'false');
+  $('artistSearchResults').querySelectorAll('input[data-search-artist]').forEach(el=>el.addEventListener('change',()=>{const name=matches[Number(el.dataset.searchArtist)];if(el.checked){selectedArtists.add(name);$('artistSearch').value='';}else selectedArtists.delete(name);renderArtistChoices(rows);renderArtistChart(rows);}));
+  $('artistChoices').querySelectorAll('input[data-selected-artist]').forEach(el=>el.addEventListener('change',()=>{const name=artistChoiceNames[Number(el.dataset.selectedArtist)];if(name)selectedArtists.delete(name);renderArtistChoices(rows);renderArtistChart(rows);}));
+  $('artistChoices').querySelectorAll('[data-pin-artist]').forEach(el=>{
+   const index=()=>artistSeries.findIndex(series=>series.name===artistChoiceNames[Number(el.dataset.pinArtist)]);
+   const pin=e=>{e.preventDefault();e.stopPropagation();toggleArtistPin(index());};
+   el.addEventListener('click',pin);
+   el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){pin(e);}});
+   el.addEventListener('pointerenter',()=>previewArtistSeries(index()));
+   el.addEventListener('pointerleave',()=>clearArtistPreview(index()));
+   el.addEventListener('focus',()=>previewArtistSeries(index()));
+   el.addEventListener('blur',()=>clearArtistPreview(index()));
+  });
   }
   function drawArtistCanvas() {
   if(!artistChartMeta) return;
@@ -1215,11 +1482,13 @@
   const order=focusIndex===null?artistSeries:artistSeries.filter((_,i)=>i!==focusIndex).concat(artistSeries[focusIndex]);
   order.forEach(series=>{const focused=focusIndex!==null&&series===artistSeries[focusIndex];ctx.globalAlpha=focusIndex!==null&&!focused?0.18:1;ctx.strokeStyle=series.color;ctx.lineWidth=focused?4:2;ctx.beginPath();series.points.forEach((pt,i)=>i?ctx.lineTo(pt.x,pt.y):ctx.moveTo(pt.x,pt.y));ctx.stroke();if(focused){series.points.forEach(pt=>{ctx.fillStyle=series.color;ctx.beginPath();ctx.arc(pt.x,pt.y,3.8,0,Math.PI*2);ctx.fill();});}});
   ctx.globalAlpha=1;
+  const active=focusIndex===null?null:artistSeries[focusIndex];
+  $('artistActiveLabel').textContent=active?'Highlighted artist: '+active.name:'';
   }
   function renderArtistChart(rows) {
-  artistHoverIndex=null;artistPinnedIndex=null;
+  artistHoverIndex=null;artistPinnedIndex=null;artistHoverPoint=null;artistPinnedPoint=null;$('artistTooltip').style.display='none';
   const canvas=$('artistChart'), rect=canvas.getBoundingClientRect(), dpr=window.devicePixelRatio||1,h=300;
-  const cssW=Math.max(320,rect.width);canvas.width=cssW*dpr;canvas.height=h*dpr;
+  const cssW=Math.max(1,rect.width);canvas.width=cssW*dpr;canvas.height=h*dpr;
   const ctx=canvas.getContext('2d');ctx.setTransform(dpr,0,0,dpr,0,0);
   const w=cssW,period=$('artistPeriod').value;
   const pad={l:48,r:14,t:16,b:32},pw=w-pad.l-pad.r,ph=h-pad.t-pad.b;
@@ -1227,8 +1496,9 @@
   rows.forEach(r=>{const k=periodKey(r.date,period);let bucket=buckets.get(k);if(!bucket){bucket=new Map();buckets.set(k,bucket);}if(r.artist){let v=bucket.get(r.artist);if(!v){v={ms:0};bucket.set(r.artist,v);}v.ms+=r.ms;}});
   const keys=[...buckets.keys()].sort(),availableNames=new Set(rows.map(r=>r.artist).filter(Boolean));
   const names=[...selectedArtists].filter(n=>availableNames.has(n));artistSeries=[];artistChartPoints=[];artistChartMeta=null;
-  if(!keys.length||!names.length){ctx.clearRect(0,0,w,h);ctx.fillStyle='#aeb8ad';ctx.font='14px system-ui';ctx.fillText(names.length?'No listening data for this selection':'Select one or more artists to draw their lines.',18,35);$('artistChartLabels').innerHTML='';$('artistTooltip').style.display='none';return;}
-  names.forEach(name=>{const values=keys.map(k=>{const x=buckets.get(k).get(name);return x?x.ms/3600000:0;});artistSeries.push({name,values,color:palette[artistSeries.length%palette.length]});});
+  if(!keys.length||!names.length){ctx.clearRect(0,0,w,h);ctx.fillStyle='#aeb8ad';ctx.font='14px system-ui';ctx.fillText(names.length?'No listening data for this selection':'Select one or more artists to draw their lines.',18,35);$('artistChartLabels').innerHTML='';$('artistTooltip').style.display='none';$('artistActiveLabel').textContent='';return;}
+  const orderedNames=[...availableNames].sort((a,b)=>a.localeCompare(b));
+  names.forEach(name=>{const values=keys.map(k=>{const x=buckets.get(k).get(name);return x?x.ms/3600000:0;});artistSeries.push({name,values,color:seriesColor(name,orderedNames)});});
   const max=Math.max(1,...artistSeries.flatMap(series=>series.values)),ticks=4;
   artistSeries.forEach((series,si)=>{series.points=keys.map((k,i)=>({name:series.name,key:k,period,value:series.values[i],x:pad.l+(keys.length===1?pw/2:i/(keys.length-1)*pw),y:pad.t+ph-series.values[i]/max*ph,color:series.color,seriesIndex:si}));});
   artistChartPoints=artistSeries.flatMap(series=>series.points);
@@ -1257,28 +1527,43 @@
   if(d<dist){dist=d;const useA=t<0.5?a:b;closest={...useA,x:px,y:py,value:a.value+t*(b.value-a.value),seriesIndex};}
   }
   });
-  if(!closest||dist>10){if(artistHoverIndex!==null){artistHoverIndex=null;drawArtistCanvas();}tooltip.style.display='none';return;}
+  if(!closest||dist>10){if(artistHoverIndex!==null){artistHoverIndex=null;artistHoverPoint=null;drawArtistCanvas();}if(artistPinnedPoint)showArtistTooltip(artistPinnedPoint);else tooltip.style.display='none';return;}
   if(artistHoverIndex!==closest.seriesIndex){artistHoverIndex=closest.seriesIndex;drawArtistCanvas();}
-  const label=periodLabel(closest.key,closest.period),value=mins(closest.value*3600000);
-  tooltip.innerHTML=`<strong>${escapeHtml(closest.name)}</strong><br>${escapeHtml(label)} · ${escapeHtml(value)}`;tooltip.style.display='block';
-  const wr=wrap.getBoundingClientRect();tooltip.style.left=Math.min(Math.max(8,e.clientX-wr.left+12),wrap.clientWidth-tooltip.offsetWidth-8)+'px';tooltip.style.top=Math.max(4,e.clientY-wr.top-tooltip.offsetHeight-12)+'px';
+  artistHoverPoint=closest;
+  showArtistTooltip(closest,e);
+  }
+
+  function showArtistTooltip(point,e){
+  const tooltip=$('artistTooltip'),wrap=$('artistChartWrap');
+  if(!point){tooltip.style.display='none';return;}
+  tooltip.innerHTML=`<strong>${escapeHtml(point.name)}</strong><br>${escapeHtml(periodLabel(point.key,point.period))} · ${escapeHtml(mins(point.value*3600000))}`;tooltip.style.display='block';
+  const wr=wrap.getBoundingClientRect(),left=e?e.clientX-wr.left+12:point.x+12,top=e?e.clientY-wr.top-tooltip.offsetHeight-12:point.y-tooltip.offsetHeight-8;
+  tooltip.style.left=Math.min(Math.max(8,left),wrap.clientWidth-tooltip.offsetWidth-8)+'px';tooltip.style.top=Math.max(4,top)+'px';
+  }
+
+  function toggleArtistPin(index,point){
+  if(index<0)return;
+  if(artistPinnedIndex===index){artistPinnedIndex=null;artistPinnedPoint=null;$('artistTooltip').style.display='none';}
+  else{artistPinnedIndex=index;artistPinnedPoint=point||artistSeries[index].points[0]||null;}
+  artistHoverIndex=null;artistHoverPoint=null;drawArtistCanvas();
+  if(artistPinnedPoint)showArtistTooltip(artistPinnedPoint);
+  }
+
+  function previewArtistSeries(index){
+  if(index<0||!artistSeries[index])return;
+  artistHoverIndex=index;artistHoverPoint=artistSeries[index].points[0]||null;drawArtistCanvas();
+  if(artistHoverPoint)showArtistTooltip(artistHoverPoint);else $('artistTooltip').style.display='none';
+  }
+  function clearArtistPreview(index){
+  if(artistHoverIndex!==index)return;
+  artistHoverIndex=null;artistHoverPoint=null;drawArtistCanvas();
+  if(artistPinnedPoint)showArtistTooltip(artistPinnedPoint);else $('artistTooltip').style.display='none';
   }
 
   function artistClick(e){
-  const rect=$('artistChart').getBoundingClientRect(),x=e.clientX-rect.left,y=e.clientY-rect.top;
-  let closest=null,dist=Infinity;
-  artistSeries.forEach((series,seriesIndex)=>{
-  const pts=series.points;if(!pts.length)return;
-  if(pts.length===1){const pt=pts[0],d=Math.hypot(pt.x-x,pt.y-y);if(d<dist){dist=d;closest={seriesIndex};}return;}
-  const step=(pts[pts.length-1].x-pts[0].x)/(pts.length-1),guess=step>0?Math.round((x-pts[0].x)/step):0;
-  for(let i=Math.max(0,guess-2);i<=Math.min(pts.length-2,guess+1);i++){
-  const a=pts[i],b=pts[i+1],dx=b.x-a.x,dy=b.y-a.y,len=dx*dx+dy*dy,t=len?Math.max(0,Math.min(1,((x-a.x)*dx+(y-a.y)*dy)/len)):0;
-  const d=Math.hypot(a.x+t*dx-x,a.y+t*dy-y);if(d<dist){dist=d;closest={seriesIndex};}
-  }
-  });
-  if(!closest||dist>10){artistPinnedIndex=null;artistHoverIndex=null;$('artistTooltip').style.display='none';drawArtistCanvas();return;}
-  artistPinnedIndex=artistPinnedIndex===closest.seriesIndex?null:closest.seriesIndex;
-  artistHoverIndex=null;drawArtistCanvas();
+  processArtistHover(e);
+  if(artistHoverIndex===null||!artistHoverPoint){artistPinnedIndex=null;artistPinnedPoint=null;artistHoverPoint=null;$('artistTooltip').style.display='none';drawArtistCanvas();return;}
+  toggleArtistPin(artistHoverIndex,artistHoverPoint);
   }
 
   // -----------------------------------------------------------------------------
@@ -1289,14 +1574,28 @@
   function renderSongChoices(rows){
   const count=Number($('songCount').value);
   const totals=aggregate(rows,r=>r.kind==='track'?songKey(r):'').sort((a,b)=>b.ms-a.ms||songLabel(a.name).localeCompare(songLabel(b.name)));
-  const keys=totals.map(x=>x.name).filter(Boolean),defaults=keys.slice(0,count),query=$('songSearch').value.trim().toLowerCase();
+  const keys=totals.map(x=>x.name).filter(Boolean),colorKeys=[...keys].sort((a,b)=>songLabel(a).localeCompare(songLabel(b))),defaults=keys.slice(0,count),query=$('songSearch').value.trim().toLowerCase();
   selectedSongs=new Set([...selectedSongs].filter(k=>keys.includes(k)));
-  if(!selectedSongs.size)defaults.forEach(k=>selectedSongs.add(k));
+  if(!songSelectionInitialized&&!selectedSongs.size)defaults.forEach(k=>selectedSongs.add(k));
+  songSelectionInitialized=true;
+  songChoiceKeys=[...selectedSongs].sort((a,b)=>songLabel(a).localeCompare(songLabel(b)));
+  $('songChoices').innerHTML=songChoiceKeys.length?songChoiceKeys.map((k,i)=>`<label class="artist-choice"><input type="checkbox" data-selected-song="${i}" checked><span class="color-dot" style="background:${seriesColor(k,colorKeys)}"></span><span class="series-name" role="button" tabindex="0" data-pin-song="${i}">${escapeHtml(songLabel(k))}</span></label>`).join(''):'<span class="note">No songs selected.</span>';
   const matches=query?keys.filter(k=>songLabel(k).toLowerCase().includes(query)).slice(0,40):[];
-  const shown=[...new Set([...defaults,...selectedSongs,...matches])].filter(k=>keys.includes(k));
-  songChoiceKeys=shown;
-  $('songChoices').innerHTML=shown.map((k,i)=>`<label class="artist-choice"><input type="checkbox" data-song-index="${i}" ${selectedSongs.has(k)?'checked':''}>${escapeHtml(songLabel(k))}</label>`).join('')||'<span class="note">No songs available for this selection.</span>';
-  $('songChoices').querySelectorAll('input[data-song-index]').forEach(el=>el.addEventListener('change',()=>{const k=songChoiceKeys[Number(el.dataset.songIndex)];if(!k)return;if(el.checked)selectedSongs.add(k);else selectedSongs.delete(k);renderSongChart(rows);}));
+  $('songSearchResults').innerHTML=query?(matches.map((k,i)=>`<label class="artist-choice"><input type="checkbox" data-search-song="${i}" ${selectedSongs.has(k)?'checked':''}><span class="color-dot" style="background:${seriesColor(k,colorKeys)}"></span><span>${escapeHtml(songLabel(k))}</span></label>`).join('')||'<span class="note">No matching songs.</span>'):'';
+  $('songSearchResults').classList.toggle('open',!!query);
+  $('songSearch').setAttribute('aria-expanded',query?'true':'false');
+  $('songSearchResults').querySelectorAll('input[data-search-song]').forEach(el=>el.addEventListener('change',()=>{const key=matches[Number(el.dataset.searchSong)];if(el.checked){selectedSongs.add(key);$('songSearch').value='';}else selectedSongs.delete(key);renderSongChoices(rows);renderSongChart(rows);}));
+  $('songChoices').querySelectorAll('input[data-selected-song]').forEach(el=>el.addEventListener('change',()=>{const key=songChoiceKeys[Number(el.dataset.selectedSong)];if(key)selectedSongs.delete(key);renderSongChoices(rows);renderSongChart(rows);}));
+  $('songChoices').querySelectorAll('[data-pin-song]').forEach(el=>{
+   const index=()=>songSeries.findIndex(series=>series.name===songChoiceKeys[Number(el.dataset.pinSong)]);
+   const pin=e=>{e.preventDefault();e.stopPropagation();toggleSongPin(index());};
+   el.addEventListener('click',pin);
+   el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){pin(e);}});
+   el.addEventListener('pointerenter',()=>previewSongSeries(index()));
+   el.addEventListener('pointerleave',()=>clearSongPreview(index()));
+   el.addEventListener('focus',()=>previewSongSeries(index()));
+   el.addEventListener('blur',()=>clearSongPreview(index()));
+  });
   }
   function drawSongCanvas(){
   if(!songChartMeta)return;
@@ -1307,18 +1606,21 @@
   const order=focusIndex===null?songSeries:songSeries.filter((_,i)=>i!==focusIndex).concat(songSeries[focusIndex]);
   order.forEach(series=>{const focused=focusIndex!==null&&series===songSeries[focusIndex];ctx.globalAlpha=focusIndex!==null&&!focused?0.18:1;ctx.strokeStyle=series.color;ctx.lineWidth=focused?4:2;ctx.beginPath();series.points.forEach((pt,i)=>i?ctx.lineTo(pt.x,pt.y):ctx.moveTo(pt.x,pt.y));ctx.stroke();if(focused){series.points.forEach(pt=>{ctx.fillStyle=series.color;ctx.beginPath();ctx.arc(pt.x,pt.y,3.8,0,Math.PI*2);ctx.fill();});}});
   ctx.globalAlpha=1;
+  const active=focusIndex===null?null:songSeries[focusIndex];
+  $('songActiveLabel').textContent=active?'Highlighted song: '+songLabel(active.name):'';
   }
   function renderSongChart(rows){
-  songHoverIndex=null;songPinnedIndex=null;
-  const canvas=$('songChart'),rect=canvas.getBoundingClientRect(),dpr=window.devicePixelRatio||1,h=300,cssW=Math.max(320,rect.width);
+  songHoverIndex=null;songPinnedIndex=null;songHoverPoint=null;songPinnedPoint=null;$('songTooltip').style.display='none';
+  const canvas=$('songChart'),rect=canvas.getBoundingClientRect(),dpr=window.devicePixelRatio||1,h=300,cssW=Math.max(1,rect.width);
   canvas.width=cssW*dpr;canvas.height=h*dpr;const ctx=canvas.getContext('2d');ctx.setTransform(dpr,0,0,dpr,0,0);
   const w=cssW,period=$('songPeriod').value,pad={l:48,r:14,t:16,b:32},pw=w-pad.l-pad.r,ph=h-pad.t-pad.b;
   const buckets=new Map();
   rows.forEach(r=>{if(r.kind!=='track')return;const k=periodKey(r.date,period);let bucket=buckets.get(k);if(!bucket){bucket=new Map();buckets.set(k,bucket);}const key=songKey(r);let v=bucket.get(key);if(!v){v={ms:0};bucket.set(key,v);}v.ms+=r.ms;});
   const keys=[...buckets.keys()].sort(),available=new Set(rows.filter(r=>r.kind==='track').map(songKey));
   const names=[...selectedSongs].filter(k=>available.has(k));songSeries=[];songChartPoints=[];songChartMeta=null;
-  if(!keys.length||!names.length){ctx.clearRect(0,0,w,h);ctx.fillStyle='#aeb8ad';ctx.font='14px system-ui';ctx.fillText(names.length?'No listening data for this selection':'Search for and select one or more songs to draw their lines.',18,35);$('songChartLabels').innerHTML='';$('songTooltip').style.display='none';return;}
-  names.forEach(name=>{const values=keys.map(k=>{const x=buckets.get(k).get(name);return x?x.ms/3600000:0;});songSeries.push({name,values,color:palette[songSeries.length%palette.length]});});
+  if(!keys.length||!names.length){ctx.clearRect(0,0,w,h);ctx.fillStyle='#aeb8ad';ctx.font='14px system-ui';ctx.fillText(names.length?'No listening data for this selection':'Search for and select one or more songs to draw their lines.',18,35);$('songChartLabels').innerHTML='';$('songTooltip').style.display='none';$('songActiveLabel').textContent='';return;}
+  const orderedSongKeys=[...available].sort((a,b)=>songLabel(a).localeCompare(songLabel(b)));
+  names.forEach(name=>{const values=keys.map(k=>{const x=buckets.get(k).get(name);return x?x.ms/3600000:0;});songSeries.push({name,values,color:seriesColor(name,orderedSongKeys)});});
   const max=Math.max(1,...songSeries.flatMap(series=>series.values)),ticks=4;
   songSeries.forEach((series,si)=>{series.points=keys.map((k,i)=>({name:series.name,key:k,period,value:series.values[i],x:pad.l+(keys.length===1?pw/2:i/(keys.length-1)*pw),y:pad.t+ph-series.values[i]/max*ph,color:series.color,seriesIndex:si}));});
   songChartPoints=songSeries.flatMap(series=>series.points);songChartMeta={ctx,w,h,pad,ph,max,ticks};drawSongCanvas();
@@ -1333,29 +1635,44 @@
   const step=(pts[pts.length-1].x-pts[0].x)/(pts.length-1),guess=step>0?Math.round((x-pts[0].x)/step):0;
   for(let i=Math.max(0,guess-2);i<=Math.min(pts.length-2,guess+1);i++){const a=pts[i],b=pts[i+1],dx=b.x-a.x,dy=b.y-a.y,len=dx*dx+dy*dy,t=len?Math.max(0,Math.min(1,((x-a.x)*dx+(y-a.y)*dy)/len)):0,px=a.x+t*dx,py=a.y+t*dy,d=Math.hypot(px-x,py-y);if(d<dist){dist=d;const useA=t<.5?a:b;closest={...useA,x:px,y:py,value:a.value+t*(b.value-a.value),seriesIndex};}}
   });
-  if(!closest||dist>10){if(songHoverIndex!==null){songHoverIndex=null;drawSongCanvas();}tooltip.style.display='none';return;}
+  if(!closest||dist>10){if(songHoverIndex!==null){songHoverIndex=null;songHoverPoint=null;drawSongCanvas();}if(songPinnedPoint)showSongTooltip(songPinnedPoint);else tooltip.style.display='none';return;}
   if(songHoverIndex!==closest.seriesIndex){songHoverIndex=closest.seriesIndex;drawSongCanvas();}
-  const label=periodLabel(closest.key,closest.period),value=mins(closest.value*3600000);
-  tooltip.innerHTML=`<strong>${escapeHtml(songLabel(closest.name))}</strong><br>${escapeHtml(label)} · ${escapeHtml(value)}`;tooltip.style.display='block';
-  const wr=wrap.getBoundingClientRect();tooltip.style.left=Math.min(Math.max(8,e.clientX-wr.left+12),wrap.clientWidth-tooltip.offsetWidth-8)+'px';tooltip.style.top=Math.max(4,e.clientY-wr.top-tooltip.offsetHeight-12)+'px';
+  songHoverPoint=closest;
+  showSongTooltip(closest,e);
+  }
+
+  function showSongTooltip(point,e){
+  const tooltip=$('songTooltip'),wrap=$('songChartWrap');
+  if(!point){tooltip.style.display='none';return;}
+  tooltip.innerHTML=`<strong>${escapeHtml(songLabel(point.name))}</strong><br>${escapeHtml(periodLabel(point.key,point.period))} · ${escapeHtml(mins(point.value*3600000))}`;tooltip.style.display='block';
+  const wr=wrap.getBoundingClientRect(),left=e?e.clientX-wr.left+12:point.x+12,top=e?e.clientY-wr.top-tooltip.offsetHeight-12:point.y-tooltip.offsetHeight-8;
+  tooltip.style.left=Math.min(Math.max(8,left),wrap.clientWidth-tooltip.offsetWidth-8)+'px';tooltip.style.top=Math.max(4,top)+'px';
+  }
+
+  function toggleSongPin(index,point){
+  if(index<0)return;
+  if(songPinnedIndex===index){songPinnedIndex=null;songPinnedPoint=null;$('songTooltip').style.display='none';}
+  else{songPinnedIndex=index;songPinnedPoint=point||songSeries[index].points[0]||null;}
+  songHoverIndex=null;songHoverPoint=null;drawSongCanvas();
+  if(songPinnedPoint)showSongTooltip(songPinnedPoint);
+  }
+
+  function previewSongSeries(index){
+  if(index<0||!songSeries[index])return;
+  songHoverIndex=index;songHoverPoint=songSeries[index].points[0]||null;drawSongCanvas();
+  if(songHoverPoint)showSongTooltip(songHoverPoint);else $('songTooltip').style.display='none';
+  }
+  function clearSongPreview(index){
+  if(songHoverIndex!==index)return;
+  songHoverIndex=null;songHoverPoint=null;drawSongCanvas();
+  if(songPinnedPoint)showSongTooltip(songPinnedPoint);else $('songTooltip').style.display='none';
   }
 
   function songClick(e){
-  const canvas=$('songChart'),rect=canvas.getBoundingClientRect();
   if(!songChartPoints.length)return;
-  const x=e.clientX-rect.left,y=e.clientY-rect.top;let closest=null,dist=Infinity;
-  songSeries.forEach((series,seriesIndex)=>{
-  const pts=series.points;if(!pts.length)return;
-  if(pts.length===1){const pt=pts[0],d=Math.hypot(pt.x-x,pt.y-y);if(d<dist){dist=d;closest={seriesIndex};}return;}
-  const step=(pts[pts.length-1].x-pts[0].x)/(pts.length-1),guess=step>0?Math.round((x-pts[0].x)/step):0;
-  for(let i=Math.max(0,guess-2);i<=Math.min(pts.length-2,guess+1);i++){
-  const a=pts[i],b=pts[i+1],dx=b.x-a.x,dy=b.y-a.y,len=dx*dx+dy*dy,t=len?Math.max(0,Math.min(1,((x-a.x)*dx+(y-a.y)*dy)/len)):0;
-  const d=Math.hypot(a.x+t*dx-x,a.y+t*dy-y);if(d<dist){dist=d;closest={seriesIndex};}
-  }
-  });
-  if(!closest||dist>10){songPinnedIndex=null;songHoverIndex=null;$('songTooltip').style.display='none';drawSongCanvas();return;}
-  songPinnedIndex=songPinnedIndex===closest.seriesIndex?null:closest.seriesIndex;
-  songHoverIndex=closest.seriesIndex;drawSongCanvas();
+  songHover(e);
+  if(songHoverIndex===null||!songHoverPoint){songPinnedIndex=null;songPinnedPoint=null;songHoverPoint=null;$('songTooltip').style.display='none';drawSongCanvas();return;}
+  toggleSongPin(songHoverIndex,songHoverPoint);
   }
 
   // -----------------------------------------------------------------------------
@@ -1376,9 +1693,25 @@
   $('mPlays').textContent=fmtInt(filteredRows.length);$('mTime').textContent=mins(ms);
   $('mTracks').textContent=fmtInt(new Set(filteredRows.filter(r=>r.kind==='track').map(r=>r.title+'|'+r.artist)).size);
   $('mArtists').textContent=fmtInt(new Set(filteredRows.map(r=>r.artist).filter(Boolean)).size);
-  $('artistsTable').innerHTML=miniTable(aggregate(filteredRows,r=>r.artist),'Artist');
-  $('tracksTable').innerHTML=miniTable(aggregate(filteredRows,r=>r.kind==='track'?r.title+(r.artist?' — '+r.artist:''):''),'Track');
+  $('artistsTable').innerHTML=miniTable(aggregate(filteredRows,r=>r.artist).sort((a,b)=>b.ms-a.ms||b.plays-a.plays||a.name.localeCompare(b.name)),'Artist');
+  $('tracksTable').innerHTML=miniTable(aggregate(filteredRows,r=>r.kind==='track'?r.title+(r.artist?' — '+r.artist:''):'').sort((a,b)=>b.ms-a.ms||b.plays-a.plays||a.name.localeCompare(b.name)),'Track');
   renderChart(filteredRows);renderArtistChoices(filteredRows);renderArtistChart(filteredRows);renderSongChoices(filteredRows);renderSongChart(filteredRows);renderHistory();
+  if($('viewMode').value==='day')renderSingleDay();
+  }
+  function updateViewMode(){
+  const isDay=$('viewMode').value==='day';
+  $('rangeDateControls').classList.toggle('hidden',isDay);
+  $('singleDayControl').classList.toggle('hidden',!isDay);
+  $('singleDayPanel').classList.toggle('hidden',!isDay);
+  $('rangeDashboard').classList.toggle('hidden',isDay);
+  $('filterPanel').classList.toggle('hidden',isDay||!allRows.length);
+  if(isDay)renderSingleDay();
+  else if(filteredRows.length){
+   const dpr=window.devicePixelRatio||1;
+   if(['dailyChart','artistChart','songChart'].some(id=>Math.abs($(id).getBoundingClientRect().width-$(id).width/dpr)>1)){
+    renderChart(filteredRows);renderArtistChart(filteredRows);renderSongChart(filteredRows);
+   }
+  }
   }
   function csvCell(v){return '"'+safe(v).replace(/"/g,'""')+'"';}
   function exportCsv(){
@@ -1389,32 +1722,152 @@
   const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='spotify_filtered_history.csv';document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);
   }
   // -----------------------------------------------------------------------------
-  // Optional private cloud account and ZIP sync
+  // Private cloud archive and account lifecycle
   // -----------------------------------------------------------------------------
-  function cloudConfigured(){return SUPABASE_URL.startsWith('https://') && SUPABASE_ANON_KEY && window.supabase && typeof window.supabase.createClient==='function';}
-  function cloudMessage(message,isError=false){$('cloudStatus').textContent=message;$('cloudStatus').style.color=isError?'var(--red)':'var(--muted)';}
-  function cloudError(e){const m=String(e?.message||e||'Unknown error');if(/failed to fetch|networkerror|load failed/i.test(m))return 'The browser could not complete the signup request. The Supabase site is reachable, but this page may be blocking the request (often when opened as file://). Try opening the HTML in Chrome or Edge, and make sure you are online. Technical detail: '+m;return m;}
-  function setCloudUser(user){currentUser=user;$('signInBtn').classList.toggle('hidden',!!user);$('signUpBtn').classList.toggle('hidden',!!user);$('signOutBtn').classList.toggle('hidden',!user);$('cloudActions').classList.toggle('hidden',!user);$('accountPassword').value='';if(user){cloudMessage('Signed in as '+user.email+'. Checking for your saved Spotify ZIP…');if(cloudAutoLoadUserId!==user.id){cloudAutoLoadUserId=user.id;downloadCloud(true).catch(e=>cloudMessage('Could not load cloud ZIP: '+cloudError(e),true));}}else{cloudAutoLoadUserId=null;cloudMessage('Not signed in.');}}
-  async function initCloud(){
-  if(!cloudConfigured()){ $('cloudSetupNotice').textContent='The account library did not load. Check your internet connection, then refresh this page.'; $('cloudSetupNotice').classList.remove('hidden');$('signInBtn').disabled=true;$('signUpBtn').disabled=true;cloudMessage('Cloud account system unavailable.',true);return; }
-  $('cloudSetupNotice').classList.add('hidden');
-  try{supabase=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}});const {data,error}=await supabase.auth.getSession();if(error)throw error;setCloudUser(data.session?.user||null);supabase.auth.onAuthStateChange((_event,session)=>setCloudUser(session?.user||null));}
-  catch(e){cloudMessage('Could not initialize account: '+cloudError(e),true);}
+  function cloudConfigured(){return SUPABASE_URL.startsWith('https://')&&SUPABASE_ANON_KEY&&window.supabase&&typeof window.supabase.createClient==='function';}
+  function cloudMessage(message,isError=false){$('cloudStatus').textContent=message;$('cloudStatus').style.color=isError?'var(--red)':'var(--muted)';if(currentUser&&$('status'))$('status').textContent=message;}
+  function cloudError(e){const m=String(e?.message||e||'Unknown error');if(/failed to fetch|networkerror|load failed/i.test(m))return 'The browser could not complete the account request. Check your connection and try opening this page in Chrome or Edge. Technical detail: '+m;return m;}
+  function updateAuthView(user){
+   currentUser=user;
+   document.querySelector('header').classList.toggle('compact-header',!!user);
+   document.body.classList.toggle('app-active',!!user);
+   $('loginScreen').classList.toggle('hidden',!!user);
+   $('appMain').classList.toggle('hidden',!user);
+   $('headerActions').classList.toggle('hidden',!user);
+   $('headerDateControls').classList.add('hidden');
+   $('importStatusPanel').classList.toggle('hidden',!!allRows.length);
+   $('accountPassword').value='';
+   if(user){cloudMessage('Logged in as '+user.email+'. Loading your private history archive…');}
+   else{archiveFiles.clear();allRows=[];filteredRows=[];$('filterPanel').classList.add('hidden');$('results').classList.add('hidden');$('firstSetupPrompt').classList.add('hidden');cloudMessage('You are logged out. Log in to access your history.');}
   }
-  async function withAuthBusy(button,work){if(!supabase){cloudMessage('Account service has not loaded. Refresh the page and try again.',true);return;}button.disabled=true;try{await work();}catch(e){cloudMessage(cloudError(e),true);}finally{button.disabled=false;}}
-  async function signIn(){await withAuthBusy($('signInBtn'),async()=>{const email=$('accountEmail').value.trim(),password=$('accountPassword').value;if(!email||!password){cloudMessage('Enter your email and password.',true);return;}cloudMessage('Signing in…');const {data,error}=await supabase.auth.signInWithPassword({email,password});if(error)throw error;setCloudUser(data.user);});}
-  async function signUp(){await withAuthBusy($('signUpBtn'),async()=>{const email=$('accountEmail').value.trim(),password=$('accountPassword').value;if(!email||!password){cloudMessage('Enter your email and password.',true);return;}if(password.length<8){cloudMessage('Use a password with at least 8 characters.',true);return;}cloudMessage('Creating your account…');const {data,error}=await supabase.auth.signUp({email,password});if(error)throw error;if(data.session){setCloudUser(data.user);}else{cloudMessage('Account created. If email confirmation is enabled for this Supabase project, check your inbox and confirm your address, then sign in here.');$('accountPassword').value='';}});}
-  async function uploadCloud(){if(!currentUser){cloudMessage('Sign in first.',true);return;}if(!latestZipFile){cloudMessage('Choose your Spotify ZIP on this device first. Only ZIP imports can currently be backed up to cloud.',true);return;}if(!confirm('Upload your Spotify ZIP to your private cloud account? It will replace the previously saved ZIP for this account.'))return;cloudMessage('Uploading ZIP securely…');const path=currentUser.id+'/spotify-export.zip';const {error}=await supabase.storage.from(CLOUD_BUCKET).upload(path,latestZipFile,{upsert:true,contentType:'application/zip'});if(error)cloudMessage('Upload failed: '+error.message,true);else cloudMessage('Cloud backup updated successfully. You can load it on another device after signing in.');}
-  async function downloadCloud(automatic=false){if(!currentUser){if(!automatic)cloudMessage('Sign in first.',true);return;}cloudMessage(automatic?'Automatically loading your saved cloud ZIP…':'Downloading your cloud ZIP…');const path=currentUser.id+'/spotify-export.zip';const {data,error}=await supabase.storage.from(CLOUD_BUCKET).download(path);if(error){const missing=String(error.statusCode||error.status||'')==='404'||/not found|does not exist/i.test(String(error.message||''));if(missing){cloudMessage('Signed in. No cloud ZIP has been saved to this account yet—choose a ZIP and click Sync to cloud.');return;}cloudMessage('Could not load cloud ZIP: '+error.message,true);return;}latestZipFile=new File([data],'spotify-export.zip',{type:'application/zip'});try{await unzipSpotifyHistory(latestZipFile);cloudMessage('Cloud history loaded automatically on this device.');}catch(e){cloudMessage('Downloaded ZIP could not be read: '+e.message,true);}}
+  async function syncArchiveFiles(items){
+   if(!currentUser||!items.length)return;
+   cloudMessage('Saving '+items.length+' history file(s) to your private account…');
+   const bucket=supabase.storage.from(CLOUD_BUCKET);
+   for(const item of items){
+    const safeName=item.name.replace(/[\\]/g,'_').replace(/^\.+/,'_');
+    const path=currentUser.id+'/history/'+safeName;
+    const {error}=await bucket.upload(path,new Blob([item.text],{type:'application/json'}),{upsert:true,contentType:'application/json'});
+    if(error)throw error;
+   }
+   cloudMessage('Archive saved. '+archiveFiles.size+' JSON file(s) are stored in your account.');
+  }
+  async function downloadCloud(automatic=false){
+   if(!currentUser)return;
+   const bucket=supabase.storage.from(CLOUD_BUCKET),prefix=currentUser.id+'/history';
+   if(automatic)cloudMessage('Loading your saved history archive…');
+   const {data:list,error:listError}=await bucket.list(prefix,{limit:1000,sortBy:{column:'name',order:'asc'}});
+   if(listError)throw listError;
+   const files=[];
+   for(const item of (list||[]).filter(x=>x.name&&x.name.toLowerCase().endsWith('.json'))){
+    const {data,error}=await bucket.download(prefix+'/'+item.name);
+    if(error)throw error;
+    files.push(new File([data],item.name,{type:'application/json'}));
+   }
+   if(files.length){
+    archiveFiles.clear();
+    const texts=await Promise.all(files.map(async f=>({name:f.name,text:await f.text()})));
+    texts.forEach(x=>archiveFiles.set(x.name,x.text));
+    rebuildRowsFromArchive();
+    if(allRows.length){$('filterPanel').classList.remove('hidden');$('results').classList.remove('hidden');let minDate='',maxDate='';for(const r of allRows){const d=dateParts(r.date);if(!minDate||d<minDate)minDate=d;if(!maxDate||d>maxDate)maxDate=d;}initializeDateControls(minDate,maxDate);updateViewMode();applyFilters();$('importStatusPanel').classList.add('hidden');}
+    $('status').innerHTML='<strong>Loaded '+fmtInt(allRows.length)+' entries</strong> from '+files.length+' saved JSON file(s).';
+    $('firstSetupPrompt').classList.add('hidden');
+    cloudMessage('Your private archive is ready. '+files.length+' JSON file(s) loaded.');
+    return;
+   }
+   // Backward compatibility: import the previous single-ZIP cloud backup if present.
+   const legacyPath=currentUser.id+'/spotify-export.zip';
+   const legacy=await bucket.download(legacyPath);
+   if(!legacy.error&&legacy.data){await unzipSpotifyHistory(new File([legacy.data],'spotify-export.zip',{type:'application/zip'}));cloudMessage('Imported your previous cloud ZIP into the Explorer. You can now add files individually.');return;}
+   cloudMessage('Your account is ready. Upload your Spotify ZIP or JSON files to begin.');
+   $('firstSetupPrompt').classList.remove('hidden');
+  }
+  async function initCloud(){
+   if(!cloudConfigured()){$('cloudSetupNotice').textContent='The account library did not load. Check your internet connection, then refresh this page.';$('cloudSetupNotice').classList.remove('hidden');$('signInBtn').disabled=true;$('signUpBtn').disabled=true;cloudMessage('Account system unavailable.',true);return;}
+   $('cloudSetupNotice').classList.add('hidden');
+   try{supabase=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}});const {data,error}=await supabase.auth.getSession();if(error)throw error;const user=data.session?.user||null;updateAuthView(user);if(user){await downloadCloud(true);}supabase.auth.onAuthStateChange((_event,session)=>{const next=session?.user||null;if(next?.id!==currentUser?.id){updateAuthView(next);if(next){setTimeout(()=>downloadCloud(true).catch(e=>cloudMessage('Could not load archive: '+cloudError(e),true)),0);}}});}
+   catch(e){cloudMessage('Could not initialize account: '+cloudError(e),true);}
+  }
+  async function withAuthBusy(button,work){if(!supabase){cloudMessage('Account service has not loaded. Refresh and try again.',true);return;}button.disabled=true;try{await work();}catch(e){cloudMessage(cloudError(e),true);}finally{button.disabled=false;}}
+  async function signIn(){await withAuthBusy($('signInBtn'),async()=>{const email=$('accountEmail').value.trim(),password=$('accountPassword').value;if(!email||!password){cloudMessage('Enter your email and password.',true);return;}cloudMessage('Logging in…');const {data,error}=await supabase.auth.signInWithPassword({email,password});if(error)throw error;updateAuthView(data.user);await downloadCloud(true);});}
+  async function signUp(){await withAuthBusy($('signUpBtn'),async()=>{const email=$('accountEmail').value.trim(),password=$('accountPassword').value;if(!email||!password){cloudMessage('Enter your email and password.',true);return;}if(password.length<8){cloudMessage('Use a password with at least 8 characters.',true);return;}cloudMessage('Creating your account…');const {data,error}=await supabase.auth.signUp({email,password});if(error)throw error;if(data.session){updateAuthView(data.user);await downloadCloud(true);}else{cloudMessage('Account created. Check your email to confirm your address, then log in here.');$('accountPassword').value='';}});}
+  async function signOut(){if(!supabase)return;const {error}=await supabase.auth.signOut();if(error)throw error;updateAuthView(null);}
+  async function requestPasswordReset(){const email=$('accountEmail').value.trim();if(!email){cloudMessage('Enter your email first, then choose Forgot password.',true);return;}const {error}=await supabase.auth.resetPasswordForEmail(email,{redirectTo:location.href});if(error)throw error;cloudMessage('Password reset email sent. Check your inbox.');}
+  function openRequestData(){window.open('https://www.spotify.com/account/privacy/','_blank','noopener');}
+  function openUploadDialog(){
+  if(!currentUser){cloudMessage('Log in before importing files.',true);return;}
+  $('uploadDialogStatus').textContent='';
+  $('uploadDialog').classList.remove('hidden');
+  $('chooseZipUpload').focus();
+  }
+  function closeUploadDialog(){
+  $('uploadDialog').classList.add('hidden');
+  $('uploadDropZone').classList.remove('dragover');
+  }
+  async function importDroppedFiles(fileList){
+  if(!currentUser){cloudMessage('Log in before importing files.',true);closeUploadDialog();return;}
+  const incoming=[...fileList];
+  if(!incoming.length)return;
+  const unsupported=incoming.filter(file=>!/\.(zip|json)$/i.test(file.name));
+  if(unsupported.length){$('uploadDialogStatus').textContent='Unsupported file type: '+unsupported.map(file=>file.name).join(', ')+'. Choose ZIP or JSON files.';return;}
+  $('uploadDialogStatus').textContent='Importing '+incoming.length+' file(s)…';
+  try{
+   for(const file of incoming.filter(x=>/\.zip$/i.test(x.name)))await unzipSpotifyHistory(file);
+   const jsonFiles=incoming.filter(x=>/\.json$/i.test(x.name));
+   if(jsonFiles.length)await readFiles(jsonFiles);
+   closeUploadDialog();
+  }catch(e){$('uploadDialogStatus').textContent='Could not import those files: '+e.message;}
+  }
+  function scrollDesktopWheel(e){
+  if(window.innerWidth<=700||e.ctrlKey||e.metaKey||e.shiftKey||e.target.closest?.('input,textarea,select,[contenteditable="true"]'))return;
+  const unit=e.deltaMode===1?16:e.deltaMode===2?window.innerHeight:1,scale=.4;
+  const dx=e.deltaX*unit*scale,dy=e.deltaY*unit*scale;
+  if(!dx&&!dy)return;
+  function scrollable(axis,delta){
+   if(!delta)return null;
+   let node=e.target instanceof Element?e.target:e.target.parentElement;
+   while(node&&node!==document.body&&node!==document.documentElement){
+    const style=getComputedStyle(node),overflow=axis==='y'?style.overflowY:style.overflowX;
+    if(/auto|scroll|overlay/.test(overflow)){
+     const current=axis==='y'?node.scrollTop:node.scrollLeft,extent=axis==='y'?node.scrollHeight-node.clientHeight:node.scrollWidth-node.clientWidth;
+     if(extent>1&&(delta<0?current>0:current<extent-1))return node;
+    }
+    node=node.parentElement;
+   }
+   return null;
+  }
+  e.preventDefault();
+  const vertical=scrollable('y',dy),horizontal=scrollable('x',dx);
+  if(vertical)vertical.scrollTop+=dy;
+  if(horizontal)horizontal.scrollLeft+=dx;
+  if((dy&&!vertical)||(dx&&!horizontal))window.scrollBy({left:horizontal?0:dx,top:vertical?0:dy,behavior:'auto'});
+  }
   // -----------------------------------------------------------------------------
   // UI event handlers and startup
   // -----------------------------------------------------------------------------
-  $('signInBtn').addEventListener('click',signIn);$('signUpBtn').addEventListener('click',signUp);$('signOutBtn').addEventListener('click',async()=>{try{const {error}=await supabase.auth.signOut();if(error)throw error;setCloudUser(null);}catch(e){cloudMessage(cloudError(e),true);}});$('uploadCloudBtn').addEventListener('click',async()=>{try{await uploadCloud();}catch(e){cloudMessage(cloudError(e),true);}});$('downloadCloudBtn').addEventListener('click',async()=>{try{await downloadCloud();}catch(e){cloudMessage(cloudError(e),true);}});
+  document.addEventListener('wheel',scrollDesktopWheel,{passive:false});
+  $('signInBtn').addEventListener('click',signIn);$('signUpBtn').addEventListener('click',signUp);
+  $('forgotPasswordBtn').addEventListener('click',async()=>{try{await requestPasswordReset();}catch(e){cloudMessage(cloudError(e),true);}});
+  $('headerSignOut').addEventListener('click',async()=>{try{await signOut();}catch(e){cloudMessage(cloudError(e),true);}});
+  $('headerUploadZip').addEventListener('click',openUploadDialog);$('headerRequestData').addEventListener('click',openRequestData);
+  $('uploadDialogClose').addEventListener('click',closeUploadDialog);
+  $('chooseZipUpload').addEventListener('click',()=>{closeUploadDialog();$('zipFile').click();});
+  $('chooseJsonUpload').addEventListener('click',()=>{closeUploadDialog();$('files').click();});
+  $('uploadDialog').addEventListener('click',e=>{if(e.target===$('uploadDialog'))closeUploadDialog();});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('uploadDialog').classList.contains('hidden'))closeUploadDialog();});
+  const uploadDropZone=$('uploadDropZone');
+  ['dragenter','dragover'].forEach(type=>uploadDropZone.addEventListener(type,e=>{e.preventDefault();uploadDropZone.classList.add('dragover');}));
+  ['dragleave','drop'].forEach(type=>uploadDropZone.addEventListener(type,e=>{e.preventDefault();uploadDropZone.classList.remove('dragover');}));
+  uploadDropZone.addEventListener('drop',e=>importDroppedFiles(e.dataTransfer.files));
+  $('setupUploadZip').addEventListener('click',()=>$('zipFile').click());$('setupUploadJson').addEventListener('click',()=>$('files').click());$('setupRequestData').addEventListener('click',openRequestData);
+  updateViewMode();
   initCloud();
-  $('files').addEventListener('change',e=>readFiles(e.target.files));
-  $('zipFile').addEventListener('change',async e=>{const file=e.target.files&&e.target.files[0];if(!file)return;try{await unzipSpotifyHistory(file);}catch(err){$('status').textContent='Could not open ZIP: '+err.message;}});
+  $('files').addEventListener('change',e=>{if(!currentUser){cloudMessage('Log in before importing files.',true);e.target.value='';return;}readFiles(e.target.files);e.target.value='';});
+  $('zipFile').addEventListener('change',async e=>{const file=e.target.files&&e.target.files[0];e.target.value='';if(!file)return;if(!currentUser){cloudMessage('Log in before importing files.',true);return;}try{await unzipSpotifyHistory(file);}catch(err){$('status').textContent='Could not open ZIP: '+err.message;}});
   ['search','kind','skipped','timezone'].forEach(id=>$(id).addEventListener('input',applyFilters));
   ['from','to'].forEach(id=>$(id).addEventListener('change',()=>{resetGraphSelections();applyFilters();}));
+  $('viewMode').addEventListener('change',updateViewMode);
+  $('singleDay').addEventListener('change',renderSingleDay);
   $('reset').addEventListener('click',()=>{resetGraphSelections();$('search').value='';$('kind').value='all';$('skipped').value='all';if(allRows.length){const ds=allRows.map(r=>dateParts(r.date)).sort();$('from').value=ds[0];$('to').value=ds[ds.length-1];}applyFilters();});
   $('export').addEventListener('click',exportCsv);
   $('tableSearch').addEventListener('input',()=>{visibleCount=500;renderHistory();});
@@ -1424,17 +1877,22 @@
   $('dailyChart').addEventListener('pointerleave',()=>$('chartTooltip').style.display='none');
   $('artistChart').addEventListener('pointermove',artistHover);
   $('artistChart').addEventListener('pointerdown',artistClick);
-  $('artistChart').addEventListener('pointerleave',()=>{ $('artistTooltip').style.display='none'; if(artistHoverFrame){cancelAnimationFrame(artistHoverFrame);artistHoverFrame=0;}pendingArtistPointer=null;if(artistHoverIndex!==null){artistHoverIndex=null;drawArtistCanvas();} });
+  $('artistChart').addEventListener('pointerleave',()=>{ if(artistHoverFrame){cancelAnimationFrame(artistHoverFrame);artistHoverFrame=0;}pendingArtistPointer=null;if(artistHoverIndex!==null){artistHoverIndex=null;artistHoverPoint=null;drawArtistCanvas();}if(artistPinnedPoint)showArtistTooltip(artistPinnedPoint);else $('artistTooltip').style.display='none'; });
   ['dailyPeriod','movingAverage'].forEach(id=>$(id).addEventListener('change',()=>renderChart(filteredRows)));
-  ['artistPeriod','artistCount'].forEach(id=>$(id).addEventListener('change',()=>{selectedArtists.clear();artistHoverIndex=null;artistPinnedIndex=null;renderArtistChoices(filteredRows);renderArtistChart(filteredRows);}));
+  ['artistPeriod','artistCount'].forEach(id=>$(id).addEventListener('change',()=>{selectedArtists.clear();artistSelectionInitialized=false;artistHoverIndex=null;artistPinnedIndex=null;artistPinnedPoint=null;renderArtistChoices(filteredRows);renderArtistChart(filteredRows);}));
   $('artistSearch').addEventListener('input',()=>renderArtistChoices(filteredRows));
   $('songSearch').addEventListener('input',()=>renderSongChoices(filteredRows));
-  ['songPeriod','songCount'].forEach(id=>$(id).addEventListener('change',()=>{selectedSongs.clear();renderSongChoices(filteredRows);renderSongChart(filteredRows);}));
+  $('artistSearch').addEventListener('focus',()=>renderArtistChoices(filteredRows));
+  $('songSearch').addEventListener('focus',()=>renderSongChoices(filteredRows));
+  $('artistSearch').addEventListener('keydown',e=>{if(e.key==='Escape'){$('artistSearch').value='';renderArtistChoices(filteredRows);}});
+  $('songSearch').addEventListener('keydown',e=>{if(e.key==='Escape'){$('songSearch').value='';renderSongChoices(filteredRows);}});
+  document.addEventListener('pointerdown',e=>{if(!e.target.closest('.choice-search')){$('artistSearchResults').classList.remove('open');$('artistSearch').setAttribute('aria-expanded','false');$('songSearchResults').classList.remove('open');$('songSearch').setAttribute('aria-expanded','false');}});
+  ['songPeriod','songCount'].forEach(id=>$(id).addEventListener('change',()=>{selectedSongs.clear();songSelectionInitialized=false;renderSongChoices(filteredRows);renderSongChart(filteredRows);}));
   $('songChart').addEventListener('pointermove',songHover);
   $('songChart').addEventListener('pointerdown',songClick);
-  $('songChart').addEventListener('pointerleave',()=>{$('songTooltip').style.display='none';if(songHoverIndex!==null){songHoverIndex=null;drawSongCanvas();}});
+  $('songChart').addEventListener('pointerleave',()=>{if(songHoverIndex!==null){songHoverIndex=null;songHoverPoint=null;drawSongCanvas();}if(songPinnedPoint)showSongTooltip(songPinnedPoint);else $('songTooltip').style.display='none';});
 
-  window.addEventListener('resize',()=>{if(filteredRows.length){renderChart(filteredRows);renderArtistChart(filteredRows);renderSongChart(filteredRows);}});
+  window.addEventListener('resize',()=>{if(filteredRows.length&&!$('rangeDashboard').classList.contains('hidden')){renderChart(filteredRows);renderArtistChart(filteredRows);renderSongChart(filteredRows);}});
   if('serviceWorker' in navigator && (location.protocol==='https:' || location.hostname==='localhost')){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));}
   })();
   </script>
